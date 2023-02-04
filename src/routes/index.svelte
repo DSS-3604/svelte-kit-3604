@@ -161,7 +161,7 @@
 		</div>
 		<Button type="submit" class="w-full1">Login to your account</Button>
 		<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-			Not registered? <a href="/" class="text-blue-700 hover:underline dark:text-blue-500"
+			Not registered? <a href="/signup" class="text-blue-700 hover:underline dark:text-blue-500"
 				>Create account</a
 			>
 		</div>
