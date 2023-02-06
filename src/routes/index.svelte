@@ -72,7 +72,8 @@
 </script>
 
 <div class="relative">
-	<img src="bg.webp" alt="" />
+	<img class="hidden sm:block w-full bg-no-repeat bg-cover" src="bg-test.webp" alt="" />
+	<img class="block sm:hidden w-full bg-no-repeat bg-cover" src="mobile-bg.webp" alt="" />
 	<div
 		class=" text-center dark:text-white text-primary absolute top-1/2 left-1/2 text-2xl font-semibol -translate-x-1/2 -translate-y-1/2 sm:text-4xl lg:text-7xl"
 	>
