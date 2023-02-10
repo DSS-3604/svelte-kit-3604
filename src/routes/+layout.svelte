@@ -28,8 +28,8 @@
 		<NavUl {hidden}>
 			<NavLi href="/" active={true}>Home</NavLi>
 			<NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned>Dropdown</Chevron></NavLi>
-			<NavLi href="/services">Services</NavLi>
-			<NavLi href="/pricing">Pricing</NavLi>
+			<NavLi href="/catalog">Catalog</NavLi>
+			<NavLi href="/my-products">Products</NavLi>
 			<NavLi href="/contact">Contact</NavLi>
 			<Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
 				<DropdownItem>Dashboard</DropdownItem>
