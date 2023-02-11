@@ -20,7 +20,7 @@
 
 <div class="sticky top-0 z-40">
 	<Navbar let:hidden let:toggle>
-		<NavBrand href="/">
+		<NavBrand>
 			<DarkMode btnClass={darkmodebtn} />
 			<img src="carigro-logo.webp" class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" />
 		</NavBrand>
