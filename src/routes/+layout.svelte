@@ -27,21 +27,19 @@
 		<NavHamburger on:click={toggle} />
 		<NavUl {hidden}>
 			<NavLi href="/" active={true}>Home</NavLi>
-			<NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned>Dropdown</Chevron></NavLi>
 			<NavLi href="/catalog">Catalog</NavLi>
 			<NavLi href="/my-products">Products</NavLi>
 			<NavLi href="/contact">Contact</NavLi>
+			<NavLi id="nav-menu1" class="cursor-pointer">
+				<Avatar src="avatar.webp" size="xs" />
+			</NavLi>
 			<Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
-				<DropdownItem>Dashboard</DropdownItem>
+				<DropdownItem href="/my-profile">Profile</DropdownItem>
 				<DropdownItem>Settings</DropdownItem>
 				<DropdownItem>Earnings</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem>Sign out</DropdownItem>
 			</Dropdown>
-			<NavLi href="/account">
-				<Avatar data-name="Account Settings" rounded border size="xs" />
-				<Tooltip triggeredBy="[data-name]" {placement}>{name}</Tooltip>
-			</NavLi>
 		</NavUl>
 	</Navbar>
 </div>
