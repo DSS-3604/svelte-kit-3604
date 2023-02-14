@@ -1,40 +1,92 @@
+<!-- Compiled and minified JavaScript -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
+></script>
+
+<!-- Compiled and minified CSS -->
+<link
+	rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+/>
+
 <div class="row">
-  <div class="column left">
-    <h2>Column 1</h2>
-    <p>Some text..</p>
-  </div>
-  <div class="column right">
-    <h2>Column 2</h2>
-    <p>Some text..</p>
-  </div>
+	<div class="col s12" style="background-color: aqua;">
+		<div class="col s9" style="background-color:red;">
+			<div class="row">
+				<div class="col s3 m3">
+					<div class="card">
+						<div class="card-image">
+							<img src="carigro-logo.webp" />
+						</div>
+						<div class="card-content">
+							<span class="card-title">Product Name</span>
+							<p>This is the product description</p>
+						</div>
+						<div class="card-action">
+							<a href="product/description">Read More</a>
+						</div>
+					</div>
+				</div>
+				<div class="col s3 m3">
+					<div class="card">
+						<div class="card-image">
+							<img src="carigro-logo.webp" />
+						</div>
+						<div class="card-content">
+							<span class="card-title">Product Name</span>
+							<p>This is the product description</p>
+						</div>
+						<div class="card-action">
+							<a href="product/description">Read More</a>
+						</div>
+					</div>
+				</div>
+				<div class="col s3 m3">
+					<div class="card">
+						<div class="card-image">
+							<img src="carigro-logo.webp" />
+						</div>
+						<div class="card-content">
+							<span class="card-title">Product Name</span>
+							<p>This is the product description</p>
+						</div>
+						<div class="card-action">
+							<a href="product/description">Read More</a>
+						</div>
+					</div>
+				</div>
+				<div class="col s3 m3">
+					<div class="card">
+						<div class="card-image">
+							<img src="carigro-logo.webp" />
+						</div>
+						<div class="card-content">
+							<span class="card-title">Product Name</span>
+							<p>This is the product description</p>
+						</div>
+						<div class="card-action">
+							<a href="product/description">Read More</a>
+						</div>
+					</div>
+				</div>
+                <div class="col s3 m3">
+					<div class="card">
+						<div class="card-image">
+							<img src="carigro-logo.webp" />
+						</div>
+						<div class="card-content">
+                            <span class="card-title">Product Name</span>
+							<p>
+								This is the product description
+							</p>
+						</div>
+						<div class="card-action">
+							<a href="product/description">Read More</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col s3" style="background-color: green" />
+	</div>
 </div>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-/* Create two unequal columns that floats next to each other */
-.column {
-  float: left;
-  padding: 10px;
-  height: 100vh; /* Should be removed. Only for demonstration */
-}
-
-.left {
-  width: 75%;
-  background: aqua;
-}
-
-.right {
-  width: 25%;
-  background: aliceblue;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-</style>
