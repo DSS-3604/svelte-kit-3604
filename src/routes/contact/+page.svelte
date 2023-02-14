@@ -4,6 +4,7 @@
 	<div class="scroll">
 		<h1>Phone:</h1>
 		<h1>Address:</h1>
+		<h1>Email:</h1>
 	</div>
 </div>
 <div class="formbold-main-wrapper">
