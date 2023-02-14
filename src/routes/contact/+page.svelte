@@ -6,10 +6,7 @@
 		<h1>Address:</h1>
 	</div>
 </div>
-
 <div class="formbold-main-wrapper">
-	<!-- Author: FormBold Team -->
-	<!-- Learn More: https://formbold.com -->
 	<div class="formbold-form-wrapper">
 		<form action="https://formbold.com/s/FORM_ID" method="POST">
 			<div class="formbold-mb-5">
@@ -75,7 +72,6 @@
 		padding: 0;
 		box-sizing: border-box;
 	}
-
 	body {
 		font-family: 'Inter', Arial, Helvetica, sans-serif;
 	}
@@ -91,7 +87,6 @@
 		justify-content: center;
 		padding: 48px;
 	}
-
 	.formbold-form-wrapper {
 		margin: 0 auto;
 		max-width: 550px;
@@ -116,7 +111,6 @@
 		overflow: hidden;
 		overflow-y: auto;
 	}
-
 	.formbold-form-input {
 		width: 100%;
 		padding: 12px 24px;
@@ -133,7 +127,6 @@
 		border-color: #6a64f1;
 		box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 	}
-
 	.formbold-btn {
 		text-align: center;
 		font-size: 16px;
@@ -149,7 +142,6 @@
 	.formbold-btn:hover {
 		box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 	}
-
 	.formbold--mx-3 {
 		margin-left: -12px;
 		margin-right: -12px;
