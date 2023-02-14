@@ -1,13 +1,9 @@
-<div class="sidebar-contact">
-	<div class="toggle" />
-	<h2>Contact Us</h2>
-	<div class="scroll">
-		<h1>Phone:</h1>
-		<h1>Address:</h1>
-		<h1>Email:</h1>
+<div class="formbold-main-wrapper-flex">
+
+	<div class="formbold-mb-5-title">
+		<h1>Contact Us</h1>
 	</div>
-</div>
-<div class="formbold-main-wrapper">
+
 	<div class="formbold-form-wrapper">
 		<form action="https://formbold.com/s/FORM_ID" method="POST">
 			<div class="formbold-mb-5">
@@ -96,7 +92,10 @@
 		padding: 20px;
 		border-radius: 1.5%;
 	}
-
+	textarea {
+		height: 100px;
+		resize: auto !important;
+	}
 	.formbold-form-label {
 		display: block;
 		font-weight: 500;
@@ -160,89 +159,18 @@
 	.w-full {
 		width: 100%;
 	}
+	.formbold-mb-5-title{
+		padding-top: 10px;
+		color: white;
+		font-size: 50px;
+		font-weight: 700;
+		padding: 10px;
+		margin-left: 42%;
+	}
 
 	@media (min-width: 540px) {
 		.sm\:w-half {
 			width: 50%;
-		}
-	}
-
-	.sidebar-contact {
-		position: fixed;
-		top: 50%;
-		left: -350px;
-		transform: translateY(-50%);
-		width: 350px;
-		height: auto;
-		padding: 40px;
-		background: #fff;
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-		box-sizing: border-box;
-		transition: 0.5s;
-	}
-	.sidebar-contact.active {
-		left: 0;
-	}
-	.sidebar-contact input,
-	.sidebar-contact textarea {
-		width: 100%;
-		height: 36px;
-		padding: 5px;
-		margin-bottom: 10px;
-		box-sizing: border-box;
-		border: 1px solid rgba(0, 0, 0, 0.5);
-		outline: none;
-	}
-	.sidebar-contact h2 {
-		margin: 0 0 20px;
-		padding: 0;
-	}
-	.sidebar-contact textarea {
-		height: 60px;
-		resize: none;
-	}
-	.sidebar-contact input[type='submit'] {
-		background: #00bcd4;
-		color: #fff;
-		cursor: pointer;
-		border: none;
-		font-size: 18px;
-	}
-	.toggle {
-		position: absolute;
-		height: 48px;
-		width: 48px;
-		text-align: center;
-		cursor: pointer;
-		background: #f00;
-		top: 0;
-		right: -48px;
-		line-height: 48px;
-	}
-	.toggle:before {
-		content: '\f003';
-		font-family: fontAwesome;
-		font-size: 18px;
-		color: #fff;
-	}
-	.toggle.active:before {
-		content: '\f00d';
-	}
-	@media (max-width: 768px) {
-		.sidebar-contact {
-			width: 100%;
-			height: 100%;
-			left: -100%;
-		}
-		.sidebar-contact .toggle {
-			top: 50%;
-			transform: translateY(-50%);
-			transition: 0.5s;
-		}
-		.sidebar-contact.active .toggle {
-			top: 0;
-			right: 0;
-			transform: translateY(0);
 		}
 	}
 </style>
