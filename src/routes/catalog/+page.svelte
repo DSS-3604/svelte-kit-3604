@@ -10,8 +10,8 @@
 />
 
 <div class="row">
-	<div class="col s12" style="background-color: aqua;">
-		<div class="col s9" style="background-color:red;">
+	<div class="col s12">
+		<div class="col s9" id="cardsCol">
 			<div class="row">
 				<div class="col s3 m3">
 					<div class="card">
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col s3" style="background-color: green">
+		<div class="col s3" id="searchCol">
 			<div class="row">
 				<div class="col s12">
 					<div class="card">
@@ -118,3 +118,12 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	#cardsCol {
+		overflow: hidden;
+		overflow-y: auto;
+		border-right: 2px solid white;
+        min-height: 90vh;
+	}
+</style>
