@@ -12,9 +12,7 @@
 	} from 'flowbite-svelte';
 	import SellerCard from '../components/SellerCard.svelte';
 	import ProductCard from '../components/ProductCard.svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
 	let formModal = false;
-	console.log(PUBLIC_API_URL);
 	const images = [
 		{
 			id: 0,
