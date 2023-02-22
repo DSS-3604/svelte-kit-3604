@@ -231,3 +231,18 @@
 		</div>
 	</div>
 </div>
+<!-- <div class="hidden md:block w-full">
+	<div class="flex justify-around items-center">
+		<div>
+			<img src="avatar.webp" class="w-full max-h-80" alt="avatar" />
+		</div>
+		<div>
+			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
+			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
+			<div class="flex mt-4 space-x-3 lg:mt-6">
+				<Button>Add friend</Button>
+				<Button color="light" class="dark:text-white">Message</Button>
+			</div>
+		</div>
+	</div> -->
+<!-- </div> -->

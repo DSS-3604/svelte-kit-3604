@@ -1,29 +1,10 @@
 <script lang="ts">
 	import {
-		Avatar,
-		Navbar,
-		NavBrand,
-		NavLi,
-		NavUl,
-		NavHamburger,
-		Dropdown,
-		DropdownItem,
-		Chevron,
-		DropdownDivider,
-		CarouselTransition,
 		Footer,
 		FooterCopyright,
 		FooterLinkGroup,
 		FooterLink,
-		Timeline,
-		Tooltip,
-		TimelineItem,
-		Card,
 		Button,
-		Rating,
-		Badge,
-		Progressbar,
-		ToolbarButton,
 		Modal,
 		Label,
 		Input,
@@ -31,7 +12,9 @@
 	} from 'flowbite-svelte';
 	import SellerCard from '../components/SellerCard.svelte';
 	import ProductCard from '../components/ProductCard.svelte';
+	import { PUBLIC_API_URL } from '$env/static/public';
 	let formModal = false;
+	console.log(PUBLIC_API_URL);
 	const images = [
 		{
 			id: 0,
