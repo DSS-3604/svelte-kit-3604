@@ -13,10 +13,40 @@
 		Tooltip,
 		Avatar
 	} from 'flowbite-svelte';
+	import { onMount } from 'svelte';
+	import { pwaInfo } from 'virtual:pwa-info';
+	let ReloadPrompt;
+	onMount(async () => {
+		pwaInfo && (ReloadPrompt = (await import('$lib/ReloadPrompt.svelte')).default);
+		if (pwaInfo) {
+			const { registerSW } = await import('virtual:pwa-register');
+			registerSW({
+				immediate: true,
+				onRegistered(r) {
+					// uncomment following code if you want check for updates
+					// r && setInterval(() => {
+					//    console.log('Checking for sw update')
+					//    r.update()
+					// }, 20000 /* 20s for testing purposes */)
+					console.log(`SW Registered: ${r}`);
+				},
+				onRegisterError(error) {
+					console.log('SW registration error', error);
+				}
+			});
+		}
+	});
+
+	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+
 	let placement = 'bottom';
 	let darkmodebtn =
 		'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5 m-1 z-50';
 </script>
+
+<svelte:head>
+	{@html webManifest}
+</svelte:head>
 
 <div class="sticky top-0 z-40">
 	<Navbar let:hidden let:toggle>
@@ -44,7 +74,3 @@
 	</Navbar>
 </div>
 <slot />
-
-<svelte:head>
-	<title>Home</title>
-</svelte:head>

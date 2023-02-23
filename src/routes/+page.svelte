@@ -10,8 +10,8 @@
 		Input,
 		Checkbox
 	} from 'flowbite-svelte';
-	import SellerCard from '../components/SellerCard.svelte';
-	import ProductCard from '../components/ProductCard.svelte';
+	import ProductCard from '../lib/ProductCard.svelte';
+	import SellerCard from '../lib/SellerCard.svelte';
 	let formModal = false;
 	const images = [
 		{
