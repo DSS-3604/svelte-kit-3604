@@ -178,7 +178,7 @@
 	}
 	.user-activity {
 		width: 100%;
-		border: 5px solid yellow;
+		/*border: 5px solid yellow;*/
 		height: fit-content;
 		margin-right: 10%;
 		padding: 5px;
@@ -197,7 +197,7 @@
 	.side-info {
 		width: 30%;
 		padding: 5px;
-		border: 5px solid red;
+		/*border: 5px solid red;*/
 		height: fit-content;
 		margin-left: 10%;
 		margin-right: 15px;
@@ -207,7 +207,7 @@
 		position: relative;
 	}
 	.user-picture {
-		border: 5px solid black;
+		/*border: 5px solid black;*/
 		height: fit-content;
 	}
 	.user-pucture-background {
