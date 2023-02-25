@@ -33,63 +33,68 @@
 
 	<div class="user-information">
 		<div class="side-info">
-			<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 user-details">
-				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">User Details</h5>
+			<Card class="user-details">
+				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+					User Details
+				</h5>
 
-				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Name: </p>
-				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Business: </p>
-				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Contact: </p>
-				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Number of Posts: </p>
-				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Product Type: </p>
-				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Location: </p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Name:</p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Business:</p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Contact:</p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Number of Posts:</p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Product Type:</p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Location:</p>
+			</Card>
 
-			</div>
+			<Card class="user-recent" style="margin-top:15px">
+				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+					User Details
+				</h5>
 
-			<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 user-recent">
-				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Recent Viewed</h5>
-
-				<Card padding="5px" class="flex items-center text-center p-5">
+				<Card padding="sm" class="flex items-center text-center p-5">
 					<!-- <a href="/"> -->
 					<img class="rounded-t-lg h-40" src="orange.webp" alt="product 1" />
 					<!-- </a> -->
 					<p class="text-2xl dark:text-white p-5">Oranges</p>
 				</Card>
-			</div>
+			</Card>
 		</div>
 		<div class="user-activity">
-
+			<div class="new-post">
+				<Card padding="xl" class="flex items-center text-center p-5">
+					<img class="rounded-t-lg h-40" src="orange.webp" alt="product 1" />
+					<p class="text-2xl dark:text-white p-5">Oranges</p>
+				</Card>
+			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	.user-information{
+	.user-activity {
+		width: 100%;
+		background-color: white;
+		border: 5px solid yellow;
+		height: fit-content;
+		margin-right: 10%;
+	}
+
+	.user-information {
 		margin-top: 15px;
 		width: 100%;
 		display: flex;
 		background-color: green;
-		height:fit-content;
+		height: fit-content;
 	}
-	.side-info{
+	.side-info {
 		width: 30%;
 		padding: 5px;
-		background-color:orange;
+		background-color: orange;
 		border: 5px solid red;
-		height:fit-content;
+		height: fit-content;
 		margin-left: 10%;
 		margin-right: 15px;
 	}
-	.user-recent{
-		margin-top: 15px;
-	}
-	.user-activity{
-		width: 100%;
-		background-color:white;
-		border: 5px solid yellow;
-		height:fit-content;
-		margin-right: 10%;
-	}
-
 
 	.profile-imgs {
 		position: relative;
@@ -107,7 +112,7 @@
 		width: 100%;
 		margin-top: -20%;
 		filter: blur(3px);
- 	 	-webkit-filter: blur(3px);
+		-webkit-filter: blur(3px);
 	}
 	.user-profile-picture {
 		position: absolute;
