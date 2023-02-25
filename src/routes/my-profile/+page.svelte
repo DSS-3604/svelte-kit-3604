@@ -174,7 +174,7 @@
 <style>
 	.user-account{
 		background-image:url(bg-test.webp);
-		
+		margin-bottom: 15px;
 	}
 	.user-activity {
 		width: 100%;
