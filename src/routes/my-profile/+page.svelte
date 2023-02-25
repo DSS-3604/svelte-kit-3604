@@ -123,21 +123,6 @@
 									>
 								</ToolbarGroup>
 								<ToolbarGroup>
-									<ToolbarButton name="Format code"
-										><svg
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke-width="1.5"
-											stroke="currentColor"
-											class="w-6 h-6"
-											><path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
-											/></svg
-										></ToolbarButton
-									>
 									<ToolbarButton name="Add emoji"
 										><svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -171,12 +156,15 @@
 								>
 							</Toolbar>
 						</Textarea>
-						<Button>Publish post</Button>
+						<Button>Post</Button>
 					</form>
 				</Card>
 			</div>
-			<div class="previous-post">
-				
+			<div class="previous-post" style="margin-top: 15px;">
+				<Card size="xl">
+					<h1>Selling dragon fruits in Curep for a dollar!!</h1>
+					<img src="https://www.thespruceeats.com/thmb/chvLMHkhIDqPIxZnRrRg_CR2w_Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1135990803-d7634745adad465fb7f80e6fcae3f358.jpg" alt="">
+				</Card>
 			</div>
 		</div>
 	</div>
@@ -190,6 +178,10 @@
 		height: fit-content;
 		margin-right: 10%;
 		padding: 5px;
+	}
+	.previous-post img{
+		max-width: 300px;
+		max-height: 300px;
 	}
 
 	.user-information {
