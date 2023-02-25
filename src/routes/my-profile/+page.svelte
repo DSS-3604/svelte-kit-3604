@@ -19,6 +19,7 @@
 </script>
 
 <div class="user-account">
+	
 	<div class="profile-imgs">
 		<div class="user-picture" style="">
 			<div class="user-pucture-background">
@@ -171,9 +172,12 @@
 </div>
 
 <style>
+	.user-account{
+		background-image:url(bg-test.webp);
+		
+	}
 	.user-activity {
 		width: 100%;
-		background-color: fuchsia;
 		border: 5px solid yellow;
 		height: fit-content;
 		margin-right: 10%;
@@ -188,13 +192,11 @@
 		margin-top: 15px;
 		width: 100%;
 		display: flex;
-		background-color: green;
 		height: fit-content;
 	}
 	.side-info {
 		width: 30%;
 		padding: 5px;
-		background-color: orange;
 		border: 5px solid red;
 		height: fit-content;
 		margin-left: 10%;
