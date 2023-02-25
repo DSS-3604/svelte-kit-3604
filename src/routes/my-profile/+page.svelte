@@ -31,9 +31,30 @@
 		</div>
 	</div>
 
-	<div class="user-information" style="background-color: green;height:30vh">
+	<div class="user-information">
 		<div class="side-info">
+			<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 user-details">
+				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">User Details</h5>
 
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Name: </p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Business: </p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Contact: </p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Number of Posts: </p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Product Type: </p>
+				<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Location: </p>
+
+			</div>
+
+			<div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 user-recent">
+				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Recent Viewed</h5>
+
+				<Card padding="5px" class="flex items-center text-center p-5">
+					<!-- <a href="/"> -->
+					<img class="rounded-t-lg h-40" src="orange.webp" alt="product 1" />
+					<!-- </a> -->
+					<p class="text-2xl dark:text-white p-5">Oranges</p>
+				</Card>
+			</div>
 		</div>
 		<div class="user-activity">
 
@@ -43,19 +64,29 @@
 
 <style>
 	.user-information{
+		margin-top: 15px;
 		width: 100%;
 		display: flex;
+		background-color: green;
+		height:fit-content;
 	}
 	.side-info{
 		width: 30%;
+		padding: 5px;
 		background-color:orange;
-		height:10px;
+		border: 5px solid red;
+		height:fit-content;
 		margin-left: 10%;
+		margin-right: 15px;
+	}
+	.user-recent{
+		margin-top: 15px;
 	}
 	.user-activity{
 		width: 100%;
 		background-color:white;
-		height:10px;
+		border: 5px solid yellow;
+		height:fit-content;
 		margin-right: 10%;
 	}
 
