@@ -31,16 +31,41 @@
 		</div>
 	</div>
 
-	<div class="user-information" style="background-color: green;height:10px" />
+	<div class="user-information" style="background-color: green;height:30vh">
+		<div class="side-info">
+
+		</div>
+		<div class="user-activity">
+
+		</div>
+	</div>
 </div>
 
 <style>
+	.user-information{
+		width: 100%;
+		display: flex;
+	}
+	.side-info{
+		width: 30%;
+		background-color:orange;
+		height:10px;
+		margin-left: 10%;
+	}
+	.user-activity{
+		width: 100%;
+		background-color:white;
+		height:10px;
+		margin-right: 10%;
+	}
+
+
 	.profile-imgs {
 		position: relative;
 	}
 	.user-picture {
 		border: 5px solid black;
-		height: 50vh;
+		height: fit-content;
 	}
 	.user-pucture-background {
 		height: 360px;
