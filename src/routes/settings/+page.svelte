@@ -22,7 +22,7 @@
 	let formModal = false;
 </script>
 
-<div class="flex items-center justify-center h-screen mainwrapper">
+<div class="flex items-center justify-center h-2/4 mainwrapper" style="margin-top:5vh">
 	<Card size="xl"  style="width: 70vw;">
 		<div class="settings-page">
 			<div class="settings-container">
