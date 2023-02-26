@@ -18,11 +18,11 @@
 	} from 'flowbite-svelte';
 </script>
 
-<div class="flex items-center justify-center h-screen">
-	<Card class="h-2/4">
+<div class="flex items-center justify-center h-screen mainwrapper">
+	<Card size="xl" class="h-2/4">
 		<div class="settings-page">
 			<div class="settings-container">
-				<h1>Account</h1>
+				<h1 class="page-title">Account</h1>
 				<div class="setting-section">
 					<h2 class="settings-title">General Information</h2>
 					<div class="non-active-form">
@@ -81,3 +81,58 @@
 		</div>
 	</Card>
 </div>
+
+<style>
+	.page-title {
+		margin-bottom: 20px;
+		font-size: 30px;
+		font-weight: normal;
+	}
+
+	.settings-page {
+		background-color: black;
+		width: 100%;
+		min-height: fit-content;
+	}
+	.settings-container {
+		width: 100%;
+		max-width: 850px;
+		margin: auto;
+		padding: 20px;
+		padding-top: 40px;
+	}
+	.settings-title {
+		color: #454545;
+		text-transform: uppercase;
+		font-weight: normal;
+		font-size: 20px;
+	}
+	.settings-section {
+		width: 100%;
+		border-top: 2px solid #454545;
+		padding-top: 10px;
+		margin-bottom: 20px;
+	}
+	.non-active-form {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.5rem;
+	}
+	p {
+		padding: 7px 15px;
+		margin-bottom: 0;
+		font-size: 1rem;
+		cursor: default;
+	}
+	svg {
+		cursor: pointer;
+		color: #454545;
+		transition: all 0.5s;
+		margin-right: 10px;
+	}
+    svg:hover{
+        color:green;
+        transform: scale(1.1);
+    }
+</style>
