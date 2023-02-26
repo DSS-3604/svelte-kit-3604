@@ -23,7 +23,7 @@
 		<div class="settings-page">
 			<div class="settings-container">
 				<h1 class="page-title">Account</h1>
-				<div class="setting-section">
+				<div class="settings-section">
 					<h2 class="settings-title">General Information</h2>
 					<div class="non-active-form">
 						<p>Name:</p>
@@ -83,6 +83,9 @@
 </div>
 
 <style>
+    .mainwrapper{
+        color: white;
+    }
 	.page-title {
 		margin-bottom: 20px;
 		font-size: 30px;
@@ -91,6 +94,7 @@
 
 	.settings-page {
 		background-color: black;
+		border-radius: 10px;
 		width: 100%;
 		min-height: fit-content;
 	}
@@ -106,6 +110,7 @@
 		text-transform: uppercase;
 		font-weight: normal;
 		font-size: 20px;
+        padding-bottom: 5px;
 	}
 	.settings-section {
 		width: 100%;
@@ -131,8 +136,8 @@
 		transition: all 0.5s;
 		margin-right: 10px;
 	}
-    svg:hover{
-        color:green;
-        transform: scale(1.1);
-    }
+	svg:hover {
+		color: green;
+		transform: scale(1.1);
+	}
 </style>
