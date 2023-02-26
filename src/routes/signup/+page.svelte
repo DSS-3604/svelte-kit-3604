@@ -33,7 +33,7 @@
 	let hCard = false;
 </script>
 
-<div class="relative flex justify-center">
+<div class="relative flex justify-center" style="margin-top: 5vh;">
 	<img class="image" src="bg.webp" alt="" />
 
 	<section id="form" class="absolute center">
