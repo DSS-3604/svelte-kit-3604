@@ -23,7 +23,7 @@
 </script>
 
 <div class="flex items-center justify-center h-screen mainwrapper">
-	<Card size="xl" class="h-2/4">
+	<Card size="xl"  style="width: 70vw;">
 		<div class="settings-page">
 			<div class="settings-container">
 				<h1 class="page-title">Account</h1>
