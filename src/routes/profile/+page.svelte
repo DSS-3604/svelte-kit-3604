@@ -47,10 +47,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Profile</title>
-	<html lang="en" />
-</svelte:head>
 
 <div class="m-5">
 	<div class="p-4">
