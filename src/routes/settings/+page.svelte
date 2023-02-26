@@ -20,6 +20,10 @@
 
 <div class="flex items-center justify-center h-screen">
     <Card class="h-2/4">
-        
+        <div class="settings-page">
+            <div class="settings-container">
+                <h1>Account</h1>
+            </div>
+        </div>
     </Card>
 </div>
