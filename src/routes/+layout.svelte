@@ -35,7 +35,7 @@
 			</NavLi>
 			<Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
 				<DropdownItem href="/my-profile">Profile</DropdownItem>
-				<DropdownItem>Settings</DropdownItem>
+				<DropdownItem href="/settings">Settings</DropdownItem>
 				<DropdownItem>Earnings</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem>Sign out</DropdownItem>
