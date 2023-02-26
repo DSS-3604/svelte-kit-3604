@@ -18,6 +18,11 @@
 	} from 'flowbite-svelte';
 </script>
 
+<svelte:head>
+	<title>My Profile</title>
+	<html lang="en" />
+</svelte:head>
+
 <div>
 	<div class="profile-imgs">
 		<div class="user-picture">
