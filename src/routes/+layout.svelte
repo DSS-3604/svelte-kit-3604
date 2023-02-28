@@ -1,5 +1,6 @@
 <script>
 	import '../app.postcss';
+	import { PUBLIC_API_URL } from '$env/static/public';
 	import { Chevron, DarkMode } from 'flowbite-svelte';
 	import {
 		Navbar,
