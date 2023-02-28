@@ -12,7 +12,11 @@
 	} from 'flowbite-svelte';
 	import SellerCard from '../components/SellerCard.svelte';
 	import ProductCard from '../components/ProductCard.svelte';
+	import currentUser from '../lib/stores/user';
+	import { PUBLIC_API_URL } from '$env/static/public';
+	import { goto } from '$app/navigation';
 	let formModal = false;
+
 	const images = [
 		{
 			id: 0,
@@ -50,6 +54,58 @@
 			color: 'green'
 		}
 	];
+	let email = '';
+	let password = '';
+	let username = '';
+	const login = async () => {
+		if (!email || !password) return;
+		try {
+			const res = await fetch(`${PUBLIC_API_URL}/auth`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json'
+				},
+				body: JSON.stringify({
+					username: username,
+					password: password
+				})
+			});
+			const data = await res.json();
+			if (data) {
+				if (data.access_token) {
+					$currentUser.access_token = data.access_token;
+					goto('/my-profile');
+				}
+				console.log(data);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const signUp = async () => {
+		if (!email || !password) return;
+		try {
+			const res = await fetch(`${PUBLIC_API_URL}/api/users/farmer`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					username: username,
+					email: email,
+					password: password
+				})
+			});
+			const data = await res.json();
+			if (data) {
+				console.log(data);
+				login();
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 </script>
 
 <div class="relative">
@@ -128,12 +184,16 @@
 	<form class="flex flex-col space-y-6" action="#">
 		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
 		<Label class="space-y-2">
+			<span>Username</span>
+			<Input bind:value={username} type="text" name="username" placeholder="username" required />
+		</Label>
+		<Label class="space-y-2">
 			<span>Email</span>
-			<Input type="email" name="email" placeholder="name@company.com" required />
+			<Input bind:value={email} type="email" name="email" placeholder="name@company.com" required />
 		</Label>
 		<Label class="space-y-2">
 			<span>Your password</span>
-			<Input type="password" name="password" placeholder="•••••" required />
+			<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
 		</Label>
 		<div class="flex items-start">
 			<Checkbox>Remember me</Checkbox>
@@ -141,7 +201,7 @@
 				>Lost password?</a
 			>
 		</div>
-		<Button type="submit" class="w-full1">Login to your account</Button>
+		<Button type="submit" class="w-full1" on:click={signUp}>Submit</Button>
 		<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
 			Not registered? <a href="/signup" class="text-blue-700 hover:underline dark:text-blue-500"
 				>Create account</a

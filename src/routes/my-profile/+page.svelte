@@ -18,12 +18,11 @@
 	} from 'flowbite-svelte';
 </script>
 
-
 <div>
 	<div class="profile-imgs">
 		<div class="user-picture">
 			<div class="user-pucture-background">
-				<img src="https://imagizer.imageshack.com/img921/9628/VIaL8H.jpg" alt="background-img" />
+				<img src="profileDefault.webp" class="" alt="background-img" />
 			</div>
 			<div class="user-profile-picture ">
 				<div class="profile-pic">
@@ -43,12 +42,12 @@
 					User Details
 				</h5>
 				<div class=" flex flex-col gap-2">
-					<p class=" font-normal text-gray-500 dark:text-gray-400">Name:</p>
-					<p class=" font-normal text-gray-500 dark:text-gray-400">Business:</p>
-					<p class=" font-normal text-gray-500 dark:text-gray-400">Contact:</p>
-					<p class=" font-normal text-gray-500 dark:text-gray-400">Number of Posts:</p>
-					<p class=" font-normal text-gray-500 dark:text-gray-400">Product Type:</p>
-					<p class=" font-normal text-gray-500 dark:text-gray-400">Location:</p>
+					<p class=" font-normal text-gray-500 dark:text-gray-400">Name: lorem ipsum</p>
+					<p class=" font-normal text-gray-500 dark:text-gray-400">Business: lorem ipsum</p>
+					<p class=" font-normal text-gray-500 dark:text-gray-400">Contact: lorem ipsum</p>
+					<p class=" font-normal text-gray-500 dark:text-gray-400">Number of Posts: lorem ipsum</p>
+					<p class=" font-normal text-gray-500 dark:text-gray-400">Product Type: lorem ipsum</p>
+					<p class=" font-normal text-gray-500 dark:text-gray-400">Location: lorem ipsum</p>
 				</div>
 			</Card>
 		</div>
