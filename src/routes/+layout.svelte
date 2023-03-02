@@ -26,11 +26,11 @@
 			<img src="carigro-logo.webp" class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" />
 		</NavBrand>
 		<NavHamburger on:click={toggle} />
-		<NavUl {hidden}>
-			<NavLi href="/" active={true}>Home</NavLi>
-			<NavLi href="/catalog">Catalog</NavLi>
-			<NavLi href="/my-products">Products</NavLi>
-			<NavLi href="/contact">Contact</NavLi>
+		<NavUl on:click={toggle} {hidden}>
+			<NavLi on:click={toggle} href="/" active={true}>Home</NavLi>
+			<NavLi on:click={toggle} href="/catalog">Catalog</NavLi>
+			<NavLi on:click={toggle} href="/my-products">Products</NavLi>
+			<NavLi on:click={toggle} href="/contact">Contact</NavLi>
 			<NavLi id="nav-menu1" class="cursor-pointer">
 				<Avatar src="avatar.webp" size="xs" />
 			</NavLi>

@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte/internal';
+	import currentUser from '$lib/stores/user';
+	import { PUBLIC_API_URL } from '$env/static/public';
 	import {
 		Card,
 		Button,
@@ -9,6 +12,24 @@
 		Dropdown,
 		DropdownItem
 	} from 'flowbite-svelte';
+
+	let products = [];
+
+	const fetchProducts = async () => {
+		const res = await fetch(`${PUBLIC_API_URL}/products`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `JWT ${$currentUser.access_token}`
+			}
+		});
+		const data = await res.json();
+		console.log(data);
+		products = data;
+	};
+	onMount(() => {
+		fetchProducts();
+	});
 </script>
 
 <div class="m-5">
@@ -60,13 +81,16 @@
 	<div
 		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
 	>
-		{#each [1, 2, 3, 4, 5, 6, 7] as item}
+		{#each products as item}
 			<!-- content here -->
 			<Card padding="none" class="flex items-center text-center p-5">
 				<!-- <a href="/"> -->
-				<img class="rounded-t-lg h-40" src="orange.webp" alt="product 1" />
+				<img class="rounded-t-lg h-40" src={item.image} alt="product 1" />
 				<!-- </a> -->
-				<p class="text-2xl dark:text-white p-5">Oranges</p>
+				<p class="text-2xl dark:text-white ">{item.name}</p>
+				<p class="text-2xl dark:text-white">{item.description}</p>
+				<p class="text-2xl dark:text-white">{item.retail_price}</p>
+				<p class="text-2xl dark:text-white">{item.product_quantity}</p>
 			</Card>
 		{/each}
 	</div>

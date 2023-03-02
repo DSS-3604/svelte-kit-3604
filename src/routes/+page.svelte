@@ -75,9 +75,29 @@
 			if (data) {
 				if (data.access_token) {
 					$currentUser.access_token = data.access_token;
-					goto('/my-profile');
+					identify();
+					// goto('/my-profile');
 				}
 				console.log(data);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const identify = async () => {
+		try {
+			const res = await fetch(`${PUBLIC_API_URL}/identify`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `JWT ${$currentUser.access_token}`
+				}
+			});
+			const data = await res.json();
+			console.log(data);
+			if (data) {
+				$currentUser.username = data.username;
+				$currentUser.id = data.id;
 			}
 		} catch (err) {
 			console.log(err);
