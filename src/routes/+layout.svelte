@@ -17,6 +17,11 @@
 	let placement = 'bottom';
 	let darkmodebtn =
 		'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5 m-1 z-50';
+
+	const signOut = () => {
+		localStorage.removeItem('access_token');
+		window.location.href = '/';
+	};
 </script>
 
 <div class="sticky top-0 z-40">
@@ -25,25 +30,31 @@
 			<DarkMode btnClass={darkmodebtn} />
 			<img src="carigro-logo.webp" class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" />
 		</NavBrand>
-		<NavHamburger on:click={toggle} />
-		<NavUl on:click={toggle} {hidden}>
-			<NavLi on:click={toggle} href="/" active={true}>Home</NavLi>
-			<NavLi on:click={toggle} href="/catalog">Catalog</NavLi>
-			<NavLi on:click={toggle} href="/my-products">Products</NavLi>
-			<NavLi on:click={toggle} href="/contact">Contact</NavLi>
-			<NavLi id="nav-menu1" class="cursor-pointer">
-				<Avatar src="avatar.webp" size="xs" />
-			</NavLi>
-			<Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
+		<div class="flex items-center md:order-2">
+			<Avatar
+				id="profile"
+				class="w-full md:flex md:w-auto md:order-1"
+				src="avatar.webp"
+				size="md"
+			/>
+			<Dropdown triggeredBy="#profile" class="w-44 z-20">
 				<DropdownItem href="/my-profile">Profile</DropdownItem>
 				<DropdownItem href="/settings">Settings</DropdownItem>
 				<DropdownItem>Earnings</DropdownItem>
 				<DropdownDivider />
-				<DropdownItem>Sign out</DropdownItem>
+				<DropdownItem on:click={signOut}>Sign out</DropdownItem>
 			</Dropdown>
+			<NavHamburger on:click={toggle} />
+		</div>
+		<NavUl {hidden}>
+			<NavLi href="/" active={true}>Home</NavLi>
+			<NavLi href="/catalog">Catalog</NavLi>
+			<NavLi href="/my-products">Products</NavLi>
+			<NavLi href="/contact">Contact</NavLi>
 		</NavUl>
 	</Navbar>
 </div>
+
 <slot />
 
 <svelte:head>

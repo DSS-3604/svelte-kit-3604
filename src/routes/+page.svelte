@@ -15,6 +15,7 @@
 	import currentUser from '../lib/stores/user';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte/internal';
 	let formModal = false;
 
 	const images = [
@@ -75,6 +76,8 @@
 			if (data) {
 				if (data.access_token) {
 					$currentUser.access_token = data.access_token;
+					//store access token in local storage
+					localStorage.setItem('access_token', data.access_token);
 					identify();
 					// goto('/my-profile');
 				}
@@ -95,14 +98,25 @@
 			});
 			const data = await res.json();
 			console.log(data);
-			if (data) {
+			if (data.id) {
 				$currentUser.username = data.username;
 				$currentUser.id = data.id;
+				goto('/my-profile');
 			}
 		} catch (err) {
 			console.log(err);
 		}
 	};
+	onMount(() => {
+		if (localStorage.getItem('access_token')) {
+			let token = localStorage.getItem('access_token');
+			if (token) {
+				$currentUser.access_token = token;
+			}
+			identify();
+		}
+	});
+
 	const signUp = async () => {
 		if (!email || !password) return;
 		try {
