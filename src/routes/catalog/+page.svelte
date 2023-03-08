@@ -10,7 +10,9 @@
 		ButtonGroup,
 		Chevron,
 		Dropdown,
-		DropdownItem
+		DropdownItem,
+		Rating,
+		Badge
 	} from 'flowbite-svelte';
 
 	let products = [];
@@ -82,15 +84,24 @@
 		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
 	>
 		{#each products as item}
-			<!-- content here -->
-			<Card padding="none" class="flex items-center text-center p-5">
-				<!-- <a href="/"> -->
-				<img class="rounded-t-lg h-40" src={item.image} alt="product 1" />
-				<!-- </a> -->
-				<p class="text-2xl dark:text-white ">{item.name}</p>
-				<p class="text-2xl dark:text-white">{item.description}</p>
-				<p class="text-2xl dark:text-white">{item.retail_price}</p>
-				<p class="text-2xl dark:text-white">{item.product_quantity}</p>
+			<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+				<a href="/">
+					<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+				</a>
+				<div class="px-5">
+					<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+						{item.name}
+					</h5>
+					<Rating rating="4" size="18" class="m-2.5">
+						<Badge slot="text" class="ml-3">4</Badge>
+					</Rating>
+				</div>
+				<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
+				<div class="flex justify-between gap-10 p-1">
+					<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
+					<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
+				</div>
+				<Button class="w-full" color="blue">Query</Button>
 			</Card>
 		{/each}
 	</div>

@@ -68,6 +68,7 @@
 			});
 			let result = await response.json();
 			console.log(result);
+			$currentUser.products.push(product);
 			if (response.status === 201) {
 				// $currentUser.images.push(result);
 				// goto('/view/my-profile');
