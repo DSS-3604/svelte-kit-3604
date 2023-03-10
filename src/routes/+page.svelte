@@ -12,7 +12,8 @@
 	} from 'flowbite-svelte';
 	import SellerCard from '../components/SellerCard.svelte';
 	import ProductCard from '../components/ProductCard.svelte';
-	import currentUser from '../lib/stores/user';
+	import mainStore from '../lib/stores/mainStore';
+	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
@@ -58,87 +59,22 @@
 	let email = '';
 	let password = '';
 	let username = '';
-	const login = async () => {
-		if (!email || !password) return;
-		try {
-			const res = await fetch(`${PUBLIC_API_URL}/auth`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json'
-				},
-				body: JSON.stringify({
-					username: username,
-					password: password
-				})
-			});
-			const data = await res.json();
-			if (data) {
-				if (data.access_token) {
-					$currentUser.access_token = data.access_token;
-					//store access token in local storage
-					localStorage.setItem('access_token', data.access_token);
-					identify();
-					// goto('/my-profile');
-				}
-				console.log(data);
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	const identify = async () => {
-		try {
-			const res = await fetch(`${PUBLIC_API_URL}/identify`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `JWT ${$currentUser.access_token}`
-				}
-			});
-			const data = await res.json();
-			console.log(data);
-			if (data.id) {
-				$currentUser.username = data.username;
-				$currentUser.id = data.id;
-				goto('/my-profile');
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	onMount(() => {
-		if (localStorage.getItem('access_token')) {
-			let token = localStorage.getItem('access_token');
-			if (token) {
-				$currentUser.access_token = token;
-			}
-			identify();
-		}
-	});
-
+	let error = '';
 	const signUp = async () => {
-		if (!email || !password) return;
-		try {
-			const res = await fetch(`${PUBLIC_API_URL}/api/users/farmer`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					username: username,
-					email: email,
-					password: password
-				})
-			});
-			const data = await res.json();
-			if (data) {
-				console.log(data);
-				login();
+		let newUser = {
+			username: username,
+			password: password,
+			email: email
+		};
+		$utils.signUp(newUser).then((res) => {
+			if (res) {
+				goto('/my-profile');
+				console.log(res);
+			} else {
+				error = 'username or email already exists';
+				console.log(error);
 			}
-		} catch (err) {
-			console.log(err);
-		}
+		});
 	};
 </script>
 

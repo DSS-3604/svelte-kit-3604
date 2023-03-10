@@ -1,9 +1,11 @@
 <script lang="ts">
-	import currentUser from '$lib/stores/user';
+	import mainStore from '$lib/stores/mainStore';
+	import utils from '$lib/stores/utils';
 	import { Card, Rating, RatingComment, Avatar, Button, Badge, Modal } from 'flowbite-svelte';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
+	import { goto } from '$app/navigation';
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
@@ -45,33 +47,34 @@
 		datetime: '2 days ago'
 	};
 	let popupModal = false;
-	onMount(() => {
-		setActive('post');
-	});
-	const fetchUserProducts = async () => {
-		try {
-			const res = await fetch(`${PUBLIC_API_URL}/products/farmer/${$currentUser.id}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `JWT ${$currentUser.access_token}`
-				}
-			});
-			const data = await res.json();
-			console.log(data);
-			$currentUser.products = data;
-		} catch (err) {
-			console.log(err);
-		}
+	let product = {
+		name: '',
+		description: '',
+		retail_price: '',
+		currency: '',
+		product_quantity: '',
+		image: '',
+		farmer_id: ''
 	};
 	onMount(() => {
-		fetchUserProducts();
+		$utils.silentLogin().then(() => {
+			if ($mainStore.loggedIn) {
+				$utils.fetchUserProducts();
+			} else {
+				goto('/');
+			}
+		});
+		setActive('about');
 	});
+	const updateProducts = () => {
+		$utils.updateProduct(product);
+	};
+	let edit = false;
 </script>
 
 <div class="flex justify-center items-center text-center">
 	<Modal bind:open={popupModal} size="xl" autoclose>
-		<Upload />
+		<Upload {product} />
 	</Modal>
 </div>
 
@@ -80,7 +83,7 @@
 		<div class="flex flex-col items-center pb-4">
 			<Avatar size="xl" src="avatar.webp" />
 			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-				{$currentUser.username}
+				{$mainStore.user.username}
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
@@ -130,24 +133,28 @@
 			<div class="mt-5">
 				{#if activeButton === 'post'}
 					<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-						{#each $currentUser.products as item}
-							<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
-								<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-								<div class="px-5">
-									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-										{item.name}
-									</h5>
-									<Rating rating="4" size="18" class="m-2.5">
-										<Badge slot="text" class="ml-3">4</Badge>
-									</Rating>
-								</div>
-								<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
-								<div class="flex justify-between gap-10 p-1">
-									<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
-									<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
-								</div>
-								<Button class="w-full" color="blue">Edit</Button>
-							</Card>
+						{#each $mainStore.user.products as item}
+							{#if edit}
+								<Upload product={item} />
+							{:else}
+								<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+									<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+									<div class="px-5">
+										<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+											{item.name}
+										</h5>
+										<Rating rating="4" size="18" class="m-2.5">
+											<Badge slot="text" class="ml-3">4</Badge>
+										</Rating>
+									</div>
+									<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
+									<div class="flex justify-between gap-10 p-1">
+										<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
+										<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
+									</div>
+									<Button class="w-full" color="blue" on:click={() => (edit = true)}>Edit</Button>
+								</Card>
+							{/if}
 						{/each}
 					</div>
 				{:else if activeButton === 'review'}

@@ -11,9 +11,21 @@
 		Modal,
 		Avatar
 	} from 'flowbite-svelte';
-	import currentUser from '$lib/stores/user';
+	import mainStore from '$lib/stores/mainStore';
+	import utils from '$lib/stores/utils';
+	import { onMount } from 'svelte/internal';
+	import { goto } from '$app/navigation';
 	let formModal = false;
 	let spanClass = '';
+	onMount(() => {
+		$utils.silentLogin().then(() => {
+			if ($mainStore.loggedIn) {
+				console.log('fetch stuff here');
+			} else {
+				goto('/');
+			}
+		});
+	});
 </script>
 
 <div class="flex justify-center min-h-full">
@@ -176,7 +188,7 @@
 					<div class="settings-section">
 						<h2 class="settings-title">Profile</h2>
 						<div class="flex justify-between">
-							<Avatar src={$currentUser.avatar} size="lg" />
+							<Avatar src={$mainStore.user.avatar} size="lg" />
 							<div class="flex justify-center">
 								<button
 									on:click={() => (formModal = true)}
@@ -189,7 +201,7 @@
 					<div class="settings-section">
 						<h2 class="settings-title">General Information</h2>
 						<div class="non-active-form">
-							<p>Name: {$currentUser.username}</p>
+							<p>Name: {$mainStore.user.username}</p>
 							<svg
 								class="h-8 w-8 text-green-500"
 								viewBox="0 0 24 24"
@@ -206,7 +218,7 @@
 							>
 						</div>
 						<div class="non-active-form">
-							<p>Number: {$currentUser.number}</p>
+							<p>Number: {$mainStore.user.number}</p>
 							<svg
 								class="h-8 w-8 text-green-500"
 								viewBox="0 0 24 24"
@@ -223,7 +235,7 @@
 							>
 						</div>
 						<div class="non-active-form">
-							<p>Email: {$currentUser.email}</p>
+							<p>Email: {$mainStore.user.email}</p>
 							<svg
 								class="h-8 w-8 text-green-500"
 								viewBox="0 0 24 24"

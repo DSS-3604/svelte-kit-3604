@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte/internal';
-	import currentUser from '$lib/stores/user';
+	import mainStore from '$lib/stores/mainStore';
+	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import {
 		Card,
@@ -17,21 +18,27 @@
 
 	let products = [];
 
-	const fetchProducts = async () => {
-		const res = await fetch(`${PUBLIC_API_URL}/products`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `JWT ${$currentUser.access_token}`
-			}
-		});
-		const data = await res.json();
-		console.log(data);
-		products = data;
-	};
 	onMount(() => {
-		fetchProducts();
+		$utils.fetchProducts();
+		$utils.silentLogin().then(() => {
+			$utils.fetchProducts();
+		});
 	});
+	// const fetchProducts = async () => {
+	// 	const res = await fetch(`${PUBLIC_API_URL}/products`, {
+	// 		method: 'GET',
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			Authorization: `JWT ${$mainStore.access_token}`
+	// 		}
+	// 	});
+	// 	const data = await res.json();
+	// 	console.log(data);
+	// 	$mainStore.catalog = data;
+	// };
+	// onMount(() => {
+	// 	fetchProducts();
+	// });
 </script>
 
 <div class="m-5">
@@ -83,7 +90,7 @@
 	<div
 		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
 	>
-		{#each products as item}
+		{#each $mainStore.catalog as item}
 			<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
 				<a href="/">
 					<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />

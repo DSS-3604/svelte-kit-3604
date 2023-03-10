@@ -1,11 +1,11 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
-	import currentUser from '$lib/stores/user';
+	import mainStore from '$lib/stores/mainStore';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { Textarea, Label, Input, Select } from 'flowbite-svelte';
 	let avatar, fileinput;
-	let product = {
+	export let product = {
 		name: '',
 		description: '',
 		retail_price: '',
@@ -57,20 +57,20 @@
 	const createPost = async () => {
 		try {
 			product.image = avatar;
-			product.farmer_id = $currentUser.id;
+			product.farmer_id = $mainStore.id;
 			let response = await fetch(PUBLIC_API_URL + '/products', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `JWT ${$currentUser.access_token}`
+					Authorization: `JWT ${$mainStore.access_token}`
 				},
 				body: JSON.stringify(product)
 			});
 			let result = await response.json();
 			console.log(result);
-			$currentUser.products.push(product);
+			$mainStore.products.push(product);
 			if (response.status === 201) {
-				// $currentUser.images.push(result);
+				// $mainStore.images.push(result);
 				// goto('/view/my-profile');
 			}
 		} catch (e) {
