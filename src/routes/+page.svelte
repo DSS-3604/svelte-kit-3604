@@ -19,6 +19,7 @@
 	import { onMount } from 'svelte/internal';
 	let formModal = false;
 
+	let loginModal = false;
 	const images = [
 		{
 			id: 0,
@@ -61,6 +62,7 @@
 	let username = '';
 	let error = '';
 	const signUp = async () => {
+		error = '';
 		let newUser = {
 			username: username,
 			password: password,
@@ -72,6 +74,22 @@
 				console.log(res);
 			} else {
 				error = 'username or email already exists';
+				console.log(error);
+			}
+		});
+	};
+	const login = async () => {
+		error = '';
+		let user = {
+			username: username,
+			password: password
+		};
+		$utils.login(user).then((res) => {
+			if (res) {
+				goto('/my-profile');
+				console.log(res);
+			} else {
+				error = 'username or password is incorrect';
 				console.log(error);
 			}
 		});
@@ -150,35 +168,80 @@
 		/>
 	</div>
 </div>
-<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-	<form class="flex flex-col space-y-6" action="#">
-		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
-		<Label class="space-y-2">
-			<span>Username</span>
-			<Input bind:value={username} type="text" name="username" placeholder="username" required />
-		</Label>
-		<Label class="space-y-2">
-			<span>Email</span>
-			<Input bind:value={email} type="email" name="email" placeholder="name@company.com" required />
-		</Label>
-		<Label class="space-y-2">
-			<span>Your password</span>
-			<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
-		</Label>
-		<div class="flex items-start">
-			<Checkbox>Remember me</Checkbox>
-			<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-				>Lost password?</a
-			>
-		</div>
-		<Button type="submit" class="w-full1" on:click={signUp}>Submit</Button>
-		<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-			Not registered? <a href="/signup" class="text-blue-700 hover:underline dark:text-blue-500"
-				>Create account</a
-			>
-		</div>
-	</form>
-</Modal>
+{#if !loginModal}
+	<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
+		<form class="flex flex-col space-y-6" action="#">
+			<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">
+				Register to our platform
+			</h3>
+			<Label class="space-y-2">
+				<span>Username</span>
+				<Input bind:value={username} type="text" name="username" placeholder="username" required />
+			</Label>
+			<Label class="space-y-2">
+				<span>Email</span>
+				<Input
+					bind:value={email}
+					type="email"
+					name="email"
+					placeholder="name@company.com"
+					required
+				/>
+			</Label>
+			<Label class="space-y-2">
+				<span>Your password</span>
+				<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
+			</Label>
+			<div class="flex items-start">
+				<Checkbox>Remember me</Checkbox>
+				<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+					>Lost password?</a
+				>
+			</div>
+			<Button type="submit" class="w-full1" on:click={signUp}>Submit</Button>
+			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+				Registered? <a
+					on:click={() => (loginModal = true)}
+					class="text-blue-700 hover:underline dark:text-blue-500">Sign In</a
+				>
+			</div>
+			<div class="text-sm font-medium text-red-500 dark:text-red-300">
+				{error}
+			</div>
+		</form>
+	</Modal>
+{:else}
+	<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
+		<form class="flex flex-col space-y-6" action="#">
+			<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
+			<Label class="space-y-2">
+				<span>Username</span>
+				<Input bind:value={username} type="text" name="username" placeholder="username" required />
+			</Label>
+			<Label class="space-y-2">
+				<span>Your password</span>
+				<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
+			</Label>
+			<div class="flex items-start">
+				<Checkbox>Remember me</Checkbox>
+				<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+					>Lost password?</a
+				>
+			</div>
+			<Button type="submit" class="w-full1" on:click={login}>Submit</Button>
+			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+				Not registered? <a
+					on:click={() => (loginModal = false)}
+					class="text-blue-700 hover:underline dark:text-blue-500">Create account</a
+				>
+			</div>
+			<!-- error message -->
+			<div class="text-sm font-medium text-red-500 dark:text-red-300">
+				{error}
+			</div>
+		</form>
+	</Modal>
+{/if}
 
 <!-- <Card padding="none" class="w-80 text-center shadow-xl">
 	<div class="flex flex-col items-center p-4">
