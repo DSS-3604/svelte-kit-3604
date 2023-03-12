@@ -188,7 +188,7 @@
 					<div class="settings-section">
 						<h2 class="settings-title">Profile</h2>
 						<div class="flex justify-between">
-							<Avatar src={$mainStore.user.avatar} size="lg" />
+							<Avatar src={$mainStore.user.info.avatar} size="lg" />
 							<div class="flex justify-center">
 								<button
 									on:click={() => (formModal = true)}
@@ -201,7 +201,7 @@
 					<div class="settings-section">
 						<h2 class="settings-title">General Information</h2>
 						<div class="non-active-form">
-							<p>Name: {$mainStore.user.username}</p>
+							<p>Name: {$mainStore.user.info.username}</p>
 							<svg
 								class="h-8 w-8 text-green-500"
 								viewBox="0 0 24 24"
@@ -218,7 +218,7 @@
 							>
 						</div>
 						<div class="non-active-form">
-							<p>Number: {$mainStore.user.number}</p>
+							<p>Number: {$mainStore.user.info.phone}</p>
 							<svg
 								class="h-8 w-8 text-green-500"
 								viewBox="0 0 24 24"
@@ -235,7 +235,7 @@
 							>
 						</div>
 						<div class="non-active-form">
-							<p>Email: {$mainStore.user.email}</p>
+							<p>Email: {$mainStore.user.info.email}</p>
 							<svg
 								class="h-8 w-8 text-green-500"
 								viewBox="0 0 24 24"

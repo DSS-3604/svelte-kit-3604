@@ -12,7 +12,7 @@ export default class Service {
 		});
 	}
 	async fetchUserProducts() {
-		return this.fetch(`products/farmer/${this.store.user.id}`).then((res) => {
+		return this.fetch(`products/farmer/${this.store.user.info.id}`).then((res) => {
 			mainStore.update((store) => {
 				store.user.products = res;
 				return store;

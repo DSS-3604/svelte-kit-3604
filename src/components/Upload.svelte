@@ -51,7 +51,7 @@
 	};
 	const createPost = async () => {
 		product.image = avatar;
-		product.farmer_id = $mainStore.user.id;
+		product.farmer_id = $mainStore.user.info.id;
 		$utils.createProduct(product).then((res) => {
 			console.log(res);
 		});

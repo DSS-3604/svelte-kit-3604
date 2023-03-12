@@ -170,7 +170,7 @@
 </div>
 {#if !loginModal}
 	<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-		<form class="flex flex-col space-y-6" action="#">
+		<div class="flex flex-col space-y-6">
 			<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">
 				Register to our platform
 			</h3>
@@ -208,11 +208,11 @@
 			<div class="text-sm font-medium text-red-500 dark:text-red-300">
 				{error}
 			</div>
-		</form>
+		</div>
 	</Modal>
 {:else}
 	<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-		<form class="flex flex-col space-y-6" action="#">
+		<div class="flex flex-col space-y-6">
 			<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
 			<Label class="space-y-2">
 				<span>Username</span>
@@ -239,7 +239,7 @@
 			<div class="text-sm font-medium text-red-500 dark:text-red-300">
 				{error}
 			</div>
-		</form>
+		</div>
 	</Modal>
 {/if}
 
