@@ -28,7 +28,18 @@ export default class Service {
 			});
 		});
 	}
-
+	async createProduct(product: any) {
+		return this.post('products', product).then((res) => {
+			console.log(res);
+			if (res) {
+				//update the store
+				mainStore.update((store) => {
+					store.user.products.push(product);
+					return store;
+				});
+			}
+		});
+	}
 	async updateProduct(product: any) {
 		return this.put(`products/${product.id}`, product).then((res) => {
 			if (res) {

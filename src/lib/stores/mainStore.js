@@ -15,7 +15,7 @@ const mainStore = writable({
 			}
 		],
 		bio: '',
-		avatar: ''
+		avatar: 'avatar.webp'
 	},
 	catalog: [
 		{

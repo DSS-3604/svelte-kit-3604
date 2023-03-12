@@ -1,20 +1,21 @@
 <script>
+	import utils from '$lib/stores/utils';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte/internal';
 	import mainStore from '$lib/stores/mainStore';
 	import { PUBLIC_API_URL } from '$env/static/public';
-	import { Textarea, Label, Input, Select, Button } from 'flowbite-svelte';
-	import utils from '$lib/stores/utils';
-	let avatar, fileinput;
-	let product = {
+	import { Textarea, Label, Input, Select, Button, Avatar } from 'flowbite-svelte';
+	let fileinput;
+	export let item = {
 		name: '',
 		description: '',
 		retail_price: '',
 		currency: '',
 		product_quantity: '',
 		image: '',
+		id: '',
 		farmer_id: ''
 	};
+	let product = JSON.parse(JSON.stringify(item));
 	const currency = [
 		{
 			value: 'USD',
@@ -47,12 +48,10 @@
 		});
 		const data = await res.json();
 		console.log(data.data.url);
-		avatar = data.data.url;
+		product.image = data.data.url;
 	};
-	const createPost = async () => {
-		product.image = avatar;
-		product.farmer_id = $mainStore.user.id;
-		$utils.createProduct(product).then((res) => {
+	const updateProduct = async () => {
+		$utils.updateProduct(product).then((res) => {
 			console.log(res);
 		});
 	};
@@ -62,10 +61,33 @@
 	<div
 		class="mt-1 mb-4 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
 	>
-		{#if avatar}
-			<div class="">
+		{#if product.image}
+			<div class="relative">
 				<div>
-					<img class="p-2 rounded-t-lg h-36" src={avatar} alt="d" />
+					<button
+						class="absolute h-10 w-10 right-0 bg-gray-500 hover:bg-gray-700 text-white font-bold rounded-full p-2"
+						on:click={() => {
+							product.image = '';
+						}}
+					>
+						<svg
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+							/>
+						</svg>
+					</button>
+				</div>
+				<div>
+					<img class="p-2 rounded-t-lg h-36" src={product.image} alt="product 1" />
 				</div>
 			</div>
 		{:else}
@@ -157,9 +179,9 @@
 			/>
 		</div>
 	</div>
-	{#if avatar}
+	{#if product.image}
 		<div class="pt-2">
-			<Button class="w-full" color="blue" on:click={createPost}>Post</Button>
+			<Button class="w-full" color="blue" on:click={updateProduct}>Update</Button>
 		</div>
 	{/if}
 </div>

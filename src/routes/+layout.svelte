@@ -54,7 +54,7 @@
 			<Avatar
 				id="profile"
 				class="w-full md:flex md:w-auto md:order-1"
-				src="avatar.webp"
+				src={$mainStore.user.avatar}
 				size="md"
 			/>
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">

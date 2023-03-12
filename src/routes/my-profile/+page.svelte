@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
 	import { goto } from '$app/navigation';
+	import UpdateProduct from '../../components/UpdateProduct.svelte';
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
@@ -81,7 +82,7 @@
 <div class="m-5">
 	<div class="p-4">
 		<div class="flex flex-col items-center pb-4">
-			<Avatar size="xl" src="avatar.webp" />
+			<Avatar size="xl" src={$mainStore.user.avatar} />
 			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
 				{$mainStore.user.username}
 			</h5>
@@ -135,7 +136,11 @@
 					<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 						{#each $mainStore.user.products as item}
 							{#if edit}
-								<Upload product={item} />
+								<div class="flex justify-center items-center text-center">
+									<Modal bind:open={edit} size="xl" autoclose>
+										<UpdateProduct {item} />
+									</Modal>
+								</div>
 							{:else}
 								<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
 									<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
