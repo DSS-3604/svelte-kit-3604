@@ -2,8 +2,17 @@ import { writable } from 'svelte/store';
 
 const mainStore = writable({
 	user: {
-		username: '',
-		id: '',
+		info: {
+			username: '',
+			id: '',
+			avatar: 'avatar.webp',
+			currency: '',
+			email: '',
+			phone: '',
+			units: '',
+			address: '',
+			access: ''
+		},
 		products: [
 			{
 				id: '',
@@ -13,9 +22,7 @@ const mainStore = writable({
 				product_quantity: '',
 				image: ''
 			}
-		],
-		bio: '',
-		avatar: 'avatar.webp'
+		]
 	},
 	catalog: [
 		{
@@ -24,10 +31,34 @@ const mainStore = writable({
 			description: '',
 			retail_price: '',
 			product_quantity: '',
-			image: ''
+			image: '',
+			farmer_id: ''
 		}
 	],
 	access_token: '',
-	loggedIn: false
+	loggedIn: false,
+	farmer: {
+		info: {
+			username: '',
+			id: '',
+			avatar: '',
+			currency: '',
+			email: '',
+			phone: '',
+			units: '',
+			address: '',
+			access: ''
+		},
+		products: [
+			{
+				id: '',
+				name: '',
+				description: '',
+				retail_price: '',
+				product_quantity: '',
+				image: ''
+			}
+		]
+	}
 });
 export default mainStore;

@@ -19,6 +19,24 @@ export default class Service {
 			});
 		});
 	}
+	async fetchFarmerProducts(id: string) {
+		return this.fetch(`products/farmer/${id}`).then((res) => {
+			console.log(res);
+			mainStore.update((store) => {
+				store.farmer.products = res;
+				return store;
+			});
+		});
+	}
+
+	async getFarmer(id: string) {
+		return this.fetch(`api/users/${id}`).then((res) => {
+			mainStore.update((store) => {
+				store.farmer.info = res;
+				return store;
+			});
+		});
+	}
 
 	async fetchProducts() {
 		return this.fetch('products').then((res) => {
@@ -73,8 +91,8 @@ export default class Service {
 		return this.fetch('identify').then((res) => {
 			if (res.id) {
 				mainStore.update((store) => {
-					store.user.username = res.username;
-					store.user.id = res.id;
+					store.user.info.username = res.username;
+					store.user.info.id = res.id;
 					store.loggedIn = true;
 					return store;
 				});

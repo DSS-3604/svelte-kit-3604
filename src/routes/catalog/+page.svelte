@@ -15,6 +15,7 @@
 		Rating,
 		Badge
 	} from 'flowbite-svelte';
+	import { goto } from '$app/navigation';
 
 	let products = [];
 
@@ -24,21 +25,6 @@
 			$utils.fetchProducts();
 		});
 	});
-	// const fetchProducts = async () => {
-	// 	const res = await fetch(`${PUBLIC_API_URL}/products`, {
-	// 		method: 'GET',
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 			Authorization: `JWT ${$mainStore.access_token}`
-	// 		}
-	// 	});
-	// 	const data = await res.json();
-	// 	console.log(data);
-	// 	$mainStore.catalog = data;
-	// };
-	// onMount(() => {
-	// 	fetchProducts();
-	// });
 </script>
 
 <div class="m-5">
@@ -91,10 +77,13 @@
 		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
 	>
 		{#each $mainStore.catalog as item}
-			<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
-				<a href="/">
-					<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-				</a>
+			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
+				<div class="absolute right-3">
+					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
+						<img class="w-8 h-8 rounded-full cursor-pointer" src="avatar.webp" alt="farmer" />
+					</button>
+				</div>
+				<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
 				<div class="px-5">
 					<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 						{item.name}

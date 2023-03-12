@@ -1,4 +1,7 @@
 <script lang="ts">
+	import mainStore from '$lib/stores/mainStore';
+	import utils from '$lib/stores/utils';
+	export let data;
 	import { Card, Rating, RatingComment, Avatar, Button, Badge } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	let btnDefault = 'bg-gray-200';
@@ -42,17 +45,26 @@
 		datetime: '2 days ago'
 	};
 
-	onMount(() => {
-		setActive('post');
+	onMount(async () => {
+		$utils.getFarmer(data.id).then((res) => {
+			console.log(res);
+		});
+		$utils.silentLogin().then((res) => {
+			$utils.fetchFarmerProducts(data.id).then((res) => {
+				console.log(res);
+			});
+		});
+		setActive('about');
 	});
 </script>
-
 
 <div class="m-5">
 	<div class="p-4">
 		<div class="flex flex-col items-center pb-4">
-			<Avatar size="xl" src="avatar.webp" />
-			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
+			<Avatar size="xl" src={$mainStore.farmer.info.avatar} />
+			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+				{$mainStore.farmer.info.username}
+			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				<Button>Add friend</Button>
@@ -62,7 +74,9 @@
 		<div class="flex flex-col items-center">
 			<div class="flex space-x-12">
 				<div class="flex flex-col items-center">
-					<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
+					<p class="text-xl font-semibold text-gray-900 dark:text-white">
+						{$mainStore.farmer.products.length}
+					</p>
 					<p class="text-sm text-gray-500 dark:text-gray-400">Posts</p>
 				</div>
 				<div class="text-blue-500">
@@ -79,7 +93,7 @@
 					<p class="text-sm text-gray-500 dark:text-gray-400">4.38</p>
 				</div>
 				<div class="flex flex-col items-center">
-					<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
+					<p class="text-xl font-semibold text-gray-900 dark:text-white">0</p>
 					<p class="text-sm text-gray-500 dark:text-gray-400">Reviews</p>
 				</div>
 			</div>
@@ -99,72 +113,25 @@
 			<div class="mt-5">
 				{#if activeButton === 'post'}
 					<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl">
-							<a href="/">
-								<img class="p-8 rounded-t-lg h-36" src="orange.webp" alt="product 1" />
-							</a>
-							<div class="px-5">
-								<a href="/">
+						{#each $mainStore.farmer.products as item}
+							<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+								<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+								<div class="px-5">
 									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-										Oranges
+										{item.name}
 									</h5>
-								</a>
-								<Rating rating="4" size="18" class="m-2.5">
-									<Badge slot="text" class="ml-3">4</Badge>
-								</Rating>
-							</div>
-							<div class="flex flex-col justify-between mb-2">
-								<span class="text-md font-bold text-gray-900 dark:text-white">$5</span>
-								<div class="flex justify-between gap-8 p-1">
-									<Button size="xs" href="/">Buy now</Button>
-									<Button size="xs" href="/">See more</Button>
+									<Rating rating="4" size="18" class="m-2.5">
+										<Badge slot="text" class="ml-3">4</Badge>
+									</Rating>
 								</div>
-							</div>
-						</Card>
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl">
-							<a href="/">
-								<img class="p-8 rounded-t-lg h-36" src="orange.webp" alt="product 1" />
-							</a>
-							<div class="px-5">
-								<a href="/">
-									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-										Oranges
-									</h5>
-								</a>
-								<Rating rating="4" size="18" class="m-2.5">
-									<Badge slot="text" class="ml-3">4</Badge>
-								</Rating>
-							</div>
-							<div class="flex flex-col justify-between mb-2">
-								<span class="text-md font-bold text-gray-900 dark:text-white">$5</span>
-								<div class="flex justify-between gap-8 p-1">
-									<Button size="xs" href="/">Buy now</Button>
-									<Button size="xs" href="/">See more</Button>
+								<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
+								<div class="flex justify-between gap-10 p-1">
+									<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
+									<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
 								</div>
-							</div>
-						</Card>
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl">
-							<a href="/">
-								<img class="p-8 rounded-t-lg h-36" src="orange.webp" alt="product 1" />
-							</a>
-							<div class="px-5">
-								<a href="/">
-									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-										Oranges
-									</h5>
-								</a>
-								<Rating rating="4" size="18" class="m-2.5">
-									<Badge slot="text" class="ml-3">4</Badge>
-								</Rating>
-							</div>
-							<div class="flex flex-col justify-between mb-2">
-								<span class="text-md font-bold text-gray-900 dark:text-white">$5</span>
-								<div class="flex justify-between gap-8 p-1">
-									<Button size="xs" href="/">Buy now</Button>
-									<Button size="xs" href="/">See more</Button>
-								</div>
-							</div>
-						</Card>
+								<Button class="w-full" color="blue">Query</Button>
+							</Card>
+						{/each}
 					</div>
 				{:else if activeButton === 'review'}
 					<div class="flex flex-col gap-3">

@@ -82,9 +82,9 @@
 <div class="m-5">
 	<div class="p-4">
 		<div class="flex flex-col items-center pb-4">
-			<Avatar size="xl" src={$mainStore.user.avatar} />
+			<Avatar size="xl" src={$mainStore.user.info.avatar} />
 			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-				{$mainStore.user.username}
+				{$mainStore.user.info.username}
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
