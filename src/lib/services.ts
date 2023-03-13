@@ -37,7 +37,13 @@ export default class Service {
 			});
 		});
 	}
-
+	async reviewProduct(review: any) {
+		return this.post(`product/review`, review).then((res) => {
+			if (res) {
+				console.log(res);
+			}
+		});
+	}
 	async fetchProducts() {
 		return this.fetch('products').then((res) => {
 			mainStore.update((store) => {
