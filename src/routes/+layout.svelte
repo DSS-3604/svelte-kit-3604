@@ -25,23 +25,6 @@
 		localStorage.removeItem('access_token');
 		window.location.href = '/';
 	};
-	// onMount(async () => {
-	// 	//check if access token is valid
-	// 	let token = localStorage.getItem('access_token');
-	// 	if (!token) {
-	// 		console.log('no token');
-	// 	} else {
-	// 		$mainStore.access_token = token;
-	// 		await $utils.identify().then((res: any) => {
-	// 			if (res !== null) {
-	// 				if (res.username !== null) {
-	// 					$mainStore.loggedIn = true;
-	// 					console.log('logged in');
-	// 				}
-	// 			}
-	// 		});
-	// 	}
-	// });
 </script>
 
 <div class="sticky top-0 z-40">
@@ -57,6 +40,7 @@
 				src={$mainStore.user.info.avatar}
 				size="md"
 			/>
+			<p class="px-2 hidden md:block">{$mainStore.user.info.username}</p>
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
 				<DropdownItem href="/my-profile">Profile</DropdownItem>
 				<DropdownItem href="/settings">Settings</DropdownItem>
