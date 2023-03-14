@@ -29,60 +29,12 @@
 		rating: 0,
 		reviews: []
 	};
-	let review = {
-		user_id: '',
-		product_id: '',
-		rating: 0,
-		body: ''
-	};
-	const rateProduct = (item) => {
-		review.user_id = $mainStore.user.info.id;
-		review.product_id = item.id;
-		$utils.reviewProduct(review).then(() => {
-			$utils.fetchProducts();
-		});
-	};
-
 	onMount(() => {
 		$utils.fetchProducts();
 		$utils.silentLogin().then(() => {
 			$utils.fetchProducts();
 		});
 	});
-	let rankingOptions = [
-		{
-			id: 1,
-			color: 'text-gray-300'
-		},
-		{
-			id: 2,
-			color: 'text-gray-300'
-		},
-		{
-			id: 3,
-			color: 'text-gray-300'
-		},
-		{
-			id: 4,
-			color: 'text-gray-300'
-		},
-		{
-			id: 5,
-			color: 'text-gray-300'
-		}
-	];
-	const setRating = (n) => {
-		let newList = rankingOptions;
-		newList.forEach((option, index) => {
-			if (index < n) {
-				option.color = 'text-yellow-400';
-			} else {
-				option.color = 'text-gray-300';
-			}
-		});
-		rankingOptions = newList;
-		review.rating = n;
-	};
 </script>
 
 <div class="m-5">
@@ -143,8 +95,7 @@
 				<div class="absolute left-3">
 					<button
 						on:click={() => {
-							itemToRate = item;
-							rate = true;
+							goto(`/products/${item.id}`);
 						}}
 					>
 						<svg
@@ -182,34 +133,3 @@
 		{/each}
 	</div>
 </div>
-<Modal bind:open={rate} size="xs" autoclose={false} class="w-full">
-	<div class="flex flex-col space-y-6 items-center text-center">
-		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Add review</h3>
-		<div class="">
-			<img class="w-28 h-28" src={itemToRate.image} alt="product" />
-			<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-				{itemToRate.name}
-			</p>
-			<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-				by {itemToRate.farmer_id}
-			</p>
-		</div>
-		<div class="flex items-center">
-			{#each rankingOptions as option}
-				<svg
-					on:click={() => setRating(option.id)}
-					aria-hidden="true"
-					class="w-8 h-8 {option.color} hover:cursor-pointer"
-					fill="currentColor"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-					><title>star</title><path
-						d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-					/></svg
-				>
-			{/each}
-		</div>
-		<Textarea rows="6" bind:value={review.body} placeholder="Write your review" class="w-full" />
-		<Button type="submit" on:click={() => rateProduct(itemToRate)} class="w-full">Submit</Button>
-	</div>
-</Modal>

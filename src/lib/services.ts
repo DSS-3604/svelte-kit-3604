@@ -19,6 +19,13 @@ export default class Service {
 			});
 		});
 	}
+
+	async fetchProduct(id: string) {
+		return this.fetch(`products/${id}`).then((res) => {
+			return res;
+		});
+	}
+
 	async fetchFarmerProducts(id: string) {
 		return this.fetch(`products/farmer/${id}`).then((res) => {
 			console.log(res);
