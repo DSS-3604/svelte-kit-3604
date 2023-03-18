@@ -69,6 +69,12 @@
 	let edit = false;
 </script>
 
+<div class="flex justify-center items-center text-center">
+	<Modal bind:open={popupModal} size="xl" autoclose>
+		Review
+	</Modal>
+</div>
+
 <div class="m-5">
 	<div class="p-4">
 		<div class="flex flex-col items-center pb-4">
@@ -78,9 +84,9 @@
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">product supplied by: {$mainStore.user.info.username}</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button>Edit Profile</Button>
+				<Button href="/contact">Contact</Button>
 				<Button on:click={() => (popupModal = true)} color="light" class="dark:text-white"
-					>New Post</Button
+					>Review</Button
 				>
 			</div>
 		</div>
@@ -88,7 +94,7 @@
 			<div class="flex space-x-12">
 				<div class="flex flex-col items-center">
 					<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
-					<p class="text-sm text-gray-500 dark:text-gray-400">Posts</p>
+					<p class="text-sm text-gray-500 dark:text-gray-400">Quantity</p>
 				</div>
 				<div class="text-blue-500">
 					<svg
