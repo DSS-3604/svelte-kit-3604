@@ -51,6 +51,10 @@ export default class Service {
 			}
 		});
 	}
+	async reviewFarmer(review: any) {
+		return this.post(`user/review`, review);
+	}
+
 	async fetchProducts() {
 		return this.fetch('products').then((res) => {
 			mainStore.update((store) => {

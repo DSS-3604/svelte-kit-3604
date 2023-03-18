@@ -2,7 +2,7 @@
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	export let data;
-	import { Card, Rating, RatingComment, Avatar, Button, Badge } from 'flowbite-svelte';
+	import { Card, Rating, RatingComment, Avatar, Button, Badge, Textarea } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
@@ -43,6 +43,52 @@
 		heading: 'Great Product',
 		address: 'New York, USA',
 		datetime: '2 days ago'
+	};
+	let rankingOptions = [
+		{
+			id: 1,
+			color: 'text-gray-300'
+		},
+		{
+			id: 2,
+			color: 'text-gray-300'
+		},
+		{
+			id: 3,
+			color: 'text-gray-300'
+		},
+		{
+			id: 4,
+			color: 'text-gray-300'
+		},
+		{
+			id: 5,
+			color: 'text-gray-300'
+		}
+	];
+	let rate = false;
+	let review = {
+		user_id: '',
+		rating: 0,
+		body: ''
+	};
+	const rateFarmer = (item) => {
+		review.user_id = $mainStore.user.info.id;
+		$utils.reviewFarmer(review).then((res) => {
+			console.log(res);
+		});
+	};
+	const setRating = (n) => {
+		let newList = rankingOptions;
+		newList.forEach((option, index) => {
+			if (index < n) {
+				option.color = 'text-yellow-400';
+			} else {
+				option.color = 'text-gray-300';
+			}
+		});
+		rankingOptions = newList;
+		review.rating = n;
 	};
 
 	onMount(async () => {
@@ -151,6 +197,40 @@
 								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
 							</RatingComment>
 						</div>
+
+						<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg ">
+							<div class="flex flex-col items-center gap-2 text-center">
+								<div class="flex gap-10 p-1">
+									<h3 class="text-xl font-medium text-gray-900 dark:text-white">Add review</h3>
+									<div class="flex items-center">
+										{#each rankingOptions as option}
+											<svg
+												on:click={() => setRating(option.id)}
+												aria-hidden="true"
+												class="w-8 h-8 {option.color} hover:cursor-pointer"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+												xmlns="http://www.w3.org/2000/svg"
+												><title>star</title><path
+													d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+												/></svg
+											>
+										{/each}
+									</div>
+								</div>
+								<Textarea
+									rows="6"
+									bind:value={review.body}
+									placeholder="Write your review"
+									class="w-full"
+								/>
+								<Button type="submit" on:click={() => rateFarmer(product)} class="w-full"
+									>Submit</Button
+								>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="flex flex-col gap-3">
 						<div class="rounded-lg border p-5">
 							<RatingComment {comment} helpfullink="/" abuselink="/">
 								<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
@@ -167,7 +247,23 @@
 								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
 							</RatingComment>
 						</div>
-					</div>
+						<div class="rounded-lg border p-5">
+							<RatingComment {comment} helpfullink="/" abuselink="/">
+								<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
+									This is my third Invicta Pro Diver. They are just fantastic value for money. This
+									one arrived yesterday and the first thing I did was set the time, popped on an
+									identical strap from another Invicta and went in the shower with it to test the
+									waterproofing.... No problems.
+								</p>
+								<a
+									href="/"
+									class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+									>Read more</a
+								>
+								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
+							</RatingComment>
+						</div>
+					</div> -->
 				{:else if activeButton === 'about'}
 					<div class=" rounded-lg p-5 border">
 						<p class="font-semibold dark:text-white">Bio</p>

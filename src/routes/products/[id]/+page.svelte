@@ -146,11 +146,6 @@
 	};
 </script>
 
-<div class="flex justify-center items-center text-center">
-	<!-- <Modal bind:open={popupModal} size="xl" autoclose>
-		<Upload {product} />
-	</Modal> -->
-</div>
 <Modal bind:open={rate} size="xs" autoclose={false} class="w-full">
 	<div class="flex flex-col space-y-6 items-center text-center">
 		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Add review</h3>

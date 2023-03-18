@@ -2,7 +2,6 @@
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { Card, Rating, RatingComment, Avatar, Button, Badge, Modal } from 'flowbite-svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
 	import { goto } from '$app/navigation';
@@ -65,11 +64,8 @@
 				goto('/');
 			}
 		});
-		setActive('about');
+		setActive('review');
 	});
-	const updateProducts = () => {
-		$utils.updateProduct(product);
-	};
 	let edit = false;
 </script>
 
@@ -78,7 +74,6 @@
 		<Upload {product} />
 	</Modal>
 </div>
-
 <div class="m-5">
 	<div class="p-4">
 		<div class="flex flex-col items-center pb-4">
@@ -180,22 +175,6 @@
 								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
 							</RatingComment>
 						</div>
-						<div class="rounded-lg border p-5">
-							<RatingComment {comment} helpfullink="/" abuselink="/">
-								<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
-									This is my third Invicta Pro Diver. They are just fantastic value for money. This
-									one arrived yesterday and the first thing I did was set the time, popped on an
-									identical strap from another Invicta and went in the shower with it to test the
-									waterproofing.... No problems.
-								</p>
-								<a
-									href="/"
-									class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-									>Read more</a
-								>
-								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
-							</RatingComment>
-						</div>
 					</div>
 				{:else if activeButton === 'about'}
 					<div class=" rounded-lg p-5 border">
@@ -228,18 +207,3 @@
 		</div>
 	</div>
 </div>
-<!-- <div class="hidden md:block w-full">
-	<div class="flex justify-around items-center">
-		<div>
-			<img src="avatar.webp" class="w-full max-h-80" alt="avatar" />
-		</div>
-		<div>
-			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
-			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button>Add friend</Button>
-				<Button color="light" class="dark:text-white">Message</Button>
-			</div>
-		</div>
-	</div> -->
-<!-- </div> -->
