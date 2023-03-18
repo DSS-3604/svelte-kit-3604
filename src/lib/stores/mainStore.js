@@ -36,6 +36,7 @@ const mainStore = writable({
 		}
 	],
 	access_token: '',
+	access_level: 'user',
 	loggedIn: false,
 	farmer: {
 		info: {

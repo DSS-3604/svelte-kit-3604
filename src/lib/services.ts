@@ -17,6 +17,7 @@ export default class Service {
 				store.user.products = res;
 				return store;
 			});
+			return res;
 		});
 	}
 
@@ -106,10 +107,12 @@ export default class Service {
 	}
 	async identify() {
 		return this.fetch('identify').then((res) => {
+			console.log('identify', res);
 			if (res.id) {
 				mainStore.update((store) => {
 					store.user.info.username = res.username;
 					store.user.info.id = res.id;
+					store.access_level = res.access;
 					store.loggedIn = true;
 					return store;
 				});
@@ -119,7 +122,7 @@ export default class Service {
 	}
 
 	async signUp(credentials: { username: string; password: string; email: string }) {
-		return this.post('api/users/farmer', credentials).then((res) => {
+		return this.post('api/users', credentials).then((res) => {
 			if (res) {
 				return this.login({ username: credentials.username, password: credentials.password });
 			} else {

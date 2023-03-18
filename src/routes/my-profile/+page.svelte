@@ -59,7 +59,9 @@
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
-				$utils.fetchUserProducts();
+				if ($mainStore.access_level === 'farmer') {
+					$utils.fetchUserProducts();
+				}
 			} else {
 				goto('/');
 			}
@@ -84,30 +86,34 @@
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				<Button>Edit Profile</Button>
-				<Button on:click={() => (popupModal = true)} color="light" class="dark:text-white"
-					>New Post</Button
-				>
+				{#if $mainStore.access_level === 'farmer'}
+					<Button on:click={() => (popupModal = true)} color="light" class="dark:text-white"
+						>New Post</Button
+					>
+				{/if}
 			</div>
 		</div>
 		<div class="flex flex-col items-center">
 			<div class="flex space-x-12">
-				<div class="flex flex-col items-center">
-					<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
-					<p class="text-sm text-gray-500 dark:text-gray-400">Posts</p>
-				</div>
-				<div class="text-blue-500">
-					<svg
-						aria-hidden="true"
-						class="w-7 h-7 text-yellow-400"
-						fill="currentColor"
-						viewBox="0 0 20 20"
-						xmlns="http://www.w3.org/2000/svg"
-						><title>First star</title><path
-							d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-						/></svg
-					>
-					<p class="text-sm text-gray-500 dark:text-gray-400">4.38</p>
-				</div>
+				{#if $mainStore.access_level === 'farmer'}
+					<div class="flex flex-col items-center">
+						<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
+						<p class="text-sm text-gray-500 dark:text-gray-400">Posts</p>
+					</div>
+					<div class="text-blue-500">
+						<svg
+							aria-hidden="true"
+							class="w-7 h-7 text-yellow-400"
+							fill="currentColor"
+							viewBox="0 0 20 20"
+							xmlns="http://www.w3.org/2000/svg"
+							><title>First star</title><path
+								d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+							/></svg
+						>
+						<p class="text-sm text-gray-500 dark:text-gray-400">4.38</p>
+					</div>
+				{/if}
 				<div class="flex flex-col items-center">
 					<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
 					<p class="text-sm text-gray-500 dark:text-gray-400">Reviews</p>
@@ -115,13 +121,15 @@
 			</div>
 			<div class="mt-5 w-full">
 				<div class="flex items-center bg-gray-200 p-1 rounded-lg w-full">
-					<button class="w-1/3 {post_btn_color} py-1" on:click={() => setActive('post')}>
-						Posts
-					</button>
-					<button class="w-1/3 {about_btn_color} py-1" on:click={() => setActive('about')}>
+					{#if $mainStore.access_level === 'farmer'}
+						<button class="w-full {post_btn_color} py-1" on:click={() => setActive('post')}>
+							Posts
+						</button>
+					{/if}
+					<button class="w-full {about_btn_color} py-1" on:click={() => setActive('about')}>
 						About
 					</button>
-					<button class="w-1/3 {reviews_btn_color} py-1" on:click={() => setActive('review')}>
+					<button class="w-full {reviews_btn_color} py-1" on:click={() => setActive('review')}>
 						Reviews
 					</button>
 				</div>

@@ -15,6 +15,7 @@
 	import mainStore from '../lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
+	import { PUBLIC_CLIENT_ID } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
 	let formModal = false;
@@ -78,22 +79,42 @@
 			}
 		});
 	};
-	const login = async () => {
-		error = '';
-		let user = {
-			username: username,
-			password: password
+	function oauthSignIn() {
+		// Google's OAuth 2.0 endpoint for requesting an access token
+		var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+		// Create <form> element to submit parameters to OAuth 2.0 endpoint.
+		var form = document.createElement('form');
+		form.setAttribute('method', 'GET'); // Send as a GET request.
+		form.setAttribute('action', oauth2Endpoint);
+
+		// Parameters to pass to OAuth 2.0 endpoint.
+		var params = {
+			client_id: PUBLIC_CLIENT_ID,
+			redirect_uri: window.location.href + 'login',
+			response_type: 'token',
+			scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
+			include_granted_scopes: 'true',
+			state: 'pass-through value'
 		};
-		$utils.login(user).then((res) => {
-			if (res) {
-				goto('/my-profile');
-				console.log(res);
-			} else {
-				error = 'username or password is incorrect';
-				console.log(error);
-			}
-		});
-	};
+		// Add form parameters as hidden input values.
+		for (var p in params) {
+			var input = document.createElement('input');
+			input.setAttribute('type', 'hidden');
+			input.setAttribute('name', p);
+			input.setAttribute('value', params[p]);
+			form.appendChild(input);
+		}
+
+		// Add form to page and submit it to open the OAuth 2.0 endpoint.
+		document.body.appendChild(form);
+		form.submit();
+		//get the token from the url
+		const url = window.location.href;
+		const hash = url.split('#')[1];
+		const token = hash.split('&')[0].split('=')[1];
+		console.log(token);
+	}
 </script>
 
 <div class="relative">
@@ -113,6 +134,14 @@
 					class="text-white text-base lg:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
 					>Join Today</button
 				>
+				<div
+					id="g_id_onload"
+					data-client_id="336005406595-j1pen5s8ouusrcc59bj0b40m56cv2am0.apps.googleusercontent.com"
+					data-context="signup"
+					data-callback="login"
+					data-auto_select="true"
+					data-itp_support="true"
+				/>
 			</div>
 		</div>
 	</div>
@@ -205,6 +234,21 @@
 					class="text-blue-700 hover:underline dark:text-blue-500">Sign In</a
 				>
 			</div>
+			<div
+				class="text-sm font-medium text-red-500 dark:text-red-300"
+				id="g_id_onload"
+				data-client_id={PUBLIC_CLIENT_ID}
+				data-login_uri="/"
+				data-your_own_param_1_to_login="any_value"
+				data-your_own_param_2_to_login="any_value"
+			>
+				<button
+					on:click={oauthSignIn}
+					class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+				>
+					Sign in with Google
+				</button>
+			</div>
 			<div class="text-sm font-medium text-red-500 dark:text-red-300">
 				{error}
 			</div>
@@ -268,3 +312,37 @@
 		<FooterLink href="/">Contact</FooterLink>
 	</FooterLinkGroup>
 </Footer>
+
+<svelte:head>
+	<script src="https://apis.google.com/js/api.js"></script>
+	<!-- <script>
+		function start() {
+			// Initializes the client with the API key and the Translate API.
+			gapi.client
+				.init({
+					apiKey: 'YOUR_API_KEY',
+					discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest']
+				})
+				.then(function () {
+					// Executes an API request, and returns a Promise.
+					// The method name `language.translations.list` comes from the API discovery.
+					return gapi.client.language.translations.list({
+						q: 'hello world',
+						source: 'en',
+						target: 'de'
+					});
+				})
+				.then(
+					function (response) {
+						console.log(response.result.data.translations[0].translatedText);
+					},
+					function (reason) {
+						console.log('Error: ' + reason.result.error.message);
+					}
+				);
+		}
+
+		// Loads the JavaScript client library and invokes `start` afterwards.
+		gapi.load('client', start);
+	</script> -->
+</svelte:head>
