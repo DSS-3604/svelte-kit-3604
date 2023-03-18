@@ -12,22 +12,15 @@
 
 	let about_btn_color = btnDefault;
 	let reviews_btn_color = btnDefault;
-	let post_btn_color = btnDefault;
 
 	const setActive = (btn) => {
 		activeButton = btn;
 		if (btn === 'about') {
 			about_btn_color = btnActive;
 			reviews_btn_color = btnDefault;
-			post_btn_color = btnDefault;
 		} else if (btn === 'review') {
 			about_btn_color = btnDefault;
 			reviews_btn_color = btnActive;
-			post_btn_color = btnDefault;
-		} else if (btn === 'post') {
-			about_btn_color = btnDefault;
-			reviews_btn_color = btnDefault;
-			post_btn_color = btnActive;
 		}
 	};
 	let comment = {
@@ -116,49 +109,16 @@
 			</div>
 			<div class="mt-5 w-full">
 				<div class="flex items-center bg-gray-200 p-1 rounded-lg w-full">
-					<button class="w-1/3 {post_btn_color} py-1" on:click={() => setActive('post')}>
-						Posts
-					</button>
-					<button class="w-1/3 {about_btn_color} py-1" on:click={() => setActive('about')}>
+					<button class="w-1/2 {about_btn_color} py-1" on:click={() => setActive('about')}>
 						About
 					</button>
-					<button class="w-1/3 {reviews_btn_color} py-1" on:click={() => setActive('review')}>
+					<button class="w-1/2 {reviews_btn_color} py-1" on:click={() => setActive('review')}>
 						Reviews
 					</button>
 				</div>
 			</div>
 			<div class="mt-5">
-				{#if activeButton === 'post'}
-					<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-						{#each $mainStore.user.products as item}
-							{#if edit}
-								<div class="flex justify-center items-center text-center">
-									<Modal bind:open={edit} size="xl" autoclose>
-										<UpdateProduct {item} />
-									</Modal>
-								</div>
-							{:else}
-								<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
-									<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-									<div class="px-5">
-										<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-											{item.name}
-										</h5>
-										<Rating rating="4" size="18" class="m-2.5">
-											<Badge slot="text" class="ml-3">4</Badge>
-										</Rating>
-									</div>
-									<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
-									<div class="flex justify-between gap-10 p-1">
-										<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
-										<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
-									</div>
-									<Button class="w-full" color="blue" on:click={() => (edit = true)}>Edit</Button>
-								</Card>
-							{/if}
-						{/each}
-					</div>
-				{:else if activeButton === 'review'}
+				{#if activeButton === 'review'}
 					<div class="flex flex-col gap-3">
 						<div class="rounded-lg border p-5">
 							<RatingComment {comment} helpfullink="/" abuselink="/">
