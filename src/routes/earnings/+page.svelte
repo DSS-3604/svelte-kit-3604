@@ -37,99 +37,315 @@
 	});
 </script>
 
-<div class="m-5">
-	<div>
-		<p class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-			Earnings
-		</p>
-	</div>
-	<div>
-		<div>
-			<ButtonGroup class="w-full">
-				<Button
-					color="none"
-					class="flex-shrink-0 text-gray-900 bg-gray-100 border border-gray-300 dark:border-gray-700 dark:text-white hover:bg-gray-200 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-				>
-					<Chevron>All categories</Chevron>
-				</Button>
-				<Dropdown>
-					<DropdownItem>Vegetables</DropdownItem>
-					<DropdownItem>Fruits</DropdownItem>
-				</Dropdown>
-				<Input placeholder="Search" />
-				<Button color="blue" class="!p-2.5" type="submit">
-					<svg
-						class="w-5 h-5"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-						/></svg
-					>
-				</Button>
-			</ButtonGroup>
+<div class="card">
+	<section class="report-dashboard">
+		<h2 class="report-dashboard-title">Weekly Performance</h2>
+		<div class="row">
+			<div class="flex-container">
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">New Users</div>
+					<div class="report-dashboard-number">80</div>
+				</div>
+				<!-- .report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">New Farmers</div>
+					<div class="report-dashboard-number">16</div>
+				</div>
+				<!-- .report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">New Contact Form Requests</div>
+					<div class="report-dashboard-number">6</div>
+				</div>
+				<!-- .report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Number of Products</div>
+					<div class="report-dashboard-number">58</div>
+				</div>
+				<!-- .report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Number of Posts</div>
+					<div class="report-dashboard-number">164</div>
+				</div>
+				<!-- .report-dashboard-item -->
+			</div>
+			<!-- .flex-container -->
 		</div>
-	</div>
-	<br />
-	<div>
-		<div class="flex justify-between">
-			<p class="text-sm dark:text-white">Showing list 1-10 of 28 results</p>
+		<!-- /.row -->
+
+		<div class="row">
+			<div class="flex-container">
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Resolved Contact Requests</div>
+					<div class="report-dashboard-number">20<span class="percentage-unit">%</span></div>
+				</div>
+				<!-- /.report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Average Change in Quantity of Products</div>
+					<div class="report-dashboard-number">29<span class="percentage-unit">%</span></div>
+				</div>
+				<!-- /.report-dashboard-item -->
+			</div>
+			<!-- /.flex-container -->
 		</div>
-	</div>
-	<br />
-	<div
-		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
-	>
-		{#each $mainStore.catalog as item}
-			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
-				<div class="absolute right-3">
-					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
-						<img class="w-8 h-8 rounded-full cursor-pointer" src="avatar.webp" alt="farmer" />
-					</button>
+		<!-- /.row -->
+
+		<div class="row">
+			<div class="flex-container">
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Total Members</div>
+					<div class="report-dashboard-number"><span class="dollar-unit">$</span>1179</div>
 				</div>
-				<div class="absolute left-3">
-					<button
-						on:click={() => {
-							goto(`/products/${item.id}`);
-						}}
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-6 h-6"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-							/>
-						</svg>
-					</button>
+				<!-- /.report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Total Farmers</div>
+					<div class="report-dashboard-number"><span class="dollar-unit">$</span>700</div>
 				</div>
-				<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-				<div class="px-5">
-					<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-						{item.name}
-					</h5>
-					<Rating rating="4" size="18" class="m-2.5">
-						<Badge slot="text" class="ml-3">4</Badge>
-					</Rating>
+				<!-- /.report-dashboard-item -->
+				<div class="report-dashboard-item">
+					<div class="report-dashboard-label">Total Products</div>
+					<div class="report-dashboard-number"><span class="dollar-unit">$</span>96</div>
 				</div>
-				<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
-				<div class="flex justify-between gap-10 p-1">
-					<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
-					<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
+				<!-- /.report-dashboard-item -->
+			</div>
+			<!-- /.flex-container -->
+		</div>
+		<!-- /.row -->
+	</section>
+	<!-- /.report-dashboard -->
+
+	<section class="eodr-section">
+		<h2 class="eodr-section-title">Daily Numbers</h2>
+		<ul class="accordion">
+			<li>
+				<div class="">
+					<h1>Posts By Farmers</h1>
+					<table class="eodr-data-table">
+						<thead>
+							<tr>
+								<th class="eodr-data-table-cell--non-numeric">Name</th>
+								<th>Number of Posts</th>
+								<th>Posts Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="on-target">
+								<td class="eodr-data-table-cell--non-numeric">Frank Sinatra</td>
+								<td>3</td>
+								<td>Active</td>
+							</tr>
+							<tr>
+								<td class="eodr-data-table-cell--non-numeric">Prakash Ramoutar</td>
+								<td>10</td>
+								<td>Inactive</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				<Button class="w-full" color="blue">Query</Button>
-			</Card>
-		{/each}
-	</div>
+			</li>
+		</ul>
+		<!-- /.accordion -->
+	</section>
+	<!-- /.eodr-section -->
 </div>
+
+<style>
+	.card {
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+		transition: 0.3s;
+		padding: 20px;
+		width: 98vw;
+		margin: 0 auto;
+		background-color: white;
+		border-radius: 10px;
+		margin-top: 4px;
+	}
+	.card:hover {
+		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	}
+
+	h2 {
+		color: #333;
+		font-family: 'Alegreya Sans';
+		font-size: 28px;
+		font-weight: 300;
+		line-height: 1;
+		letter-spacing: -0.015em;
+		margin-bottom: 36px;
+		max-width: 600px;
+	}
+
+	h2:before {
+		background: #2fa500;
+		content: '';
+		display: block;
+		height: 3px;
+		margin: 12px 0;
+		width: 50px;
+	}
+
+	* {
+		box-sizing: border-box;
+		font-family: sans-serif;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	body {
+		background-color: #eee;
+		max-width: 90%;
+		margin: 1.5em auto;
+		padding: 5rem;
+	}
+
+	ul .inner {
+		padding-left: 0;
+		overflow: hidden;
+		display: none;
+	}
+
+	ul li {
+		margin-bottom: 1rem;
+		background-color: #fff;
+		list-style: none;
+	}
+
+	thead {
+		border-bottom: 1px solid #eee;
+	}
+
+	th,
+	td {
+		box-sizing: border-box;
+		padding: 12px 18px;
+		font-size: 12px;
+	}
+
+	/* Base Styles */
+
+	.eodr-data-table {
+		border-bottom: 1px solid #ebeff6;
+		text-align: right;
+		width: 100%;
+	}
+
+	.eodr-data-table-cell--non-numeric {
+		text-align: left;
+	}
+
+	/* Accordion Component */
+
+	.accordion {
+		padding: 0;
+	}
+
+	.accordion--item {
+		background-color: #fff;
+		position: relative;
+		border-right: 1px solid #ebeff6;
+		border-bottom: 1px solid #ebeff6;
+		padding: 2rem;
+		text-align: center;
+		flex-grow: 1;
+		flex-basis: 100%;
+	}
+
+	@media screen and (min-width: 40em) {
+		.accordion--item {
+			flex-basis: 33.33%;
+		}
+	}
+
+	.accordion--item:nth-child(3),
+	.accordion--item:last-child {
+		border-right: none;
+	}
+
+	.accordion--numberValue {
+		font-size: 6.25rem;
+	}
+
+	.accordion--byline {
+		color: #bbbbbb;
+		display: block;
+		font-size: 0.75rem;
+	}
+
+	.accordion--subitem {
+		font-size: 14px;
+	}
+
+	.percentage-unit {
+		font-size: 16px;
+		position: absolute;
+		top: 65px;
+	}
+
+	/* Flex Container */
+
+	.flex-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.is-collapsed:after,
+	.is-expanded:after {
+		font-family: 'Font Awesome 5 Free';
+		font-size: 10px;
+		position: absolute;
+		right: 25px;
+		top: 22px;
+	}
+
+	.is-collapsed:after {
+		content: '';
+	}
+
+	.is-expanded:after {
+		content: '';
+	}
+
+	.is-expanded {
+		color: #d60c8c;
+	}
+
+	/* Flags */
+
+	.on-target {
+		color: green;
+	}
+
+	/* Reporting Styles */
+
+	.report-dashboard {
+		margin-bottom: 4rem;
+	}
+	.report-dashboard .row {
+		margin-bottom: 1rem;
+	}
+
+	.report-dashboard-item {
+		background-color: #fff;
+		border-right: 1px solid #ebeff6;
+		border-bottom: 1px solid #ebeff6;
+		flex-grow: 1;
+		flex-basis: 20%;
+		text-align: center;
+		padding: 2rem;
+		position: relative;
+	}
+
+	.report-dashboard-label {
+		color: #999;
+		display: block;
+		font-size: 0.875rem;
+		margin-bottom: 0.675rem;
+	}
+
+	.report-dashboard-number {
+		color: #525252;
+		font-size: 2.25rem;
+	}
+</style>
