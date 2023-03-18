@@ -44,7 +44,7 @@
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
 				<DropdownItem href="/my-profile">Profile</DropdownItem>
 				<DropdownItem href="/settings">Settings</DropdownItem>
-				<DropdownItem href="/earnings">Earnings</DropdownItem>
+				<DropdownItem href="/report">Report</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem on:click={signOut}>Sign out</DropdownItem>
 			</Dropdown>
