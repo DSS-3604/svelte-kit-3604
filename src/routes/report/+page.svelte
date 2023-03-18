@@ -93,17 +93,17 @@
 			<div class="flex-container">
 				<div class="report-dashboard-item">
 					<div class="report-dashboard-label">Total Members</div>
-					<div class="report-dashboard-number"><span class="dollar-unit">$</span>1179</div>
+					<div class="report-dashboard-number"><span class="dollar-unit"></span>1179</div>
 				</div>
 				<!-- /.report-dashboard-item -->
 				<div class="report-dashboard-item">
 					<div class="report-dashboard-label">Total Farmers</div>
-					<div class="report-dashboard-number"><span class="dollar-unit">$</span>700</div>
+					<div class="report-dashboard-number"><span class="dollar-unit"></span>700</div>
 				</div>
 				<!-- /.report-dashboard-item -->
 				<div class="report-dashboard-item">
 					<div class="report-dashboard-label">Total Products</div>
-					<div class="report-dashboard-number"><span class="dollar-unit">$</span>96</div>
+					<div class="report-dashboard-number"><span class="dollar-unit"></span>96</div>
 				</div>
 				<!-- /.report-dashboard-item -->
 			</div>
