@@ -1,4 +1,6 @@
 <script lang="ts">
+	import avatar from '$lib/images/avatar.webp';
+	import orange from '$lib/images/orange.webp';
 	import {
 		Footer,
 		FooterCopyright,
@@ -113,52 +115,24 @@
 <h1 class="text-primary text-center text-3xl m-10 font-semibold">Top Products</h1>
 <div class="m-5 sm:ml-20 sm:mr-20">
 	<div class="overflow-x-auto grid grid-flow-col gap-7">
-		<ProductCard rating="4" image="orange.webp" {nutritions} name="Oranges" />
-		<ProductCard rating="4" image="orange.webp" {nutritions} name="Oranges" />
-		<ProductCard rating="4" image="orange.webp" {nutritions} name="Oranges" />
-		<ProductCard rating="4" image="orange.webp" {nutritions} name="Oranges" />
-		<ProductCard rating="4" image="orange.webp" {nutritions} name="Oranges" />
+		{#each [1, 2, 3, 4, 5] as item}
+			<ProductCard rating="4" image={orange} {nutritions} name="Oranges" />
+		{/each}
 	</div>
 </div>
 
 <h1 class="text-primary text-center text-3xl m-10 font-semibold">Top Sellers</h1>
 <div class="m-5 sm:ml-20 sm:mr-20">
 	<div class="overflow-x-auto grid grid-flow-col gap-7">
-		<SellerCard
-			rating="4"
-			image="avatar.webp"
-			name="John Doe"
-			role="Farmer"
-			desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-		/>
-		<SellerCard
-			rating="4"
-			image="avatar.webp"
-			name="John Doe"
-			role="Farmer"
-			desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-		/>
-		<SellerCard
-			rating="4"
-			image="avatar.webp"
-			name="John Doe"
-			role="Farmer"
-			desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-		/>
-		<SellerCard
-			rating="4"
-			image="avatar.webp"
-			name="John Doe"
-			role="Farmer"
-			desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-		/>
-		<SellerCard
-			rating="4"
-			image="avatar.webp"
-			name="John Doe"
-			role="Farmer"
-			desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-		/>
+		{#each [1, 2, 3, 4, 5] as item}
+			<SellerCard
+				rating="4"
+				image={avatar}
+				name="John Doe"
+				role="Farmer"
+				desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+			/>
+		{/each}
 	</div>
 </div>
 {#if !loginModal}

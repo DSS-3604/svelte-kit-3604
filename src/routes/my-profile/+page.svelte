@@ -10,6 +10,18 @@
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
 
+	type Product = {
+		farmer_id: string;
+		category_id: string;
+		name: string;
+		description: string;
+		image: string;
+		retail_price: string;
+		wholesale_price: string;
+		wholesale_unit_quantity: string;
+		total_product_quantity: string;
+	};
+
 	let about_btn_color = btnDefault;
 	let reviews_btn_color = btnDefault;
 	let post_btn_color = btnDefault;
@@ -47,7 +59,7 @@
 		datetime: '2 days ago'
 	};
 	let popupModal = false;
-	let product = {
+	let product: Product = {
 		farmer_id: '',
 		category_id: '',
 		name: '',
@@ -99,7 +111,9 @@
 			<div class="flex space-x-12">
 				{#if $mainStore.access_level === 'farmer'}
 					<div class="flex flex-col items-center">
-						<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
+						<p class="text-xl font-semibold text-gray-900 dark:text-white">
+							{$mainStore.user.products.length}
+						</p>
 						<p class="text-sm text-gray-500 dark:text-gray-400">Posts</p>
 					</div>
 					<div class="text-blue-500">
@@ -117,7 +131,7 @@
 					</div>
 				{/if}
 				<div class="flex flex-col items-center">
-					<p class="text-xl font-semibold text-gray-900 dark:text-white">1,200</p>
+					<p class="text-xl font-semibold text-gray-900 dark:text-white">12</p>
 					<p class="text-sm text-gray-500 dark:text-gray-400">Reviews</p>
 				</div>
 			</div>
@@ -153,14 +167,17 @@
 										<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 											{item.name}
 										</h5>
-										<Rating rating="4" size="18" class="m-2.5">
-											<Badge slot="text" class="ml-3">4</Badge>
-										</Rating>
 									</div>
-									<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
+									<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
 									<div class="flex justify-between gap-10 p-1">
-										<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
-										<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
+										<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
+										<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
+									</div>
+									<div class="flex justify-between gap-10 p-1">
+										<p class="text-lg dark:text-gray-300">
+											Quantity: {item.total_product_quantity}
+										</p>
+										<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
 									</div>
 									<Button class="w-full" color="blue" on:click={() => (edit = true)}>Edit</Button>
 								</Card>

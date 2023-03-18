@@ -7,15 +7,10 @@
 		Card,
 		Button,
 		Input,
-		InputAddon,
 		ButtonGroup,
 		Chevron,
 		Dropdown,
-		Modal,
-		DropdownItem,
-		Rating,
-		Textarea,
-		Badge
+		DropdownItem
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
@@ -86,7 +81,6 @@
 		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
 	>
 		{#each $mainStore.catalog as item}
-		<a href="/product">
 			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
 				<div class="absolute right-3">
 					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
@@ -120,18 +114,20 @@
 					<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 						{item.name}
 					</h5>
-					<Rating rating="4" size="18" class="m-2.5">
-						<Badge slot="text" class="ml-3">4</Badge>
-					</Rating>
 				</div>
-				<p class="text-xl dark:text-gray-300 p-1">{item.description}</p>
+				<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
 				<div class="flex justify-between gap-10 p-1">
-					<p class="text-lg dark:text-gray-300">Price: ${item.retail_price}</p>
-					<p class="text-lg dark:text-gray-300">Quantity: {item.product_quantity}</p>
+					<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
+					<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
+				</div>
+				<div class="flex justify-between gap-10 p-1">
+					<p class="text-lg dark:text-gray-300">
+						Quantity: {item.total_product_quantity}
+					</p>
+					<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
 				</div>
 				<Button class="w-full" color="blue">Query</Button>
 			</Card>
-		</a>
 		{/each}
 	</div>
 </div>

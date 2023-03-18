@@ -5,7 +5,7 @@ const mainStore = writable({
 		info: {
 			username: '',
 			id: '',
-			avatar: 'avatar.webp',
+			avatar: '',
 			currency: '',
 			email: '',
 			phone: '',
@@ -16,23 +16,30 @@ const mainStore = writable({
 		products: [
 			{
 				id: '',
+				farmer_id: '',
+				category_id: '',
 				name: '',
 				description: '',
+				image: '',
 				retail_price: '',
-				product_quantity: '',
-				image: ''
+				wholesale_price: '',
+				wholesale_unit_quantity: '',
+				total_product_quantity: ''
 			}
 		]
 	},
 	catalog: [
 		{
 			id: '',
+			farmer_id: '',
+			category_id: '',
 			name: '',
 			description: '',
-			retail_price: '',
-			product_quantity: '',
 			image: '',
-			farmer_id: ''
+			retail_price: '',
+			wholesale_price: '',
+			wholesale_unit_quantity: '',
+			total_product_quantity: ''
 		}
 	],
 	access_token: '',
@@ -53,11 +60,15 @@ const mainStore = writable({
 		products: [
 			{
 				id: '',
+				farmer_id: '',
+				category_id: '',
 				name: '',
 				description: '',
+				image: '',
 				retail_price: '',
-				product_quantity: '',
-				image: ''
+				wholesale_price: '',
+				wholesale_unit_quantity: '',
+				total_product_quantity: ''
 			}
 		]
 	}

@@ -3,7 +3,10 @@
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import mainStore from '$lib/stores/mainStore';
 	import { Chevron, DarkMode } from 'flowbite-svelte';
+	import carigro_logo from '$lib/images/carigro-logo.webp';
+	import avatar from '$lib/images/avatar.webp';
 	import utils from '$lib/stores/utils';
+
 	import {
 		Navbar,
 		NavBrand,
@@ -31,13 +34,13 @@
 	<Navbar let:hidden let:toggle>
 		<NavBrand>
 			<DarkMode btnClass={darkmodebtn} />
-			<img src="carigro-logo.webp" class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" />
+			<img src={carigro_logo} class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" />
 		</NavBrand>
 		<div class="flex items-center md:order-2">
 			<Avatar
 				id="profile"
 				class="w-full md:flex md:w-auto md:order-1"
-				src={$mainStore.user.info.avatar}
+				src={$mainStore.user.info.avatar ? $mainStore.user.info.avatar : avatar}
 				size="md"
 			/>
 			<p class="px-2 hidden md:block">{$mainStore.user.info.username}</p>
