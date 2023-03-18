@@ -86,6 +86,7 @@
 		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
 	>
 		{#each $mainStore.catalog as item}
+		<a href="/product">
 			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
 				<div class="absolute right-3">
 					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
@@ -130,6 +131,7 @@
 				</div>
 				<Button class="w-full" color="blue">Query</Button>
 			</Card>
+		</a>
 		{/each}
 	</div>
 </div>
