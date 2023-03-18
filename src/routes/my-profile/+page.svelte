@@ -48,13 +48,15 @@
 	};
 	let popupModal = false;
 	let product = {
+		farmer_id: '',
+		category_id: '',
 		name: '',
 		description: '',
-		retail_price: '',
-		currency: '',
-		product_quantity: '',
 		image: '',
-		farmer_id: ''
+		retail_price: '',
+		wholesale_price: '',
+		wholesale_unit_quantity: '',
+		total_product_quantity: ''
 	};
 	onMount(() => {
 		$utils.silentLogin().then(() => {

@@ -14,27 +14,11 @@
 	import ProductCard from '../components/ProductCard.svelte';
 	import mainStore from '../lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
-	import { PUBLIC_API_URL } from '$env/static/public';
-	import { PUBLIC_CLIENT_ID } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
 	let formModal = false;
 
 	let loginModal = false;
-	const images = [
-		{
-			id: 0,
-			name: 'Cosmic timetraveler',
-			imgurl: 'bg.webp',
-			attribution: 'cosmic-timetraveler-pYyOZ8q7AII-unsplash.com'
-		},
-		{
-			id: 1,
-			name: 'Cosmic timetraveler',
-			imgurl: 'https://picsum.photos/2000/800',
-			attribution: 'cosmic-timetraveler-pYyOZ8q7AII-unsplash.com'
-		}
-	];
 	const nutritions = [
 		{
 			id: 0,
@@ -79,42 +63,22 @@
 			}
 		});
 	};
-	function oauthSignIn() {
-		// Google's OAuth 2.0 endpoint for requesting an access token
-		var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-
-		// Create <form> element to submit parameters to OAuth 2.0 endpoint.
-		var form = document.createElement('form');
-		form.setAttribute('method', 'GET'); // Send as a GET request.
-		form.setAttribute('action', oauth2Endpoint);
-
-		// Parameters to pass to OAuth 2.0 endpoint.
-		var params = {
-			client_id: PUBLIC_CLIENT_ID,
-			redirect_uri: window.location.href + 'login',
-			response_type: 'token',
-			scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
-			include_granted_scopes: 'true',
-			state: 'pass-through value'
+	const login = async () => {
+		error = '';
+		let user = {
+			username: username,
+			password: password
 		};
-		// Add form parameters as hidden input values.
-		for (var p in params) {
-			var input = document.createElement('input');
-			input.setAttribute('type', 'hidden');
-			input.setAttribute('name', p);
-			input.setAttribute('value', params[p]);
-			form.appendChild(input);
-		}
-
-		// Add form to page and submit it to open the OAuth 2.0 endpoint.
-		document.body.appendChild(form);
-		form.submit();
-		//get the token from the url
-		const url = window.location.href;
-		const hash = url.split('#')[1];
-		const token = hash.split('&')[0].split('=')[1];
-		console.log(token);
-	}
+		$utils.login(user).then((res) => {
+			if (res) {
+				goto('/my-profile');
+				console.log(res);
+			} else {
+				error = 'username or password is incorrect';
+				console.log(error);
+			}
+		});
+	};
 </script>
 
 <div class="relative">
@@ -234,21 +198,6 @@
 					class="text-blue-700 hover:underline dark:text-blue-500">Sign In</a
 				>
 			</div>
-			<div
-				class="text-sm font-medium text-red-500 dark:text-red-300"
-				id="g_id_onload"
-				data-client_id={PUBLIC_CLIENT_ID}
-				data-login_uri="/"
-				data-your_own_param_1_to_login="any_value"
-				data-your_own_param_2_to_login="any_value"
-			>
-				<button
-					on:click={oauthSignIn}
-					class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-				>
-					Sign in with Google
-				</button>
-			</div>
 			<div class="text-sm font-medium text-red-500 dark:text-red-300">
 				{error}
 			</div>
@@ -287,20 +236,6 @@
 	</Modal>
 {/if}
 
-<!-- <Card padding="none" class="w-80 text-center shadow-xl">
-	<div class="flex flex-col items-center p-4">
-		<Avatar size="xl" src="avatar.webp" />
-		<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-		<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
-		<Rating rating="4" size="18" class="m-2.5">
-			<Badge slot="text" class="ml-3">4</Badge>
-		</Rating>
-		<div class="flex space-x-3">
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-		</div>
-	</div>
-</Card> -->
-
 <Footer>
 	<FooterCopyright href="/" by="Carigro™" year={2023} />
 	<FooterLinkGroup
@@ -313,36 +248,4 @@
 	</FooterLinkGroup>
 </Footer>
 
-<svelte:head>
-	<script src="https://apis.google.com/js/api.js"></script>
-	<!-- <script>
-		function start() {
-			// Initializes the client with the API key and the Translate API.
-			gapi.client
-				.init({
-					apiKey: 'YOUR_API_KEY',
-					discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest']
-				})
-				.then(function () {
-					// Executes an API request, and returns a Promise.
-					// The method name `language.translations.list` comes from the API discovery.
-					return gapi.client.language.translations.list({
-						q: 'hello world',
-						source: 'en',
-						target: 'de'
-					});
-				})
-				.then(
-					function (response) {
-						console.log(response.result.data.translations[0].translatedText);
-					},
-					function (reason) {
-						console.log('Error: ' + reason.result.error.message);
-					}
-				);
-		}
-
-		// Loads the JavaScript client library and invokes `start` afterwards.
-		gapi.load('client', start);
-	</script> -->
-</svelte:head>
+<svelte:head />

@@ -7,30 +7,38 @@
 	import utils from '$lib/stores/utils';
 	let avatar, fileinput;
 	let product = {
+		farmer_id: '',
+		category_id: '',
 		name: '',
 		description: '',
-		retail_price: '',
-		currency: '',
-		product_quantity: '',
 		image: '',
-		farmer_id: ''
+		retail_price: '',
+		wholesale_price: '',
+		wholesale_unit_quantity: '',
+		total_product_quantity: ''
 	};
-	const currency = [
+	const units = [
 		{
-			value: 'USD',
-			name: 'USD'
+			value: '1',
+			name: 'Kg'
 		},
 		{
-			value: 'EUR',
-			name: 'EUR'
+			value: '2',
+			name: 'g'
 		},
 		{
-			value: 'GBP',
-			name: 'GBP'
+			value: '3',
+			name: 'lb'
+		}
+	];
+	const categories = [
+		{
+			value: '1',
+			name: 'Fruits'
 		},
 		{
-			value: 'TTD',
-			name: 'TTD'
+			value: '2',
+			name: 'Vegetables'
 		}
 	];
 	const onFileSelected = (e) => {
@@ -131,10 +139,10 @@
 		<div class="flex gap-2">
 			<div>
 				<Select
-					bind:value={product.currency}
+					bind:value={product.category_id}
 					id="select-disabled"
-					items={currency}
-					placeholder="Currency"
+					items={categories}
+					placeholder="Category"
 				/>
 			</div>
 			<div>
@@ -147,9 +155,30 @@
 				/>
 			</div>
 		</div>
+		<div class="flex gap-2">
+			<div>
+				<Select
+					bind:value={product.wholesale_unit_quantity}
+					type="number"
+					id="wholesale_unit_quantity"
+					items={units}
+					placeholder="Unit"
+					required
+				/>
+			</div>
+			<div>
+				<Input
+					bind:value={product.wholesale_price}
+					type="number"
+					id="wholesale_price"
+					placeholder="Wholesale Price"
+					required
+				/>
+			</div>
+		</div>
 		<div>
 			<Input
-				bind:value={product.product_quantity}
+				bind:value={product.total_product_quantity}
 				type="number"
 				id="quantity"
 				placeholder="Quantity"
