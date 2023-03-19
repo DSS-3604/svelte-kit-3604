@@ -9,23 +9,79 @@
 		SidebarItem,
 		SidebarWrapper,
 		Modal,
-		Avatar
+		Avatar,
+		Select
 	} from 'flowbite-svelte';
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { onMount } from 'svelte/internal';
 	import { goto } from '$app/navigation';
 	let formModal = false;
-	let spanClass = '';
+	let toChange = {
+		value: '',
+		placeholder: '',
+		label: '',
+		type: 'text',
+		item: ''
+	};
+	const save = () => {
+		$utils.updateUserInfo($mainStore.user.info).then((res) => {
+			console.log(res);
+		});
+	};
+	const setToChange = (value: string, label: string) => {
+		//@ts-ignore
+		toChange.value = $mainStore.user.info[value];
+		toChange.item = value;
+		toChange.label = label;
+		toChange.placeholder = label;
+		toChange.type = 'text';
+		formModal = true;
+	};
+	const setChange = (item: string) => {
+		//@ts-ignore
+		$mainStore.user.info[item] = toChange.value;
+		formModal = false;
+	};
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
-				console.log('fetch stuff here');
+				$utils.fetchUserInfo().then((res) => {
+					console.log(res);
+				});
 			} else {
 				goto('/');
 			}
 		});
 	});
+	const units = [
+		{
+			value: 'kg',
+			name: 'kg'
+		},
+		{
+			value: 'g',
+			name: 'g'
+		},
+		{
+			value: 'lb',
+			name: 'lb'
+		}
+	];
+	const currency = [
+		{
+			value: 'USD',
+			name: 'USD'
+		},
+		{
+			value: 'EUR',
+			name: 'EUR'
+		},
+		{
+			value: 'GBP',
+			name: 'GBP'
+		}
+	];
 </script>
 
 <div class="flex justify-center min-h-full">
@@ -184,14 +240,13 @@
 		<div class="w-full lg:w-5/6 lg:mr-4">
 			<div class="flex justify-center">
 				<div class="settings-container">
-					<h1 class="page-title">Account</h1>
+					<h1 class="dark:text-white text-2xl">Account</h1>
 					<div class="settings-section">
-						<h2 class="settings-title">Profile</h2>
+						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">Profile</h2>
 						<div class="flex justify-between">
 							<Avatar src={$mainStore.user.info.avatar} size="lg" />
 							<div class="flex justify-center">
 								<button
-									on:click={() => (formModal = true)}
 									class="text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
 									>Change Profile Picture</button
 								>
@@ -199,62 +254,114 @@
 						</div>
 					</div>
 					<div class="settings-section">
-						<h2 class="settings-title">General Information</h2>
+						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">General Information</h2>
 						<div class="non-active-form">
-							<p>Name: {$mainStore.user.info.username}</p>
-							<svg
-								class="h-8 w-8 text-green-500"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-								fill="none"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
-								<path stroke="none" d="M0 0h24v24H0z" />
-								<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-								<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-								<line x1="16" y1="5" x2="19" y2="8" /></svg
-							>
+							<p class="dark:text-gray-400">Username: {$mainStore.user.info.username}</p>
+							<!-- <button on:click={() => setToChange('username', 'Username')}>
+								<svg
+									class="h-8 w-8 text-green-500"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" />
+									<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+									<line x1="16" y1="5" x2="19" y2="8" /></svg
+								>
+							</button> -->
 						</div>
 						<div class="non-active-form">
-							<p>Number: {$mainStore.user.info.phone}</p>
-							<svg
-								class="h-8 w-8 text-green-500"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-								fill="none"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
-								<path stroke="none" d="M0 0h24v24H0z" />
-								<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-								<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-								<line x1="16" y1="5" x2="19" y2="8" /></svg
-							>
+							<p class="dark:text-gray-400">Email: {$mainStore.user.info.email}</p>
+							<!-- <button on:click={() => setToChange('email', 'email')}>
+								<svg
+									class="h-8 w-8 text-green-500"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" />
+									<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+									<line x1="16" y1="5" x2="19" y2="8" /></svg
+								>
+							</button> -->
 						</div>
 						<div class="non-active-form">
-							<p>Email: {$mainStore.user.info.email}</p>
-							<svg
-								class="h-8 w-8 text-green-500"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-								fill="none"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
-								<path stroke="none" d="M0 0h24v24H0z" />
-								<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-								<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-								<line x1="16" y1="5" x2="19" y2="8" /></svg
-							>
+							<p class="dark:text-gray-400">Phone: {$mainStore.user.info.phone}</p>
+							<button on:click={() => setToChange('phone', 'Phone')}>
+								<svg
+									class="h-8 w-8 text-green-500"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" />
+									<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+									<line x1="16" y1="5" x2="19" y2="8" /></svg
+								>
+							</button>
+						</div>
+						<div class="non-active-form">
+							<p class="dark:text-gray-400">Bio: {$mainStore.user.info.bio}</p>
+							<button on:click={() => setToChange('bio', 'Bio')}>
+								<svg
+									class="h-8 w-8 text-green-500"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" />
+									<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+									<line x1="16" y1="5" x2="19" y2="8" /></svg
+								>
+							</button>
+						</div>
+						<div class="non-active-form">
+							<p class="dark:text-gray-400">Address: {$mainStore.user.info.address}</p>
+							<button on:click={() => setToChange('address', 'Address')}>
+								<svg
+									class="h-8 w-8 text-green-500"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" />
+									<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+									<line x1="16" y1="5" x2="19" y2="8" /></svg
+								>
+							</button>
+						</div>
+						<div class="text-center dark:text-gray-400 non-active-form">
+							<div>
+								Currency <Select bind:value={$mainStore.user.info.currency} items={currency} />
+							</div>
+							<div>
+								Units <Select bind:value={$mainStore.user.info.units} items={units} />
+							</div>
 						</div>
 					</div>
 
 					<div class="settings-section">
-						<h2 class="settings-title">Security</h2>
+						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">Security</h2>
 						<form class="flex flex-col" action="#">
 							<div class="mb-6">
 								<Label for="default-input" class="block mb-2">Old Password:</Label>
@@ -264,7 +371,7 @@
 								<Label for="default-input" class="block mb-2">New Password:</Label>
 								<Input id="default-input" placeholder="Default input" />
 							</div>
-							<Button type="submit" class="w-full1">Submit</Button>
+							<Button on:click={save} class="w-full">Save</Button>
 						</form>
 					</div>
 				</div>
@@ -275,13 +382,17 @@
 
 <Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
 	<form class="flex flex-col space-y-6" action="#">
-		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Change Profile Picture</h3>
+		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">{toChange.label}</h3>
 		<Label class="space-y-2">
-			<span>Current Profile Picture</span>
-			<Card />
+			<Input
+				bind:value={toChange.value}
+				class="w-full"
+				placeholder={toChange.placeholder}
+				type={toChange.type}
+			/>
 		</Label>
 
-		<Button type="submit" class="w-full1">Submit</Button>
+		<Button on:click={() => setChange(toChange.item)} class="w-full1">Submit</Button>
 	</form>
 </Modal>
 

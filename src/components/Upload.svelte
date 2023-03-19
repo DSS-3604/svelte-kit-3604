@@ -31,20 +31,15 @@
 			name: 'lb'
 		}
 	];
-	const categories = [
-		{
-			value: '1',
-			name: 'Fruits'
-		},
-		{
-			value: '2',
-			name: 'Vegetables'
-		}
-	];
 	const onFileSelected = (e) => {
 		let image = e.target.files[0];
 		uploadImage(image);
 	};
+	onMount(() => {
+		$utils.fetchProductCategories().then((res) => {
+			console.log(res);
+		});
+	});
 	//submit image to imgbb
 	const uploadImage = async (image) => {
 		const formData = new FormData();
@@ -141,7 +136,7 @@
 				<Select
 					bind:value={product.category_id}
 					id="select-disabled"
-					items={categories}
+					items={$mainStore.product_categories}
 					placeholder="Category"
 				/>
 			</div>

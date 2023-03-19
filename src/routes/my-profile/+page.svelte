@@ -20,6 +20,11 @@
 		wholesale_price: string;
 		wholesale_unit_quantity: string;
 		total_product_quantity: string;
+		farmer_name: string;
+		comments: any[];
+		timestamp: string;
+		category_name: string;
+		id: string;
 	};
 
 	let about_btn_color = btnDefault;
@@ -60,6 +65,7 @@
 	};
 	let popupModal = false;
 	let product: Product = {
+		id: '',
 		farmer_id: '',
 		category_id: '',
 		name: '',
@@ -68,12 +74,17 @@
 		retail_price: '',
 		wholesale_price: '',
 		wholesale_unit_quantity: '',
-		total_product_quantity: ''
+		total_product_quantity: '',
+		farmer_name: '',
+		comments: [],
+		timestamp: '',
+		category_name: ''
 	};
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
 				if ($mainStore.access_level === 'farmer') {
+					$utils.fetchUserInfo();
 					$utils.fetchUserProducts();
 				}
 			} else {
@@ -87,7 +98,7 @@
 
 <div class="flex justify-center items-center text-center">
 	<Modal bind:open={popupModal} size="xl" autoclose>
-		<Upload {product} />
+		<Upload />
 	</Modal>
 </div>
 <div class="m-5">
@@ -163,6 +174,7 @@
 							{:else}
 								<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
 									<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+									<p>{item.timestamp}</p>
 									<div class="px-5">
 										<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 											{item.name}

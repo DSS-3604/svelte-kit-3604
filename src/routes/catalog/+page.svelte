@@ -1,4 +1,5 @@
 <script lang="ts">
+	import avatar from '$lib/images/avatar.webp';
 	import { onMount } from 'svelte/internal';
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
@@ -14,16 +15,6 @@
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
-	let products = [];
-	let rate = false;
-	let itemToRate = {
-		id: 0,
-		name: '',
-		image: '',
-		farmer_id: 0,
-		rating: 0,
-		reviews: []
-	};
 	onMount(() => {
 		$utils.fetchProducts();
 		$utils.silentLogin().then(() => {
@@ -84,7 +75,7 @@
 			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
 				<div class="absolute right-3">
 					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
-						<img class="w-8 h-8 rounded-full cursor-pointer" src="avatar.webp" alt="farmer" />
+						<img class="w-8 h-8 rounded-full cursor-pointer" src={avatar} alt="farmer" />
 					</button>
 				</div>
 				<div class="absolute left-3">

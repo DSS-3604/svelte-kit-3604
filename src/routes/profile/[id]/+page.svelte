@@ -230,40 +230,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="flex flex-col gap-3">
-						<div class="rounded-lg border p-5">
-							<RatingComment {comment} helpfullink="/" abuselink="/">
-								<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
-									This is my third Invicta Pro Diver. They are just fantastic value for money. This
-									one arrived yesterday and the first thing I did was set the time, popped on an
-									identical strap from another Invicta and went in the shower with it to test the
-									waterproofing.... No problems.
-								</p>
-								<a
-									href="/"
-									class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-									>Read more</a
-								>
-								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
-							</RatingComment>
-						</div>
-						<div class="rounded-lg border p-5">
-							<RatingComment {comment} helpfullink="/" abuselink="/">
-								<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
-									This is my third Invicta Pro Diver. They are just fantastic value for money. This
-									one arrived yesterday and the first thing I did was set the time, popped on an
-									identical strap from another Invicta and went in the shower with it to test the
-									waterproofing.... No problems.
-								</p>
-								<a
-									href="/"
-									class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-									>Read more</a
-								>
-								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
-							</RatingComment>
-						</div>
-					</div> -->
 				{:else if activeButton === 'about'}
 					<div class=" rounded-lg p-5 border">
 						<p class="font-semibold dark:text-white">Bio</p>

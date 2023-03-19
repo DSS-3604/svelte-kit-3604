@@ -20,6 +20,43 @@ export default class Service {
 			return res;
 		});
 	}
+	async updateUserInfo(user: any) {
+		if (user.username === this.store.user.info.username) {
+			delete user.username;
+		}
+		if (user.email === this.store.user.info.email) {
+			delete user.email;
+		}
+		return this.put(`api/users/${this.store.user.info.id}`, user).then((res) => {
+			console.log(res);
+		});
+	}
+
+	async fetchUserInfo() {
+		return this.fetch(`api/users/${this.store.user.info.id}`).then((res) => {
+			mainStore.update((store) => {
+				store.user.info = res;
+				console.log(res);
+				return store;
+			});
+			return res;
+		});
+	}
+
+	async fetchProductCategories() {
+		return this.fetch(`product_categories`).then((res) => {
+			mainStore.update((store) => {
+				store.product_categories = res.map((category: any) => {
+					return {
+						name: category.name,
+						value: category.id
+					};
+				});
+				return store;
+			});
+			return res;
+		});
+	}
 
 	async fetchProduct(id: string) {
 		return this.fetch(`products/${id}`).then((res) => {

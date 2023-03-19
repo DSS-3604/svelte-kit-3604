@@ -6,14 +6,20 @@
 	import { Textarea, Label, Input, Select, Button, Avatar } from 'flowbite-svelte';
 	let fileinput;
 	export let item = {
+		id: '',
+		farmer_id: '',
+		category_id: '',
 		name: '',
 		description: '',
-		retail_price: '',
-		currency: '',
-		product_quantity: '',
 		image: '',
-		id: '',
-		farmer_id: ''
+		retail_price: '',
+		wholesale_price: '',
+		wholesale_unit_quantity: '',
+		total_product_quantity: '',
+		farmer_name: '',
+		comments: [],
+		timestamp: '',
+		category_name: ''
 	};
 	let product = JSON.parse(JSON.stringify(item));
 	const currency = [

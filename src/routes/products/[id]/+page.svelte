@@ -18,7 +18,11 @@
 		retail_price: '',
 		wholesale_price: '',
 		wholesale_unit_quantity: '',
-		total_product_quantity: ''
+		total_product_quantity: '',
+		farmer_name: '',
+		comments: [],
+		timestamp: '',
+		category_name: ''
 	};
 
 	let btnDefault = 'bg-gray-200';
@@ -37,22 +41,6 @@
 			about_btn_color = btnDefault;
 			comments_btn_color = btnActive;
 		}
-	};
-	let comment = {
-		id: '1',
-		user: {
-			name: 'John Doe',
-			img: {
-				src: 'avatar.webp',
-				alt: 'avatar'
-			},
-			joined: 'Joined 2 years ago'
-		},
-		rating: 4,
-		total: 5,
-		heading: 'Great Product',
-		address: 'New York, USA',
-		datetime: '2 days ago'
 	};
 	let query = false;
 
@@ -79,6 +67,7 @@
 		</div>
 
 		<div class="flex flex-col items-center">
+			<p class="text-2xl font-bold dark:text-white">by {product.farmer_name}</p>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				<Button on:click={() => (query = true)}>Query</Button>
 				<Button on:click={() => 'hi'} color="light" class="dark:text-white">Contact</Button>

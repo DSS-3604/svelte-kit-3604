@@ -11,7 +11,8 @@ const mainStore = writable({
 			phone: '',
 			units: '',
 			address: '',
-			access: ''
+			access: '',
+			bio: ''
 		},
 		products: [
 			{
@@ -24,7 +25,11 @@ const mainStore = writable({
 				retail_price: '',
 				wholesale_price: '',
 				wholesale_unit_quantity: '',
-				total_product_quantity: ''
+				total_product_quantity: '',
+				farmer_name: '',
+				comments: [],
+				timestamp: '',
+				category_name: ''
 			}
 		]
 	},
@@ -39,7 +44,17 @@ const mainStore = writable({
 			retail_price: '',
 			wholesale_price: '',
 			wholesale_unit_quantity: '',
-			total_product_quantity: ''
+			total_product_quantity: '',
+			farmer_name: '',
+			comments: [],
+			timestamp: '',
+			category_name: ''
+		}
+	],
+	product_categories: [
+		{
+			value: '',
+			name: ''
 		}
 	],
 	access_token: '',
@@ -68,7 +83,11 @@ const mainStore = writable({
 				retail_price: '',
 				wholesale_price: '',
 				wholesale_unit_quantity: '',
-				total_product_quantity: ''
+				total_product_quantity: '',
+				farmer_name: '',
+				comments: [],
+				timestamp: '',
+				category_name: ''
 			}
 		]
 	}
