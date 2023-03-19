@@ -27,9 +27,7 @@ export default class Service {
 		if (user.email === this.store.user.info.email) {
 			delete user.email;
 		}
-		return this.put(`api/users/${this.store.user.info.id}`, user).then((res) => {
-			console.log(res);
-		});
+		return this.put(`api/users/${this.store.user.info.id}`, user);
 	}
 
 	async fetchUserInfo() {

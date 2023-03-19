@@ -1,4 +1,5 @@
 <script lang="ts">
+	import avatar from '$lib/images/avatar.webp';
 	import {
 		Card,
 		Button,
@@ -16,7 +17,9 @@
 	import utils from '$lib/stores/utils';
 	import { onMount } from 'svelte/internal';
 	import { goto } from '$app/navigation';
+	import ImageUpload from '../../components/ImageUpload.svelte';
 	let formModal = false;
+	let avatarModal = false;
 	let toChange = {
 		value: '',
 		placeholder: '',
@@ -24,11 +27,11 @@
 		type: 'text',
 		item: ''
 	};
-	const save = () => {
-		$utils.updateUserInfo($mainStore.user.info).then((res) => {
-			console.log(res);
-		});
-	};
+	// const save = () => {
+	// 	// $utils.updateUserInfo($mainStore.user.info).then((res) => {
+	// 	// 	console.log(res);
+	// 	// });
+	// };
 	const setToChange = (value: string, label: string) => {
 		//@ts-ignore
 		toChange.value = $mainStore.user.info[value];
@@ -40,9 +43,28 @@
 	};
 	const setChange = (item: string) => {
 		//@ts-ignore
-		$mainStore.user.info[item] = toChange.value;
-		formModal = false;
+		let newInfo = {
+			[item]: toChange.value,
+			id: $mainStore.user.info.id
+		};
+		if (item === 'currency' || item === 'units') {
+			//@ts-ignore
+			newInfo[item] = $mainStore.user.info[item];
+		}
+		$utils.updateUserInfo(newInfo).then((res: any) => {
+			console.log(res);
+			if (res.message) {
+				if (res.message.includes('not found') || res.message.includes('already exist')) {
+					error = res.message;
+				} else {
+					//@ts-ignore
+					$mainStore.user.info[item] = newInfo[item];
+					formModal = false;
+				}
+			}
+		});
 	};
+	let error = '';
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
@@ -82,13 +104,44 @@
 			name: 'GBP'
 		}
 	];
+	const password = {
+		new: '',
+		confirm: '',
+		old: ''
+	};
+	let password_error = '';
+	const changePassword = () => {
+		password_error = '';
+		if (password.new === password.confirm) {
+			let newInfo = {
+				old_password: password.old,
+				password: password.new,
+				id: $mainStore.user.info.id
+			};
+			$utils.updateUserInfo(newInfo).then((res) => {
+				console.log(res);
+				if (res.message) {
+					if (!res.message.includes('updated')) {
+						password_error = res.message;
+					} else {
+						formModal = false;
+					}
+				}
+			});
+		}
+	};
 </script>
 
 <div class="flex justify-center min-h-full">
 	<div class="flex md:grid-cols-2 justify-center w-full items-center">
 		<div class="hidden lg:block lg:w-1/6">
 			<Sidebar let>
-				<Avatar src="avatar.webp" size="xl" class="mx-auto" alt="Avatar" />
+				<Avatar
+					src={$mainStore.user.info.avatar ? $mainStore.user.info.avatar : avatar}
+					size="xl"
+					class="mx-auto"
+					alt="Avatar"
+				/>
 				<SidebarWrapper class="ml-4">
 					<SidebarGroup>
 						<SidebarItem label="General">
@@ -247,6 +300,7 @@
 							<Avatar src={$mainStore.user.info.avatar} size="lg" />
 							<div class="flex justify-center">
 								<button
+									on:click={() => (avatarModal = true)}
 									class="text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
 									>Change Profile Picture</button
 								>
@@ -257,7 +311,7 @@
 						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">General Information</h2>
 						<div class="non-active-form">
 							<p class="dark:text-gray-400">Username: {$mainStore.user.info.username}</p>
-							<!-- <button on:click={() => setToChange('username', 'Username')}>
+							<button on:click={() => setToChange('username', 'Username')}>
 								<svg
 									class="h-8 w-8 text-green-500"
 									viewBox="0 0 24 24"
@@ -272,11 +326,11 @@
 									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
 									<line x1="16" y1="5" x2="19" y2="8" /></svg
 								>
-							</button> -->
+							</button>
 						</div>
 						<div class="non-active-form">
 							<p class="dark:text-gray-400">Email: {$mainStore.user.info.email}</p>
-							<!-- <button on:click={() => setToChange('email', 'email')}>
+							<button on:click={() => setToChange('email', 'email')}>
 								<svg
 									class="h-8 w-8 text-green-500"
 									viewBox="0 0 24 24"
@@ -291,7 +345,7 @@
 									<path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
 									<line x1="16" y1="5" x2="19" y2="8" /></svg
 								>
-							</button> -->
+							</button>
 						</div>
 						<div class="non-active-form">
 							<p class="dark:text-gray-400">Phone: {$mainStore.user.info.phone}</p>
@@ -352,10 +406,18 @@
 						</div>
 						<div class="text-center dark:text-gray-400 non-active-form">
 							<div>
-								Currency <Select bind:value={$mainStore.user.info.currency} items={currency} />
+								Currency <Select
+									bind:value={$mainStore.user.info.currency}
+									on:change={() => setChange('currency')}
+									items={currency}
+								/>
 							</div>
 							<div>
-								Units <Select bind:value={$mainStore.user.info.units} items={units} />
+								Units <Select
+									bind:value={$mainStore.user.info.units}
+									on:change={() => setChange('units')}
+									items={units}
+								/>
 							</div>
 						</div>
 					</div>
@@ -364,14 +426,37 @@
 						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">Security</h2>
 						<form class="flex flex-col" action="#">
 							<div class="mb-6">
-								<Label for="default-input" class="block mb-2">Old Password:</Label>
-								<Input id="default-input" placeholder="Default input" />
+								<Label for="old-password" class="block mb-2">Old Password:</Label>
+								<Input
+									id="old-password"
+									bind:value={password.old}
+									placeholder="Old password"
+									type="password"
+								/>
 							</div>
 							<div class="mb-6">
-								<Label for="default-input" class="block mb-2">New Password:</Label>
-								<Input id="default-input" placeholder="Default input" />
+								<Label for="new-password" class="block mb-2">New Password:</Label>
+								<Input
+									id="new-password"
+									bind:value={password.new}
+									placeholder="New password"
+									type="password"
+								/>
 							</div>
-							<Button on:click={save} class="w-full">Save</Button>
+							<div class="mb-6">
+								<Label for="repeat-password" class="block mb-2">Repeat Password:</Label>
+								<Input
+									id="repeat-password"
+									bind:value={password.confirm}
+									placeholder="Repeat password"
+									type="password"
+								/>
+							</div>
+							{#if password.new !== password.confirm}
+								<p class="text-red-500 text-sm">Passwords do not match</p>
+							{/if}
+							<p class="text-red-500 text-sm">{password_error}</p>
+							<Button on:click={changePassword} class="w-full">Save Password</Button>
 						</form>
 					</div>
 				</div>
@@ -391,9 +476,13 @@
 				type={toChange.type}
 			/>
 		</Label>
-
-		<Button on:click={() => setChange(toChange.item)} class="w-full1">Submit</Button>
+		<p class="text-red-500 text-sm">{error}</p>
+		<Button on:click={() => setChange(toChange.item)} class="w-full">Submit</Button>
 	</form>
+</Modal>
+
+<Modal bind:open={avatarModal} size="xs" class="w-full">
+	<ImageUpload />
 </Modal>
 
 <style>
