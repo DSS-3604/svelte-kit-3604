@@ -2,6 +2,7 @@
 	import utils from '$lib/stores/utils';
 	import { goto } from '$app/navigation';
 	import mainStore from '$lib/stores/mainStore';
+	import { onMount } from 'svelte';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { Textarea, Label, Input, Select, Button, Avatar } from 'flowbite-svelte';
 	let fileinput;
@@ -61,6 +62,25 @@
 			console.log(res);
 		});
 	};
+	const units = [
+		{
+			value: '1',
+			name: 'Kg'
+		},
+		{
+			value: '2',
+			name: 'g'
+		},
+		{
+			value: '3',
+			name: 'lb'
+		}
+	];
+	onMount(() => {
+		$utils.fetchProductCategories().then((res) => {
+			console.log(res);
+		});
+	});
 </script>
 
 <div class="bg-gray-white w-full dark:bg-gray-800 p-3 rounded-xl">
@@ -159,10 +179,10 @@
 		<div class="flex gap-2">
 			<div>
 				<Select
-					bind:value={product.currency}
+					bind:value={product.category_id}
 					id="select-disabled"
-					items={currency}
-					placeholder="Currency"
+					items={$mainStore.product_categories}
+					placeholder="Category"
 				/>
 			</div>
 			<div>
@@ -175,9 +195,29 @@
 				/>
 			</div>
 		</div>
+		<div class="flex gap-2">
+			<div>
+				<Select
+					bind:value={product.wholesale_unit_quantity}
+					id="wholesale_unit_quantity"
+					items={units}
+					placeholder="Unit"
+					required
+				/>
+			</div>
+			<div>
+				<Input
+					bind:value={product.wholesale_price}
+					type="number"
+					id="wholesale_price"
+					placeholder="Wholesale Price"
+					required
+				/>
+			</div>
+		</div>
 		<div>
 			<Input
-				bind:value={product.product_quantity}
+				bind:value={product.total_product_quantity}
 				type="number"
 				id="quantity"
 				placeholder="Quantity"

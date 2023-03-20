@@ -10,6 +10,7 @@
 		Input,
 		ButtonGroup,
 		Chevron,
+		Select,
 		Dropdown,
 		DropdownItem
 	} from 'flowbite-svelte';
@@ -20,7 +21,28 @@
 		$utils.silentLogin().then(() => {
 			$utils.fetchProducts();
 		});
+		$utils.fetchProductCategories().then((res) => {
+			console.log(res);
+			$mainStore.product_categories = [
+				{
+					name: 'All categories',
+					value: 'all'
+				},
+				...$mainStore.product_categories
+			];
+		});
 	});
+	let current_filter = 'all';
+	let filter = () => {
+		console.log(current_filter);
+		if (current_filter == 'all') {
+			$utils.fetchProducts();
+			return;
+		}
+		$utils.filterProducts(current_filter).then((res) => {
+			console.log(res);
+		});
+	};
 </script>
 
 <div class="m-5">
@@ -32,16 +54,16 @@
 	<div>
 		<div>
 			<ButtonGroup class="w-full">
-				<Button
-					color="none"
-					class="flex-shrink-0 text-gray-900 bg-gray-100 border border-gray-300 dark:border-gray-700 dark:text-white hover:bg-gray-200 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-				>
-					<Chevron>All categories</Chevron>
-				</Button>
-				<Dropdown>
-					<DropdownItem>Vegetables</DropdownItem>
-					<DropdownItem>Fruits</DropdownItem>
-				</Dropdown>
+				<div class="w-64">
+					<Select
+						class="rounded-none rounded-l-lg text-gray-900"
+						id="wholesale_unit_quantity"
+						placeholder="All Category"
+						items={$mainStore.product_categories}
+						bind:value={current_filter}
+						on:change={filter}
+					/>
+				</div>
 				<Input placeholder="Search" />
 				<Button color="blue" class="!p-2.5" type="submit">
 					<svg

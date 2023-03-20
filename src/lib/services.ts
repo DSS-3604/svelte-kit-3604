@@ -40,6 +40,15 @@ export default class Service {
 			return res;
 		});
 	}
+	async filterProducts(filter: any) {
+		return this.fetch(`products/category/${filter}`).then((res) => {
+			mainStore.update((store) => {
+				store.catalog = res;
+				return store;
+			});
+			return res;
+		});
+	}
 
 	async fetchProductCategories() {
 		return this.fetch(`product_categories`).then((res) => {

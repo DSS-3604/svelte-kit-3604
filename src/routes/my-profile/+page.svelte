@@ -120,7 +120,7 @@
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button>Edit Profile</Button>
+				<Button on:click={() => goto('/settings')}>Edit Profile</Button>
 				{#if $mainStore.access_level === 'farmer'}
 					<Button on:click={() => (popupModal = true)} color="light" class="dark:text-white"
 						>New Post</Button
@@ -190,6 +190,9 @@
 									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 										{item.name}
 									</h5>
+									<p class="text-xl  tracking-tight text-gray-900 dark:text-white">
+										Category: {item.category_name}
+									</p>
 								</div>
 								<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
 								<div class="flex justify-between gap-10 p-1">
