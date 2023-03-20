@@ -71,6 +71,24 @@ export default class Service {
 			});
 		});
 	}
+	async getFarmerReviews(id: string) {
+		return this.fetch(`farmer/${id}/review`).then((res) => {
+			// mainStore.update((store) => {
+			// 	store.farmer.reviews = res;
+			// 	return store;
+			// });
+			return res;
+		});
+	}
+	async getUserReviews(id: string) {
+		return this.fetch(`farmer/review/user/${id}`).then((res) => {
+			mainStore.update((store) => {
+				store.user.reviews = res;
+				return store;
+			});
+			return res;
+		});
+	}
 
 	async getFarmer(id: string) {
 		return this.fetch(`api/users/${id}`).then((res) => {
@@ -78,6 +96,7 @@ export default class Service {
 				store.farmer.info = res;
 				return store;
 			});
+			return res;
 		});
 	}
 	async reviewProduct(review: any) {
@@ -88,7 +107,9 @@ export default class Service {
 		});
 	}
 	async reviewFarmer(review: any) {
-		return this.post(`user/review`, review);
+		return this.post(`farmer/${review.farmer_id}/review`, review).then((res) => {
+			return res;
+		});
 	}
 
 	async fetchProducts() {

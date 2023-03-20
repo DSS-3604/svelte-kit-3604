@@ -14,6 +14,7 @@ const mainStore = writable({
 			access: '',
 			bio: ''
 		},
+		reviews: [],
 		products: [
 			{
 				id: '',
@@ -70,8 +71,10 @@ const mainStore = writable({
 			phone: '',
 			units: '',
 			address: '',
-			access: ''
+			access: '',
+			bio: ''
 		},
+		reviews: [],
 		products: [
 			{
 				id: '',

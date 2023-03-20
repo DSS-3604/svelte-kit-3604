@@ -83,15 +83,25 @@
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
+				$utils.fetchUserInfo();
 				if ($mainStore.access_level === 'farmer') {
-					$utils.fetchUserInfo();
 					$utils.fetchUserProducts();
+					$utils.getFarmerReviews($mainStore.user.info.id).then((res) => {
+						$mainStore.user.reviews = res;
+						console.log(res);
+					});
+				}
+				if ($mainStore.access_level === 'user') {
+					$utils.getUserReviews($mainStore.user.info.id).then((res) => {
+						$mainStore.user.reviews = res;
+						console.log(res);
+					});
 				}
 			} else {
 				goto('/');
 			}
 		});
-		setActive('review');
+		setActive('about');
 	});
 	let edit = false;
 </script>
@@ -142,7 +152,9 @@
 					</div>
 				{/if}
 				<div class="flex flex-col items-center">
-					<p class="text-xl font-semibold text-gray-900 dark:text-white">12</p>
+					<p class="text-xl font-semibold text-gray-900 dark:text-white">
+						{$mainStore.user.reviews.length}
+					</p>
 					<p class="text-sm text-gray-500 dark:text-gray-400">Reviews</p>
 				</div>
 			</div>
@@ -161,88 +173,77 @@
 					</button>
 				</div>
 			</div>
-			<div class="mt-5">
-				{#if activeButton === 'post'}
-					<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-						{#each $mainStore.user.products as item}
-							{#if edit}
-								<div class="flex justify-center items-center text-center">
-									<Modal bind:open={edit} size="xl" autoclose>
-										<UpdateProduct {item} />
-									</Modal>
+			{#if activeButton === 'post'}
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+					{#each $mainStore.user.products as item}
+						{#if edit}
+							<div class="flex justify-center items-center text-center">
+								<Modal bind:open={edit} size="xl" autoclose>
+									<UpdateProduct {item} />
+								</Modal>
+							</div>
+						{:else}
+							<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+								<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+								<p>{item.timestamp}</p>
+								<div class="px-5">
+									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+										{item.name}
+									</h5>
 								</div>
-							{:else}
-								<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
-									<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-									<p>{item.timestamp}</p>
-									<div class="px-5">
-										<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-											{item.name}
-										</h5>
-									</div>
-									<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
-									<div class="flex justify-between gap-10 p-1">
-										<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
-										<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
-									</div>
-									<div class="flex justify-between gap-10 p-1">
-										<p class="text-lg dark:text-gray-300">
-											Quantity: {item.total_product_quantity}
-										</p>
-										<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
-									</div>
-									<Button class="w-full" color="blue" on:click={() => (edit = true)}>Edit</Button>
-								</Card>
-							{/if}
-						{/each}
-					</div>
-				{:else if activeButton === 'review'}
-					<div class="flex flex-col gap-3">
-						<div class="rounded-lg border p-5">
-							<RatingComment {comment} helpfullink="/" abuselink="/">
-								<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
-									This is my third Invicta Pro Diver. They are just fantastic value for money. This
-									one arrived yesterday and the first thing I did was set the time, popped on an
-									identical strap from another Invicta and went in the shower with it to test the
-									waterproofing.... No problems.
-								</p>
-								<a
-									href="/"
-									class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-									>Read more</a
-								>
-								<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
-							</RatingComment>
-						</div>
-					</div>
-				{:else if activeButton === 'about'}
+								<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
+								<div class="flex justify-between gap-10 p-1">
+									<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
+									<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
+								</div>
+								<div class="flex justify-between gap-10 p-1">
+									<p class="text-lg dark:text-gray-300">
+										Quantity: {item.total_product_quantity}
+									</p>
+									<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
+								</div>
+								<Button class="w-full" color="blue" on:click={() => (edit = true)}>Edit</Button>
+							</Card>
+						{/if}
+					{/each}
+				</div>
+			{:else if activeButton === 'review'}
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+					{#each $mainStore.user.reviews as item}
+						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-2">
+							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+								Review by: {item.user_id}
+							</p>
+							<p class="text-xl dark:text-gray-300 p-1">Rating: {item.rating}</p>
+							<p class="text-xl dark:text-gray-300 p-1">Comment: {item.body}</p>
+						</Card>
+					{/each}
+				</div>
+			{:else if activeButton === 'about'}
+				<div class="mt-5 flex flex-col w-full">
 					<div class=" rounded-lg p-5 border">
 						<p class="font-semibold dark:text-white">Bio</p>
-						<p class="text-gray-500 dark:text-gray-400">
-							Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias, impedit,
-							aspernatur sapiente deleniti aperiam ad expedita quis quae voluptatem pariatur ducimus
-							accusantium
-						</p>
+						<p class="text-gray-500 dark:text-gray-400">{$mainStore.user.info.bio}</p>
 					</div>
 					<div class=" rounded-lg mt-5 p-5 border">
 						<p class="font-semibold dark:text-white">Contact</p>
 						<div class="flex flex-col gap-2 text-gray-500 dark:text-gray-400">
-							<div class="flex justify-between ">
+							<div class="flex justify-between">
 								<p>Phone</p>
-								<p class="">123123123123</p>
+								<p class="">{$mainStore.user.info.phone}</p>
 							</div>
 							<div class="flex justify-between">
 								<p>Address</p>
-								<p>123123123123</p>
+								<p>{$mainStore.user.info.address}</p>
 							</div>
 							<div class="flex justify-between">
 								<p>Email</p>
-								<p>something@gmail.com</p>
+								<p>{$mainStore.user.info.email}</p>
 							</div>
 						</div>
 					</div>
-				{/if}
-			</div>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
