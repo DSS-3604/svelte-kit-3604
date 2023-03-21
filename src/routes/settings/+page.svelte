@@ -54,13 +54,13 @@
 		$utils.updateUserInfo(newInfo).then((res: any) => {
 			console.log(res);
 			if (res.message) {
-				if (res.message.includes('not found') || res.message.includes('already exist')) {
+				if (res.message) {
 					error = res.message;
-				} else {
-					//@ts-ignore
-					$mainStore.user.info[item] = newInfo[item];
-					formModal = false;
 				}
+			} else {
+				//@ts-ignore
+				$mainStore.user.info[item] = newInfo[item];
+				formModal = false;
 			}
 		});
 	};
