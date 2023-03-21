@@ -47,22 +47,6 @@
 			post_btn_color = btnActive;
 		}
 	};
-	let comment = {
-		id: '1',
-		user: {
-			name: 'John Doe',
-			img: {
-				src: 'avatar.webp',
-				alt: 'avatar'
-			},
-			joined: 'Joined 2 years ago'
-		},
-		rating: 4,
-		total: 5,
-		heading: 'Great Product',
-		address: 'New York, USA',
-		datetime: '2 days ago'
-	};
 	let popupModal = false;
 	let product: Product = {
 		id: '',
@@ -103,7 +87,14 @@
 		});
 		setActive('about');
 	});
+	let toEdit = {};
 	let edit = false;
+	const time = (item) => {
+		let date = new Date(item);
+		let time = date.toLocaleTimeString();
+		let date2 = date.toLocaleDateString();
+		return `${date2} ${time}`;
+	};
 </script>
 
 <div class="flex justify-center items-center text-center">
@@ -176,46 +167,50 @@
 			{#if activeButton === 'post'}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.products as item}
-						{#if edit}
-							<div class="flex justify-center items-center text-center">
-								<Modal bind:open={edit} size="xl" autoclose>
-									<UpdateProduct {item} />
-								</Modal>
+						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+							<p>{time(item.timestamp)}</p>
+							<div class="px-5">
+								<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+									{item.name}
+								</h5>
+								<p class="text-xl  tracking-tight text-gray-900 dark:text-white">
+									Category: {item.category_name}
+								</p>
 							</div>
-						{:else}
-							<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
-								<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-								<p>{item.timestamp}</p>
-								<div class="px-5">
-									<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-										{item.name}
-									</h5>
-									<p class="text-xl  tracking-tight text-gray-900 dark:text-white">
-										Category: {item.category_name}
-									</p>
-								</div>
-								<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
-								<div class="flex justify-between gap-10 p-1">
-									<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
-									<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
-								</div>
-								<div class="flex justify-between gap-10 p-1">
-									<p class="text-lg dark:text-gray-300">
-										Quantity: {item.total_product_quantity}
-									</p>
-									<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
-								</div>
-								<Button class="w-full" color="blue" on:click={() => (edit = true)}>Edit</Button>
-							</Card>
-						{/if}
+							<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
+							<div class="flex justify-between gap-10 p-1">
+								<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
+								<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
+							</div>
+							<div class="flex justify-between gap-10 p-1">
+								<p class="text-lg dark:text-gray-300">
+									Quantity: {item.total_product_quantity}
+								</p>
+								<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
+							</div>
+							<Button
+								class="w-full"
+								color="blue"
+								on:click={() => {
+									toEdit = item;
+									edit = true;
+								}}>Edit</Button
+							>
+						</Card>
+						<!-- {/if} -->
 					{/each}
 				</div>
 			{:else if activeButton === 'review'}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.reviews as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-2">
+							<p>{time(item.timestamp)}</p>
 							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								Review by: {item.user_id}
+								Review by: {item.user_name}
+							</p>
+							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+								Farmer: {item.farmer_name}
 							</p>
 							<p class="text-xl dark:text-gray-300 p-1">Rating: {item.rating}</p>
 							<p class="text-xl dark:text-gray-300 p-1">Comment: {item.body}</p>
@@ -249,4 +244,10 @@
 			{/if}
 		</div>
 	</div>
+</div>
+
+<div class="flex justify-center items-center text-center">
+	<Modal bind:open={edit} size="xl" autoclose>
+		<UpdateProduct item={toEdit} />
+	</Modal>
 </div>
