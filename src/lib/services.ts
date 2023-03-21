@@ -117,7 +117,16 @@ export default class Service {
 	}
 	async reviewFarmer(review: any) {
 		return this.post(`farmer/${review.farmer_id}/review`, review).then((res) => {
-			return res;
+			if (res) {
+				if (res.message) {
+					return new Error(res.message);
+				} else {
+					mainStore.update((store) => {
+						store.farmer.reviews.push(res);
+						return store;
+					});
+				}
+			}
 		});
 	}
 
@@ -135,7 +144,7 @@ export default class Service {
 			if (res) {
 				//update the store
 				mainStore.update((store) => {
-					store.user.products.push(product);
+					store.user.products.push(res);
 					return store;
 				});
 			}

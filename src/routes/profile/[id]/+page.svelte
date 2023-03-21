@@ -28,22 +28,6 @@
 			post_btn_color = btnActive;
 		}
 	};
-	let comment = {
-		id: '1',
-		user: {
-			name: 'John Doe',
-			img: {
-				src: 'avatar.webp',
-				alt: 'avatar'
-			},
-			joined: 'Joined 2 years ago'
-		},
-		rating: 4,
-		total: 5,
-		heading: 'Great Product',
-		address: 'New York, USA',
-		datetime: '2 days ago'
-	};
 	let rankingOptions = [
 		{
 			id: 1,
@@ -66,7 +50,6 @@
 			color: 'text-gray-300'
 		}
 	];
-	let rate = false;
 	let review = {
 		user_id: $mainStore.user.info.id,
 		farmer_id: data.id,
@@ -107,6 +90,12 @@
 		});
 		setActive('about');
 	});
+	const time = (item) => {
+		let date = new Date(item);
+		let time = date.toLocaleTimeString();
+		let date2 = date.toLocaleDateString();
+		return `${date2} ${time}`;
+	};
 </script>
 
 <div class="m-5">
@@ -168,7 +157,7 @@
 					{#each $mainStore.farmer.products as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-							<p>{item.timestamp}</p>
+							<p>{time(item.timestamp)}</p>
 							<div class="px-5">
 								<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 									{item.name}
@@ -193,27 +182,16 @@
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.farmer.reviews as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-2">
+							<p>{time(item.timestamp)}</p>
 							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								Review by: {item.user_id}
+								Review by: {item.user_name}
+							</p>
+							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+								Farmer: {item.farmer_name}
 							</p>
 							<p class="text-xl dark:text-gray-300 p-1">Rating: {item.rating}</p>
 							<p class="text-xl dark:text-gray-300 p-1">Comment: {item.body}</p>
 						</Card>
-						<!-- <div class="rounded-lg border p-5"> -->
-						<!-- <RatingComment {comment} helpfullink="/" abuselink="/">
-							<p class="mb-2 font-light text-gray-500 dark:text-gray-400">
-								This is my third Invicta Pro Diver. They are just fantastic value for money. This
-								one arrived yesterday and the first thing I did was set the time, popped on an
-								identical strap from another Invicta and went in the shower with it to test the
-								waterproofing.... No problems.
-							</p>
-							<a
-								href="/"
-								class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-								>Read more</a
-							>
-							<svelte:fragment slot="evaluation">19 people found this helpful</svelte:fragment>
-						</RatingComment> -->
 					{/each}
 					<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg ">
 						<div class="flex flex-col items-center gap-2 text-center">
