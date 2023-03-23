@@ -31,6 +31,11 @@
 			name: 'lb'
 		}
 	];
+	let currency = [
+		{ value: 'USD', name: 'USD' },
+		{ value: 'TTD', name: 'TTD' },
+	];
+
 	const onFileSelected = (e) => {
 		let image = e.target.files[0];
 		uploadImage(image);
@@ -131,14 +136,18 @@
 				required
 			/>
 		</div>
+		<div>
+			<Select
+				bind:value={product.category_id}
+				id="select-disabled"
+				items={$mainStore.product_categories}
+				placeholder="Category"
+				required
+			/>
+		</div>
 		<div class="flex gap-2">
 			<div>
-				<Select
-					bind:value={product.category_id}
-					id="select-disabled"
-					items={$mainStore.product_categories}
-					placeholder="Category"
-				/>
+				<Select id="select-disabled" items={currency} placeholder="Currency" />
 			</div>
 			<div>
 				<Input
@@ -146,6 +155,15 @@
 					type="text"
 					id="retail_price"
 					placeholder="Retail Price"
+					required
+				/>
+			</div>
+			<div>
+				<Input
+					bind:value={product.wholesale_price}
+					type="number"
+					id="wholesale_price"
+					placeholder="Wholesale Price"
 					required
 				/>
 			</div>
@@ -163,22 +181,13 @@
 			</div>
 			<div>
 				<Input
-					bind:value={product.wholesale_price}
+					bind:value={product.total_product_quantity}
 					type="number"
-					id="wholesale_price"
-					placeholder="Wholesale Price"
+					id="quantity"
+					placeholder="Quantity"
 					required
 				/>
 			</div>
-		</div>
-		<div>
-			<Input
-				bind:value={product.total_product_quantity}
-				type="number"
-				id="quantity"
-				placeholder="Quantity"
-				required
-			/>
 		</div>
 	</div>
 	{#if avatar}

@@ -15,7 +15,8 @@
 		DropdownItem,
 		Rating,
 		Textarea,
-		Badge
+		Badge,
+		DarkMode
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
@@ -35,6 +36,7 @@
 			$utils.fetchProducts();
 		});
 	});
+
 </script>
 
 <div class="card">
@@ -59,7 +61,7 @@
 				<!-- .report-dashboard-item -->
 				<div class="report-dashboard-item">
 					<div class="report-dashboard-label">Number of Products</div>
-					<div class="report-dashboard-number">58</div>
+					<div class="report-dashboard-number">{$mainStore.catalog.length}</div>
 				</div>
 				<!-- .report-dashboard-item -->
 				<div class="report-dashboard-item">
@@ -157,7 +159,7 @@
 		margin: 0 auto;
 		background-color: white;
 		border-radius: 10px;
-		margin-top: 4px;
+		margin-top: 8px;
 	}
 	.card:hover {
 		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -197,7 +199,8 @@
 		background-color: #eee;
 		max-width: 90%;
 		margin: 1.5em auto;
-		padding: 5rem;
+		padding: 8rem;
+
 	}
 
 	ul .inner {

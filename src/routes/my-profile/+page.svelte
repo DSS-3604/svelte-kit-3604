@@ -1,7 +1,16 @@
 <script lang="ts">
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
-	import { Card, Rating, RatingComment, Avatar, Button, Badge, Modal } from 'flowbite-svelte';
+	import {
+		Card,
+		Rating,
+		RatingComment,
+		Avatar,
+		Button,
+		Badge,
+		Modal,
+		Skeleton
+	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
 	import { goto } from '$app/navigation';
@@ -165,6 +174,18 @@
 				</div>
 			</div>
 			{#if activeButton === 'post'}
+				{#if $mainStore.user.products.length === 0}
+					<Card
+						padding="sm"
+						class="flex items-center text-center w-80 shadow-xl p-2 mt-5"
+						size="lg"
+					>
+						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+							No Posts
+						</h1>
+						<Skeleton size="lg" />
+					</Card>
+				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.products as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
@@ -202,6 +223,18 @@
 					{/each}
 				</div>
 			{:else if activeButton === 'review'}
+				{#if $mainStore.user.reviews.length === 0}
+					<Card
+						padding="sm"
+						class="flex items-center text-center w-80 shadow-xl p-2 mt-5"
+						size="lg"
+					>
+						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+							No Reviews
+						</h1>
+						<Skeleton size="lg" />
+					</Card>
+				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.reviews as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-2">
