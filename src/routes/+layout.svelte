@@ -28,6 +28,27 @@
 		localStorage.removeItem('access_token');
 		window.location.href = '/';
 	};
+	let active="";
+	onMount(() => {
+		let url = window.location.href;
+		console.log("Pain:",url);
+		if (url.includes('my-profile')) {
+			active = 'Profile';
+		} else if (url.includes('settings')) {
+			active = 'Settings';
+		} else if (url.includes('report')) {
+			active = 'Report';
+		} else if (url.includes('contact')) {
+			active = 'Contact';
+		}else if (url.includes('catalog')) {
+			active = 'Catalog';
+		}else {
+			active = 'Home';
+		}
+	});
+
+
+
 </script>
 
 <div class="sticky top-0 z-40">
@@ -45,19 +66,18 @@
 			/>
 			<p class="px-2 hidden md:block">{$mainStore.user.info.username}</p>
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
-				<DropdownItem href="/my-profile">Profile</DropdownItem>
-				<DropdownItem href="/settings">Settings</DropdownItem>
-				<DropdownItem href="/report">Report</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem on:click={signOut}>Sign out</DropdownItem>
 			</Dropdown>
 			<NavHamburger on:click={toggle} />
 		</div>
 		<NavUl {hidden}>
-			<NavLi href="/" active={true}>Home</NavLi>
-			<NavLi href="/catalog">Catalog</NavLi>
-			<NavLi href="/my-products">Products</NavLi>
-			<NavLi href="/contact">Contact</NavLi>
+			<NavLi active={active=="Home"?true:false} href="/" on:click={() => active="Home"}>Home</NavLi>
+			<NavLi active={active=="Calalog"?true:false} href="/catalog" on:click={() => active="Catalog"}>Catalog</NavLi>
+			<NavLi active={active=="Contact"?true:false} href="/contact" on:click={() => active="Contact"}>Contact</NavLi>
+			<NavLi active={active=="Profile"?true:false} href="/my-profile" on:click={() => active="Profile"}>Profile</NavLi>
+			<NavLi active={active=="Report"?true:false} href="/report" on:click={() => active="Report"}>Report</NavLi>
+			<NavLi active={active=="Settings"?true:false} href="/settings" on:click={() => active="Settings"}>Settings</NavLi>
 		</NavUl>
 	</Navbar>
 </div>

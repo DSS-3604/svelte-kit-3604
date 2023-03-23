@@ -349,3 +349,8 @@
 		font-size: 2.25rem;
 	}
 </style>
+
+
+<svelte:head>
+	<title>Report</title>
+</svelte:head>
