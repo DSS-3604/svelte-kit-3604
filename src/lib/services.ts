@@ -132,10 +132,14 @@ export default class Service {
 
 	async fetchProducts() {
 		return this.fetch('products').then((res) => {
-			mainStore.update((store) => {
-				store.catalog = res;
-				return store;
-			});
+			if (res.message) {
+				return new Error(res.message);
+			} else {
+				mainStore.update((store) => {
+					store.catalog = res;
+					return store;
+				});
+			}
 		});
 	}
 	async createProduct(product: any) {

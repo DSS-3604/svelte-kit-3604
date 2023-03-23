@@ -6,7 +6,7 @@
 	import carigro_logo from '$lib/images/carigro-logo.webp';
 	import avatar from '$lib/images/avatar.webp';
 	import utils from '$lib/stores/utils';
-
+	console.log('mainStore' + $mainStore.user.info.username);
 	import {
 		Navbar,
 		NavBrand,
