@@ -68,12 +68,13 @@
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
 				<DropdownDivider />
 				<DropdownItem on:click={signOut}>Sign out</DropdownItem>
+				<DropdownDivider />
 			</Dropdown>
 			<NavHamburger on:click={toggle} />
 		</div>
 		<NavUl {hidden}>
 			<NavLi active={active=="Home"?true:false} href="/" on:click={() => active="Home"}>Home</NavLi>
-			<NavLi active={active=="Calalog"?true:false} href="/catalog" on:click={() => active="Catalog"}>Catalog</NavLi>
+			<NavLi active={active=="Catalog"?true:false} href="/catalog" on:click={() => active="Catalog"}>Catalog</NavLi>
 			<NavLi active={active=="Contact"?true:false} href="/contact" on:click={() => active="Contact"}>Contact</NavLi>
 			<NavLi active={active=="Profile"?true:false} href="/my-profile" on:click={() => active="Profile"}>Profile</NavLi>
 			<NavLi active={active=="Report"?true:false} href="/report" on:click={() => active="Report"}>Report</NavLi>
