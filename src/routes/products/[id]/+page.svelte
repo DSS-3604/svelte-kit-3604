@@ -109,7 +109,7 @@
 <div class="m-5">
 	<div class="p-4">
 		<div class="flex flex-col items-center pb-4">
-			<img src={product.image} class="h-48 border" alt="product" />
+			<img src={product.image} class="h-48" alt="product" />
 		</div>
 
 		<div class="flex flex-col items-center">
