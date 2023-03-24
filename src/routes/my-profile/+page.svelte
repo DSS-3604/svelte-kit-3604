@@ -260,3 +260,8 @@
 		<UpdateProduct item={toEdit} />
 	</Modal>
 </div>
+
+
+<svelte:head>
+	<title>{$mainStore.user.info.username}</title>
+</svelte:head>

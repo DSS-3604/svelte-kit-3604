@@ -246,3 +246,7 @@
 		</div>
 	</div>
 </div>
+
+<svelte:head>
+	<title>{$mainStore.farmer.info.username}</title>
+</svelte:head>

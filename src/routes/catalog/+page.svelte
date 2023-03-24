@@ -62,7 +62,7 @@
 <div class="m-5">
 	<div>
 		<p class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-			Products
+			Catalog
 		</p>
 	</div>
 	<div>
@@ -164,3 +164,8 @@
 		{/each}
 	</div>
 </div>
+
+
+<svelte:head>
+	<title>Catalog</title>
+</svelte:head>

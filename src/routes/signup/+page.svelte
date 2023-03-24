@@ -177,3 +177,7 @@
 		width: 80vw;
 	}
 </style>
+
+<svelte:head>
+	<title>Sign Up</title>
+</svelte:head>

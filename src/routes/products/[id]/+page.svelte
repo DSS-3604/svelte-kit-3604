@@ -200,3 +200,7 @@
 		</div>
 	</div>
 </div>
+
+<svelte:head>
+	<title>{$mainStore.product.name}</title>
+</svelte:head>

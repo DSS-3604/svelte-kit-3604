@@ -544,3 +544,7 @@
 		transform: scale(1.1);
 	}
 </style>
+
+<svelte:head>
+	<title>Settings</title>
+</svelte:head>
