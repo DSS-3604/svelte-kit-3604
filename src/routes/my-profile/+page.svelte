@@ -212,7 +212,7 @@
 				{#if $mainStore.user.reviews.length === 0}
 					<Card
 						padding="sm"
-						class="flex items-center text-center w-80 shadow-xl p-2 mt-5"
+						class="flex items-center text-center w-80 shadow-xl p-2 mt-5 "
 						size="lg"
 					>
 						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
