@@ -153,30 +153,26 @@
 		</div>
 		<div class="mt-5">
 			{#if activeButton === 'comments'}
-				{#if $mainStore.product.comments.length === 0}
-					<div class="flex justify-center items-center">
-						<Card
-							padding="sm"
-							class="flex items-center text-center w-100 shadow-xl p-2 mt-5 w-100"
-							size="xl"
-						>
-							<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								No Comments
-							</h1>
-							<Skeleton size="lg" />
-						</Card>
-
-						<Card size="xl" class="mt-3">
-							<p>
-								There currently exists {product.comments.length} comments for the product {product.name},
-								add a comment above containing your reviews about said product.
-							</p>
-						</Card>
-					</div>
-				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+					{#if $mainStore.product.comments.length === 0}
+						<div class="flex justify-center items-center">
+							<Card
+								padding="sm"
+								class="flex items-center text-center w-100 shadow-xl p-2 mt-5 w-100"
+								size="xl"
+							>
+								<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+									No Comments
+								</h1>
+								<Skeleton size="xl" />
+							</Card>
+						</div>
+					{/if}
 					{#each $mainStore.product.comments as item}
-						<Card size="xl" class="flex relative w-100 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300">
+						<Card
+							size="xl"
+							class="flex relative w-100 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300 "
+						>
 							<div class="flex gap-4 p-1 w-100">
 								<Avatar size="sm" src={avatar} />
 								<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
