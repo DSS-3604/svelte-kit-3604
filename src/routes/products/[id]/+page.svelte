@@ -119,6 +119,7 @@
 			color: 'green'
 		}
 	];
+	
 </script>
 
 <div class="m-5">
@@ -223,30 +224,29 @@
 								</Card>
 								<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 							{/each}
-							
 
-									<div class="border bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-100 mt-5">
-										<div class="flex flex-col items-center gap-2 text-center">
-											<div class="flex gap-10 p-1">
-												<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">
-													Add Comment
-												</h3>
-											</div>
-											<Textarea
-												rows="6"
-												bind:value={commentToPost.body}
-												placeholder="Write your review"
-												class="w-full"
-											/>
-											<Button type="submit" on:click={commentProduct} class="w-full">Submit</Button>
-										</div>
+							<div class="border bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-100 mt-5">
+								<div class="flex flex-col items-center gap-2 text-center">
+									<div class="flex gap-10 p-1">
+										<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">
+											Add Comment
+										</h3>
 									</div>
-									<Card size="xl" class="mt-3">
-										<p>
-											There currently exists {product.comments.length} comments for the product {product.name},
-											add a comment above containing your reviews about said product.
-										</p>
-									</Card>
+									<Textarea
+										rows="6"
+										bind:value={commentToPost.body}
+										placeholder="Write your review"
+										class="w-full"
+									/>
+									<Button type="submit" on:click={commentProduct} class="w-full">Submit</Button>
+								</div>
+							</div>
+							<Card size="xl" class="mt-3">
+								<p>
+									There currently exists {product.comments.length} comments for the product {product.name},
+									add a comment above containing your reviews about said product.
+								</p>
+							</Card>
 						</Card>
 					</div>
 				{/if}
@@ -302,8 +302,11 @@
 					{/each}
 				</div>
 			{:else if activeButton === 'predictions'}
-				<div class="flex flex-col">
-					<h1>Predictions</h1>
+				<div class="overflow-hidden rounded-lg shadow-lg">
+					<div class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+						Radar chart
+					</div>
+					<canvas class="p-10" id="chartRadar" />
 				</div>
 			{/if}
 		</div>
