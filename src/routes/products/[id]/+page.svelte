@@ -1,7 +1,10 @@
 <script lang="ts">
 	import avatar from '$lib/images/avatar.webp';
 	import mainStore from '$lib/stores/mainStore';
+	import '@carbon/styles/css/styles.css';
+	import '@carbon/charts/styles.css';
 	import utils from '$lib/stores/utils';
+	import { LineChart } from '@carbon/charts-svelte';
 	import {
 		Progressbar,
 		Card,
@@ -73,7 +76,7 @@
 				goto('/');
 			}
 		});
-		setActive('about');
+		setActive('predictions');
 	});
 	let commentToPost = {
 		user_id: '',
@@ -277,12 +280,52 @@
 					{/each}
 				</div>
 			{:else if activeButton === 'predictions'}
-				<div class="overflow-hidden rounded-lg shadow-lg">
-					<div class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-						Radar chart
-					</div>
-					<canvas class="p-10" id="chartRadar" />
-				</div>
+				<!-- Line chart with product cost on y-axis and time on x-axis -->
+				<LineChart
+					data={[
+						{
+							group: $mainStore.product.name,
+							date: '2019-01-02T04:00:00.000Z',
+							value: 0
+						},
+						{
+							group: $mainStore.product.name,
+							date: '2019-01-06T04:00:00.000Z',
+							value: 20
+						},
+						{
+							group: $mainStore.product.name,
+							date: '2019-01-08T04:00:00.000Z',
+							value: 30
+						},
+						{
+							group: $mainStore.product.name,
+							date: '2019-01-15T04:00:00.000Z',
+							value: 15
+						},
+						{
+							group: $mainStore.product.name,
+							date: '2019-01-19T04:00:00.000Z',
+							value: 25
+						}
+					]}
+					options={{
+						title: $mainStore.product.name + ' Price Predictions',
+						axes: {
+							bottom: {
+								title: '2023 Annual Sales Figures',
+								mapsTo: 'date',
+								scaleType: 'time'
+							},
+							left: {
+								mapsTo: 'value',
+								title: 'Retail Price ($ USD)'
+							}
+						},
+						curve: 'curveMonotoneX',
+						height: '400px'
+					}}
+				/>
 			{/if}
 		</div>
 	</div>
