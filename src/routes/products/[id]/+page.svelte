@@ -33,15 +33,22 @@
 
 	let about_btn_color = btnDefault;
 	let comments_btn_color = btnDefault;
+	let predictions_btn_color = btnDefault;
 
 	const setActive = (btn) => {
 		activeButton = btn;
 		if (btn === 'about') {
 			about_btn_color = btnActive;
 			comments_btn_color = btnDefault;
+			predictions_btn_color = btnDefault;
 		} else if (btn === 'comments') {
 			about_btn_color = btnDefault;
 			comments_btn_color = btnActive;
+			predictions_btn_color = btnDefault;
+		} else if (btn === 'predictions') {
+			about_btn_color = btnDefault;
+			comments_btn_color = btnDefault;
+			predictions_btn_color = btnActive;
 		}
 	};
 	let query = false;
@@ -122,11 +129,17 @@
 		</div>
 		<div class="mt-5 w-full">
 			<div class="flex items-center bg-gray-200 p-1 rounded-lg w-full">
-				<button class="w-1/2 {about_btn_color} py-1" on:click={() => setActive('about')}>
+				<button class="w-1/3 {about_btn_color} py-1" on:click={() => setActive('about')}>
 					About
 				</button>
-				<button class="w-1/2 {comments_btn_color} py-1" on:click={() => setActive('comments')}>
+				<button class="w-1/3 {comments_btn_color} py-1" on:click={() => setActive('comments')}>
 					Comments
+				</button>
+				<button
+					class="w-1/3 {predictions_btn_color} py-1"
+					on:click={() => setActive('predictions')}
+				>
+					Predictions
 				</button>
 			</div>
 		</div>
@@ -164,27 +177,42 @@
 					</div>
 				</div>
 			{:else if activeButton === 'about'}
-				<div class="flex flex-col gap-2">
-					<p class="dark:text-gray-300 text-gray-600 text-lg">Name: {product.name}</p>
-					<p class="text-gray-600 dark:text-gray-300">
-						Category: {product.category_name}
-					</p>
-					<p class="text-gray-600 dark:text-gray-300">
-						Wholesale price: {product.wholesale_price}
-					</p>
-					<p class="text-gray-600 dark:text-gray-300">
-						Wholesale unit quantity: {product.wholesale_unit_quantity}
-					</p>
-					<p class="text-gray-600 dark:text-gray-300">
-						Retail Price: {product.retail_price}
-					</p>
-					<p class="text-gray-600 dark:text-gray-300">
-						Quantity: {product.total_product_quantity}
-					</p>
-					<p class="text-gray-600 dark:text-gray-300">
-						Description: {product.description}
-					</p>
+				<div class="flex flex-col gap-10 text-center items-center justify-center">
+					<Card size="xl">
+						<div class="grid grid-cols-3 gap-10">
+							<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+								Name: {product.name}
+							</p>
+							<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+								Category: {product.category_name}
+							</p>
+							<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+								Wholesale price: {product.wholesale_price}
+							</p>
+							<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+								Wholesale unit quantity: {product.wholesale_unit_quantity}
+							</p>
+							<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+								Retail Price: {product.retail_price}
+							</p>
+							<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+								Quantity: {product.total_product_quantity}
+							</p>
+						</div>
+						<Card size="xl" class="mt-3">
+							{#if product.description === ''}
+								<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+									Description: A {product.name} is a {product.category_name} grown by {product.farmer_name}. There are {product.wholesale_unit_quantity} {product.name} in quantity for ${product.wholesale_price} wholesale and ${product.retail_price} retail.
+								</p>
+							{:else}
+								<p class="text-xl font-semibold text-white-600/100 dark:text-white">
+									Description: {product.description}
+								</p>
+							{/if}
+						</Card>
+					</Card>
 				</div>
+				<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 				<div class="grid grid-cols-3 gap-10">
 					{#each nutritions as item}
 						<div class="my-4 progress">
@@ -195,6 +223,10 @@
 							<Progressbar progress={item.value} color={item.color} class="mt-3" />
 						</div>
 					{/each}
+				</div>
+			{:else if activeButton === 'predictions'}
+				<div class="flex flex-col">
+					<h1>Predictions</h1>
 				</div>
 			{/if}
 		</div>
