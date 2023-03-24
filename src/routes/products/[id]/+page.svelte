@@ -282,6 +282,7 @@
 			{:else if activeButton === 'predictions'}
 				<!-- Line chart with product cost on y-axis and time on x-axis -->
 				<LineChart
+					class=" bg-white p-3"
 					data={[
 						{
 							group: $mainStore.product.name,
