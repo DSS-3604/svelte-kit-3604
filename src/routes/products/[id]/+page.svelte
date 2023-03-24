@@ -1,10 +1,12 @@
 <script lang="ts">
+	import avatar from '$lib/images/avatar.webp';
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
-	import { Card, Rating, Textarea, RatingComment, Button, Review } from 'flowbite-svelte';
+	import { Progressbar, Card, Textarea, RatingComment, Button, Avatar } from 'flowbite-svelte';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { comment } from 'postcss';
 	export let data = {
 		id: ''
 	};
@@ -58,6 +60,50 @@
 		});
 		setActive('about');
 	});
+	let commentToPost = {
+		user_id: '',
+		product_id: data.id,
+		body: ''
+	};
+	const commentProduct = () => {
+		commentToPost.user_id = $mainStore.user.info.id;
+		$utils.createComment(commentToPost).then((res) => {
+			commentToPost.body = '';
+			console.log(res);
+		});
+	};
+	const time = (item) => {
+		let date = new Date(item);
+		let date2 = date.toLocaleDateString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric'
+		});
+		return date2;
+	};
+	const nutritions = [
+		{
+			id: 0,
+			name: 'Calories',
+			value: '43',
+			unit: 'kcal',
+			color: 'red'
+		},
+		{
+			id: 1,
+			name: 'Sugar',
+			value: '20',
+			unit: 'g',
+			color: 'yellow'
+		},
+		{
+			id: 3,
+			name: 'Carbs',
+			value: '20',
+			unit: 'g',
+			color: 'green'
+		}
+	];
 </script>
 
 <div class="m-5">
@@ -67,7 +113,8 @@
 		</div>
 
 		<div class="flex flex-col items-center">
-			<p class="text-2xl font-bold dark:text-white">by {product.farmer_name}</p>
+			<p class="text-xl font-bold dark:text-white">{product.name}</p>
+			<p class="text-xl font-bold dark:text-white">by {product.farmer_name}</p>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				<Button on:click={() => (query = true)}>Query</Button>
 				<Button on:click={() => 'hi'} color="light" class="dark:text-white">Contact</Button>
@@ -85,41 +132,69 @@
 		</div>
 		<div class="mt-5">
 			{#if activeButton === 'comments'}
-				<div class="flex flex-col gap-3">comments</div>
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+					{#each $mainStore.product.comments as item}
+						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3">
+							<div class="flex gap-4 p-1">
+								<Avatar size="sm" src={avatar} />
+								<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+									{item.user_id}
+								</p>
+							</div>
+							<p class="p-1">{time(item.timestamp)}</p>
+							<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
+								{item.body}
+							</p>
+							<Button class="absolute bottom-2 right-2">Reply</Button>
+						</Card>
+					{/each}
+					<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-80 ">
+						<div class="flex flex-col items-center gap-2 text-center">
+							<div class="flex gap-10 p-1">
+								<h3 class="text-lg font-medium text-gray-900 dark:text-white">Add Comment</h3>
+							</div>
+							<Textarea
+								rows="6"
+								bind:value={commentToPost.body}
+								placeholder="Write your review"
+								class="w-full"
+							/>
+							<Button type="submit" on:click={commentProduct} class="w-full">Submit</Button>
+						</div>
+					</div>
+				</div>
 			{:else if activeButton === 'about'}
-				<p class="dark:text-white">Name: {product.name}</p>
-				<br />
-				<p class="text-gray-500 dark:text-gray-400">
-					Description: {product.description}
-				</p>
-				<div class="mt-5 p-5 gap-3 flex flex-col">
-					<p class="font-semibold dark:text-white">Details</p>
-					<li class="">
-						<span class="font-semibold dark:text-white">Category:</span>
-						<span class="text-gray-500 dark:text-gray-400">{product.category_id}</span>
-					</li>
-					<li>
-						<span class="font-semibold dark:text-white">Wholesale price:</span>
-						<span class="text-gray-500 dark:text-gray-400">{product.wholesale_price}</span>
-					</li>
-					<li>
-						<span class="font-semibold dark:text-white">Retail Price:</span>
-						<span class="text-gray-500 dark:text-gray-400">$ {product.retail_price}</span>
-					</li>
-					<li>
-						<span class="font-semibold dark:text-white">Quantity:</span>
-						<span class="text-gray-500 dark:text-gray-400">
-							{product.total_product_quantity}
-						</span>
-					</li>
-					<li>
-						<span class="font-semibold dark:text-white">Farmer:</span>
-						<span class="text-gray-500 dark:text-gray-400">{product.farmer_id}</span>
-					</li>
-					<li>
-						<span class="font-semibold dark:text-white">Wholesale unit:</span>
-						<span class="text-gray-500 dark:text-gray-400">{product.wholesale_unit_quantity}</span>
-					</li>
+				<div class="flex flex-col gap-2">
+					<p class="dark:text-gray-300 text-gray-600 text-lg">Name: {product.name}</p>
+					<p class="text-gray-600 dark:text-gray-300">
+						Category: {product.category_name}
+					</p>
+					<p class="text-gray-600 dark:text-gray-300">
+						Wholesale price: {product.wholesale_price}
+					</p>
+					<p class="text-gray-600 dark:text-gray-300">
+						Wholesale unit quantity: {product.wholesale_unit_quantity}
+					</p>
+					<p class="text-gray-600 dark:text-gray-300">
+						Retail Price: {product.retail_price}
+					</p>
+					<p class="text-gray-600 dark:text-gray-300">
+						Quantity: {product.total_product_quantity}
+					</p>
+					<p class="text-gray-600 dark:text-gray-300">
+						Description: {product.description}
+					</p>
+				</div>
+				<div class="grid grid-cols-3 gap-10">
+					{#each nutritions as item}
+						<div class="my-4 progress">
+							<div class="dark:text-white un-progress">
+								<p class="font-bold">{item.value} g</p>
+								<p>{item.name}</p>
+							</div>
+							<Progressbar progress={item.value} color={item.color} class="mt-3" />
+						</div>
+					{/each}
 				</div>
 			{/if}
 		</div>

@@ -63,6 +63,7 @@ type MainStore = {
 	access_level: string;
 	loggedIn: boolean;
 	farmer: User;
+	product: Product;
 	catalog: Product[];
 };
 
@@ -103,6 +104,22 @@ const mainStore: Writable<MainStore> = writable({
 		},
 		reviews: [],
 		products: []
+	},
+	product: {
+		id: '',
+		farmer_id: '',
+		category_id: '',
+		name: '',
+		description: '',
+		image: '',
+		retail_price: '',
+		wholesale_price: '',
+		wholesale_unit_quantity: '',
+		total_product_quantity: '',
+		farmer_name: '',
+		comments: [],
+		timestamp: '',
+		category_name: ''
 	}
 });
 export default mainStore;

@@ -58,6 +58,22 @@ export default class Service {
 			return res;
 		});
 	}
+	async searchProducts(search: any) {
+		return this.fetch(`products/search/${search}`).then((res) => {
+			if (res.message) {
+				mainStore.update((store) => {
+					store.catalog = [];
+					return store;
+				});
+			} else {
+				mainStore.update((store) => {
+					store.catalog = res;
+					return store;
+				});
+			}
+			return res;
+		});
+	}
 
 	async fetchProductCategories() {
 		return this.fetch(`product_categories`).then((res) => {
@@ -83,6 +99,10 @@ export default class Service {
 
 	async fetchProduct(id: string) {
 		return this.fetch(`products/${id}`).then((res) => {
+			mainStore.update((store) => {
+				store.product = res;
+				return store;
+			});
 			return res;
 		});
 	}
@@ -152,6 +172,16 @@ export default class Service {
 			} else {
 				mainStore.update((store) => {
 					store.catalog = res;
+					return store;
+				});
+			}
+		});
+	}
+	async createComment(comment: any) {
+		return this.post(`product/comment`, comment).then((res) => {
+			if (res) {
+				mainStore.update((store) => {
+					store.product.comments.push(res);
 					return store;
 				});
 			}
@@ -242,6 +272,24 @@ export default class Service {
 				'Content-Type': 'application/json',
 				Authorization: `JWT ${this.store.access_token}`
 			}
+		})
+			.then((res) => {
+				const json = res.json();
+				console.log(json);
+				return json;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+	async fetchWithBody(path: string, body: object) {
+		return fetch(`${this.endpoint}/${path}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `JWT ${this.store.access_token}`
+			},
+			body: JSON.stringify(body)
 		})
 			.then((res) => {
 				const json = res.json();

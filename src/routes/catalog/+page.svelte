@@ -4,16 +4,7 @@
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
-	import {
-		Card,
-		Button,
-		Input,
-		ButtonGroup,
-		Chevron,
-		Select,
-		Dropdown,
-		DropdownItem
-	} from 'flowbite-svelte';
+	import { Card, Button, Input, ButtonGroup, Chevron, Select } from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
 	onMount(() => {
@@ -53,6 +44,19 @@
 			console.log(res);
 		});
 	};
+
+	let search = '';
+	const doSearch = () => {
+		console.log(search);
+		if (search == '' || search == null) {
+			$utils.fetchProducts();
+			return;
+		} else {
+			$utils.searchProducts(search).then((res) => {
+				console.log(res);
+			});
+		}
+	};
 </script>
 
 <div class="m-5">
@@ -74,8 +78,8 @@
 						on:change={filter}
 					/>
 				</div>
-				<Input placeholder="Search" />
-				<Button color="blue" class="!p-2.5" type="submit">
+				<Input bind:value={search} placeholder="Search" on:keyup={doSearch} />
+				<Button on:click={doSearch} color="blue" class="!p-2.5" type="submit">
 					<svg
 						class="w-5 h-5"
 						fill="none"
@@ -101,7 +105,7 @@
 	</div>
 	<br />
 	<div
-		class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 items-center justify-center gap-3"
+		class="w-full grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-center justify-center"
 	>
 		{#each $mainStore.catalog as item}
 			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
@@ -155,22 +159,6 @@
 						Quantity: {item.total_product_quantity}
 					</p>
 				</div>
-				<!-- <div class="px-5">
-					<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-						{item.name}
-					</h5>
-				</div>
-				<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
-				<div class="flex justify-between gap-10 p-1">
-					<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
-					<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
-				</div>
-				<div class="flex justify-between gap-10 p-1">
-					<p class="text-lg dark:text-gray-300">
-						Quantity: {item.total_product_quantity}
-					</p>
-					<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
-				</div> -->
 				<Button class="w-full" color="blue">Query</Button>
 			</Card>
 		{/each}
