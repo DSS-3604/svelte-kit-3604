@@ -192,51 +192,62 @@
 						</Card>
 					</div>
 				{:else if $mainStore.product.comments.length > 0}
-					{#each $mainStore.product.comments as item}
-						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3">
-							<div class="flex gap-4 p-1">
-								<Avatar size="sm" src={avatar} />
-								<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-									{item.user_id}
-								</p>
-							</div>
-							<p class="p-1">{time(item.timestamp)}</p>
-							<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
-								{item.body}
-							</p>
-							<Button class="absolute bottom-2 right-2">Reply</Button>
+					<div class="flex flex-col gap-10 text-center items-center justify-center">
+						<Card size="xl" class="w-100">
+							{#each $mainStore.product.comments as item}
+								<Card size="xl" class="flex relative w-100 h-64 shadow-xl p-3">
+									<div class="flex gap-4 p-1 w-100">
+										<Avatar size="sm" src={avatar} />
+										<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+											{item.user_id}
+										</p>
+										<div class="text-right items-right ml-3">
+											<p class="p-1">{time(item.timestamp)}</p>
+										</div>
+									</div>
+
+									<Card size="xl" class="mt-3">
+										{#if item.body === ''}
+											<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
+												{product.name} is a {product.category_name} grown by {product.farmer_name}.
+												It is an excellent product and is highly recommended.
+											</p>
+										{:else}
+											<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
+												{item.body}
+											</p>
+										{/if}
+									</Card>
+
+									<Button class="absolute bottom-2 right-2">Reply</Button>
+								</Card>
+								<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+							{/each}
+							
+
+									<div class="border bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-100 mt-5">
+										<div class="flex flex-col items-center gap-2 text-center">
+											<div class="flex gap-10 p-1">
+												<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">
+													Add Comment
+												</h3>
+											</div>
+											<Textarea
+												rows="6"
+												bind:value={commentToPost.body}
+												placeholder="Write your review"
+												class="w-full"
+											/>
+											<Button type="submit" on:click={commentProduct} class="w-full">Submit</Button>
+										</div>
+									</div>
+									<Card size="xl" class="mt-3">
+										<p>
+											There currently exists {product.comments.length} comments for the product {product.name},
+											add a comment above containing your reviews about said product.
+										</p>
+									</Card>
 						</Card>
-					{/each}
-					<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-						{#each $mainStore.product.comments as item}
-							<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3">
-								<div class="flex gap-4 p-1">
-									<Avatar size="sm" src={avatar} />
-									<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-										{item.user_id}
-									</p>
-								</div>
-								<p class="p-1">{time(item.timestamp)}</p>
-								<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
-									{item.body}
-								</p>
-								<Button class="absolute bottom-2 right-2">Reply</Button>
-							</Card>
-						{/each}
-						<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-80 ">
-							<div class="flex flex-col items-center gap-2 text-center">
-								<div class="flex gap-10 p-1">
-									<h3 class="text-lg font-medium text-gray-900 dark:text-white">Add Comment</h3>
-								</div>
-								<Textarea
-									rows="6"
-									bind:value={commentToPost.body}
-									placeholder="Write your review"
-									class="w-full"
-								/>
-								<Button type="submit" on:click={commentProduct} class="w-full">Submit</Button>
-							</div>
-						</div>
 					</div>
 				{/if}
 			{:else if activeButton === 'about'}
