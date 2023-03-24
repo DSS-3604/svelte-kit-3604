@@ -15,6 +15,9 @@ const config = {
 
 	kit: {
 		adapter: adapter()
+	},
+	ssr: {
+		noExternal: process.env.NODE_ENV === 'production' ? ['@carbon/charts', 'carbon-components'] : []
 	}
 };
 
