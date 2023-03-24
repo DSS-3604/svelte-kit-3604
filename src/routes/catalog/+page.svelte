@@ -33,6 +33,16 @@
 		});
 	});
 	let current_filter = 'all';
+	const time = (item) => {
+		let date = new Date(item);
+		// let time = date.toLocaleTimeString();
+		let date2 = date.toLocaleDateString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric'
+		});
+		return date2;
+	};
 	let filter = () => {
 		console.log(current_filter);
 		if (current_filter == 'all') {
@@ -123,7 +133,29 @@
 					</button>
 				</div>
 				<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
+				<p class="text-sm">{time(item.timestamp)}</p>
 				<div class="px-5">
+					<h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+						{item.name}
+					</h5>
+					<p class="text-md tracking-tight text-gray-900 dark:text-gray-200">
+						Category: {item.category_name}
+					</p>
+				</div>
+				<div class="text-md tracking-tight dark:text-gray-300">
+					<div class="flex justify-between gap-10 p-1">
+						<p>Retail: ${item.retail_price}</p>
+						<p>Unit: 1</p>
+					</div>
+					<div class="flex justify-between gap-10 p-1">
+						<p class="">Wholesale: ${item.retail_price}</p>
+						<p class="">Unit: {item.wholesale_unit_quantity}</p>
+					</div>
+					<p class="">
+						Quantity: {item.total_product_quantity}
+					</p>
+				</div>
+				<!-- <div class="px-5">
 					<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
 						{item.name}
 					</h5>
@@ -138,7 +170,7 @@
 						Quantity: {item.total_product_quantity}
 					</p>
 					<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
-				</div>
+				</div> -->
 				<Button class="w-full" color="blue">Query</Button>
 			</Card>
 		{/each}

@@ -33,7 +33,7 @@
 	];
 	let currency = [
 		{ value: 'USD', name: 'USD' },
-		{ value: 'TTD', name: 'TTD' },
+		{ value: 'TTD', name: 'TTD' }
 	];
 
 	const onFileSelected = (e) => {
@@ -136,46 +136,45 @@
 				required
 			/>
 		</div>
+		<div class="flex gap-2">
+			<div class="w-full">
+				<Select
+					bind:value={product.category_id}
+					id="category"
+					items={$mainStore.product_categories}
+					placeholder="Category"
+					required
+				/>
+			</div>
+			<div class="w-full">
+				<Select id="currency" items={currency} placeholder="Currency" required />
+			</div>
+		</div>
 		<div>
-			<Select
-				bind:value={product.category_id}
-				id="select-disabled"
-				items={$mainStore.product_categories}
-				placeholder="Category"
+			<Input
+				bind:value={product.retail_price}
+				type="text"
+				id="retail_price"
+				placeholder="Retail Price"
+				required
+			/>
+		</div>
+		<div>
+			<Input
+				bind:value={product.wholesale_price}
+				type="number"
+				id="wholesale_price"
+				placeholder="Wholesale Price"
 				required
 			/>
 		</div>
 		<div class="flex gap-2">
 			<div>
-				<Select id="select-disabled" items={currency} placeholder="Currency" />
-			</div>
-			<div>
 				<Input
-					bind:value={product.retail_price}
-					type="text"
-					id="retail_price"
-					placeholder="Retail Price"
-					required
-				/>
-			</div>
-			<div>
-				<Input
-					bind:value={product.wholesale_price}
-					type="number"
-					id="wholesale_price"
-					placeholder="Wholesale Price"
-					required
-				/>
-			</div>
-		</div>
-		<div class="flex gap-2">
-			<div>
-				<Select
 					bind:value={product.wholesale_unit_quantity}
 					type="number"
 					id="wholesale_unit_quantity"
-					items={units}
-					placeholder="Unit"
+					placeholder="Wholesale Quantity"
 					required
 				/>
 			</div>
@@ -184,7 +183,7 @@
 					bind:value={product.total_product_quantity}
 					type="number"
 					id="quantity"
-					placeholder="Quantity"
+					placeholder="Retail Quantity"
 					required
 				/>
 			</div>

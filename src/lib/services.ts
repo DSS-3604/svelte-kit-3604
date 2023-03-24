@@ -1,6 +1,7 @@
 //a class to store functions
 import { PUBLIC_API_URL } from '$env/static/public';
 import mainStore from '$lib/stores/mainStore';
+import { main } from '@popperjs/core';
 
 export default class Service {
 	endpoint: string;
@@ -13,6 +14,7 @@ export default class Service {
 	}
 	async fetchUserProducts() {
 		return this.fetch(`products/farmer/${this.store.user.info.id}`).then((res) => {
+			console.log('products', res);
 			mainStore.update((store) => {
 				store.user.products = res;
 				return store;
@@ -42,25 +44,39 @@ export default class Service {
 	}
 	async filterProducts(filter: any) {
 		return this.fetch(`products/category/${filter}`).then((res) => {
-			mainStore.update((store) => {
-				store.catalog = res;
-				return store;
-			});
+			if (res.message) {
+				mainStore.update((store) => {
+					store.catalog = [];
+					return store;
+				});
+			} else {
+				mainStore.update((store) => {
+					store.catalog = res;
+					return store;
+				});
+			}
 			return res;
 		});
 	}
 
 	async fetchProductCategories() {
 		return this.fetch(`product_categories`).then((res) => {
-			mainStore.update((store) => {
-				store.product_categories = res.map((category: any) => {
-					return {
-						name: category.name,
-						value: category.id
-					};
+			if (res.message) {
+				mainStore.update((store) => {
+					store.product_categories = [];
+					return store;
 				});
-				return store;
-			});
+			} else {
+				mainStore.update((store) => {
+					store.product_categories = res.map((category: any) => {
+						return {
+							name: category.name,
+							value: category.id
+						};
+					});
+					return store;
+				});
+			}
 			return res;
 		});
 	}
@@ -82,10 +98,6 @@ export default class Service {
 	}
 	async getFarmerReviews(id: string) {
 		return this.fetch(`farmer/${id}/review`).then((res) => {
-			// mainStore.update((store) => {
-			// 	store.farmer.reviews = res;
-			// 	return store;
-			// });
 			return res;
 		});
 	}
@@ -133,7 +145,10 @@ export default class Service {
 	async fetchProducts() {
 		return this.fetch('products').then((res) => {
 			if (res.message) {
-				return new Error(res.message);
+				mainStore.update((store) => {
+					store.catalog = [];
+					return store;
+				});
 			} else {
 				mainStore.update((store) => {
 					store.catalog = res;

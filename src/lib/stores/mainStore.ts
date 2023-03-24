@@ -6,8 +6,11 @@ type Review = {
 	id: string;
 	farmer_id: string;
 	user_id: string;
+	user_name: string;
+	user_avatar: string;
+	farmer_name: string;
 	rating: string;
-	comment: string;
+	body: string;
 	timestamp: string;
 };
 type Comment = {
@@ -33,18 +36,6 @@ type Product = {
 	timestamp: string;
 	category_name: string;
 };
-// type UserInfo = {
-// 	username: string;
-// 	id: string;
-// 	avatar: string;
-// 	currency: string;
-// 	email: string;
-// 	phone: string;
-// 	units: string;
-// 	address: string;
-// 	access: string;
-// 	bio: string;
-// };
 type User = {
 	info: {
 		username: '';

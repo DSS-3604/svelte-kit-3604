@@ -23,23 +23,9 @@
 		category_name: ''
 	};
 	let product = JSON.parse(JSON.stringify(item));
-	const currency = [
-		{
-			value: 'USD',
-			name: 'USD'
-		},
-		{
-			value: 'EUR',
-			name: 'EUR'
-		},
-		{
-			value: 'GBP',
-			name: 'GBP'
-		},
-		{
-			value: 'TTD',
-			name: 'TTD'
-		}
+	let currency = [
+		{ value: 'USD', name: 'USD' },
+		{ value: 'TTD', name: 'TTD' }
 	];
 	const onFileSelected = (e) => {
 		let image = e.target.files[0];
@@ -177,52 +163,63 @@
 			/>
 		</div>
 		<div class="flex gap-2">
-			<div>
+			<div class="w-full">
 				<Select
 					bind:value={product.category_id}
-					id="select-disabled"
+					on:change={(e) => {
+						//find the category using the id
+						const category = $mainStore.product_categories.find((category) => {
+							return category.value == e.target.value;
+						});
+						product.category_name = category.name;
+					}}
+					id="category"
 					items={$mainStore.product_categories}
 					placeholder="Category"
-				/>
-			</div>
-			<div>
-				<Input
-					bind:value={product.retail_price}
-					type="text"
-					id="retail_price"
-					placeholder="Retail Price"
 					required
 				/>
 			</div>
-		</div>
-		<div class="flex gap-2">
-			<div>
-				<Select
-					bind:value={product.wholesale_unit_quantity}
-					id="wholesale_unit_quantity"
-					items={units}
-					placeholder="Unit"
-					required
-				/>
-			</div>
-			<div>
-				<Input
-					bind:value={product.wholesale_price}
-					type="number"
-					id="wholesale_price"
-					placeholder="Wholesale Price"
-					required
-				/>
+			<div class="w-full">
+				<Select id="currency" items={currency} placeholder="Currency" required />
 			</div>
 		</div>
 		<div>
 			<Input
-				bind:value={product.total_product_quantity}
-				type="number"
-				id="quantity"
-				placeholder="Quantity"
+				bind:value={product.retail_price}
+				type="text"
+				id="retail_price"
+				placeholder="Retail Price"
 				required
 			/>
+		</div>
+		<div>
+			<Input
+				bind:value={product.wholesale_price}
+				type="number"
+				id="wholesale_price"
+				placeholder="Wholesale Price"
+				required
+			/>
+		</div>
+		<div class="flex gap-2">
+			<div>
+				<Input
+					bind:value={product.wholesale_unit_quantity}
+					type="number"
+					id="wholesale_unit_quantity"
+					placeholder="Wholesale Quantity"
+					required
+				/>
+			</div>
+			<div>
+				<Input
+					bind:value={product.total_product_quantity}
+					type="number"
+					id="quantity"
+					placeholder="Retail Quantity"
+					required
+				/>
+			</div>
 		</div>
 	</div>
 	{#if product.image}

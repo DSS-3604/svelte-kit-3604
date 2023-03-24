@@ -1,5 +1,6 @@
 <script lang="ts">
 	import mainStore from '$lib/stores/mainStore';
+	import DisplayReview from '../../components/DisplayReview.svelte';
 	import utils from '$lib/stores/utils';
 	import {
 		Card,
@@ -57,22 +58,6 @@
 		}
 	};
 	let popupModal = false;
-	let product: Product = {
-		id: '',
-		farmer_id: '',
-		category_id: '',
-		name: '',
-		description: '',
-		image: '',
-		retail_price: '',
-		wholesale_price: '',
-		wholesale_unit_quantity: '',
-		total_product_quantity: '',
-		farmer_name: '',
-		comments: [],
-		timestamp: '',
-		category_name: ''
-	};
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
@@ -94,7 +79,7 @@
 				goto('/');
 			}
 		});
-		setActive('about');
+		setActive('post');
 	});
 	let toEdit = {};
 	let edit = false;
@@ -175,40 +160,42 @@
 			</div>
 			{#if activeButton === 'post'}
 				{#if $mainStore.user.products.length === 0}
-					<Card
+					<!-- <Card
 						padding="sm"
 						class="flex items-center text-center w-80 shadow-xl p-2 mt-5"
 						size="lg"
-					>
-						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-							No Posts
-						</h1>
-						<Skeleton size="lg" />
-					</Card>
+					> -->
+					<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+						No Products
+					</h1>
+					<!-- <Skeleton size="lg" />
+					</Card> -->
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.products as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
-							<p>{time(item.timestamp)}</p>
+							<p class="text-sm">{time(item.timestamp)}</p>
 							<div class="px-5">
-								<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+								<h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
 									{item.name}
 								</h5>
-								<p class="text-xl  tracking-tight text-gray-900 dark:text-white">
+								<p class="text-md tracking-tight text-gray-900 dark:text-gray-200">
 									Category: {item.category_name}
 								</p>
 							</div>
-							<p class="text-xl dark:text-gray-300 p-1">Description: {item.description}</p>
-							<div class="flex justify-between gap-10 p-1">
-								<p class="text-lg dark:text-gray-300">Retail: ${item.retail_price}</p>
-								<p class="text-lg dark:text-gray-300">Wholesale: ${item.retail_price}</p>
-							</div>
-							<div class="flex justify-between gap-10 p-1">
-								<p class="text-lg dark:text-gray-300">
+							<div class="text-md tracking-tight dark:text-gray-300">
+								<div class="flex justify-between gap-10 p-1">
+									<p>Retail: ${item.retail_price}</p>
+									<p>Unit: 1</p>
+								</div>
+								<div class="flex justify-between gap-10 p-1">
+									<p class="">Wholesale: ${item.retail_price}</p>
+									<p class="">Unit: {item.wholesale_unit_quantity}</p>
+								</div>
+								<p class="">
 									Quantity: {item.total_product_quantity}
 								</p>
-								<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
 							</div>
 							<Button
 								class="w-full"
@@ -219,7 +206,6 @@
 								}}>Edit</Button
 							>
 						</Card>
-						<!-- {/if} -->
 					{/each}
 				</div>
 			{:else if activeButton === 'review'}
@@ -237,17 +223,7 @@
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.reviews as item}
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-2">
-							<p>{time(item.timestamp)}</p>
-							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								Review by: {item.user_name}
-							</p>
-							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								Farmer: {item.farmer_name}
-							</p>
-							<p class="text-xl dark:text-gray-300 p-1">Rating: {item.rating}</p>
-							<p class="text-xl dark:text-gray-300 p-1">Comment: {item.body}</p>
-						</Card>
+						<DisplayReview {item} />
 					{/each}
 				</div>
 			{:else if activeButton === 'about'}

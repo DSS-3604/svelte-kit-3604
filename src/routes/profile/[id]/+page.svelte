@@ -1,4 +1,6 @@
 <script lang="ts">
+	import avatar from '$lib/images/avatar.webp';
+	import DisplayReview from '../../../components/DisplayReview.svelte';
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	export let data;
@@ -88,13 +90,16 @@
 				console.log(res);
 			});
 		});
-		setActive('about');
+		setActive('review');
 	});
 	const time = (item) => {
 		let date = new Date(item);
-		let time = date.toLocaleTimeString();
-		let date2 = date.toLocaleDateString();
-		return `${date2} ${time}`;
+		let date2 = date.toLocaleDateString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric'
+		});
+		return date2;
 	};
 </script>
 
@@ -179,30 +184,20 @@
 					{/each}
 				</div>
 			{:else if activeButton === 'review'}
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
 					{#each $mainStore.farmer.reviews as item}
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-2">
-							<p>{time(item.timestamp)}</p>
-							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								Review by: {item.user_name}
-							</p>
-							<p class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-								Farmer: {item.farmer_name}
-							</p>
-							<p class="text-xl dark:text-gray-300 p-1">Rating: {item.rating}</p>
-							<p class="text-xl dark:text-gray-300 p-1">Comment: {item.body}</p>
-						</Card>
+						<DisplayReview {item} />
 					{/each}
-					<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg ">
+					<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-80 ">
 						<div class="flex flex-col items-center gap-2 text-center">
 							<div class="flex gap-10 p-1">
-								<h3 class="text-xl font-medium text-gray-900 dark:text-white">Add review</h3>
+								<h3 class="text-lg font-medium text-gray-900 dark:text-white">Add review</h3>
 								<div class="flex items-center">
 									{#each rankingOptions as option}
 										<svg
 											on:click={() => setRating(option.id)}
 											aria-hidden="true"
-											class="w-8 h-8 {option.color} hover:cursor-pointer"
+											class="w-7 h-7 {option.color} hover:cursor-pointer"
 											fill="currentColor"
 											viewBox="0 0 20 20"
 											xmlns="http://www.w3.org/2000/svg"
@@ -251,18 +246,3 @@
 		</div>
 	</div>
 </div>
-<!-- <div class="hidden md:block w-full">
-	<div class="flex justify-around items-center">
-		<div>
-			<img src="avatar.webp" class="w-full max-h-80" alt="avatar" />
-		</div>
-		<div>
-			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
-			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button>Add friend</Button>
-				<Button color="light" class="dark:text-white">Message</Button>
-			</div>
-		</div>
-	</div> -->
-<!-- </div> -->
