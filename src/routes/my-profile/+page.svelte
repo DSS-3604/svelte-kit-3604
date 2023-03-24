@@ -105,7 +105,7 @@
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button on:click={() => goto('/settings')}>Edit Profile</Button>
+				<Button on:click={() => goto('/settings')} class="bg-primary rounded-lg text-white" style="background:#889c0c">Edit Profile</Button>
 				{#if $mainStore.access_level === 'farmer'}
 					<Button on:click={() => (popupModal = true)} color="light" class="dark:text-white"
 						>New Post</Button
