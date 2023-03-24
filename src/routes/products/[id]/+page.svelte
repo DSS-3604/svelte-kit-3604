@@ -76,7 +76,7 @@
 				goto('/');
 			}
 		});
-		setActive('predictions');
+		setActive('about');
 	});
 	let commentToPost = {
 		user_id: '',
