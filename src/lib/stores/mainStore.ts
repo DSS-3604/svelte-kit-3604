@@ -78,7 +78,8 @@ type MainStore = {
 	farmer: User;
 	product: Product;
 	catalog: Product[];
-	query: Query[];
+	userQuery: Query[];
+	farmerQuery: Query[];
 };
 
 const mainStore: Writable<MainStore> = writable({
@@ -135,6 +136,7 @@ const mainStore: Writable<MainStore> = writable({
 		timestamp: '',
 		category_name: ''
 	},
-	query: [],
+	userQuery: [],
+	farmerQuery: [],
 });
 export default mainStore;

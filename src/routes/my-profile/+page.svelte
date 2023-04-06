@@ -87,6 +87,9 @@
 				$utils.fetchQueryUser($mainStore.user.info.id).then((res) => {
 					console.log(res);
 				});
+				$utils.fetchQueryFarmer($mainStore.user.info.id).then((res) => {
+					console.log(res);
+				});
 			} else {
 				goto('/');
 			}
@@ -270,7 +273,7 @@
 					</div>
 				</div>
 			{:else if activeButton === 'queries'}
-				{#if $mainStore.query.length === 0}
+				{#if $mainStore.userQuery.length === 0 && $mainStore.farmerQuery.length === 0}
 					<Card
 						padding="sm"
 						class="flex items-center text-center w-80 shadow-xl p-2 mt-5 "
@@ -282,8 +285,30 @@
 						<Skeleton size="lg" />
 					</Card>
 				{/if}
+				<h4 class="dark:text-white">User Queries</h4>
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-					{#each $mainStore.query as item}
+					{#each $mainStore.userQuery as item}
+						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300">
+							<div class="flex flex-col gap-2">
+								<div class="flex justify-between">
+									<p class="font-semibold">Farmer Name:</p>
+									<p>{item.farmer_name}</p>
+								</div>
+								<div class="flex justify-between">
+									<p class="font-semibold">Product Name:</p>
+									<p>{item.product_name}</p>
+								</div>
+								<div class="flex justify-between">
+									<p class="font-semibold">Message:</p>
+									<p>{item.message}</p>
+								</div>
+							</div>
+						</Card>
+					{/each}
+				</div>
+				<h4 class="dark:text-white">Farmer Queries</h4>
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+					{#each $mainStore.farmerQuery as item}
 						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300">
 							<div class="flex flex-col gap-2">
 								<div class="flex justify-between">

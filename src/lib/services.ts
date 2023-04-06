@@ -22,20 +22,19 @@ export default class Service {
 			return res;
 		});
 	}
-
-	async fetchProdQueries(product_id: string) {
-		return this.fetch(`api/product_queries/${product_id}`).then((res) => {
-			mainStore.update((store) => {
-				store.query = res;
-				return store;
-			});
-			return res;
-		});
-	}
 	async fetchQueryUser(user_id:string){
 		return this.fetch(`api/product_queries/user/${user_id}`).then((res) => {
 			mainStore.update((store) => {
-				store.query = res;
+				store.userQuery = res;
+				return store;
+			});
+			return res
+		});
+	}
+	async fetchQueryFarmer(user_id:string){
+		return this.fetch(`api/product_queries/farmer/${user_id}`).then((res) => {
+			mainStore.update((store) => {
+				store.farmerQuery = res;
 				return store;
 			});
 			return res
