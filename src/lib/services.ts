@@ -12,6 +12,12 @@ export default class Service {
 			this.store = value;
 		});
 	}
+	async submitForm(form: any) {
+		return this.post('api/query/post', form).then((res) => {
+			return res;
+		});
+	}
+
 	async fetchUserProducts() {
 		return this.fetch(`products/farmer/${this.store.user.info.id}`).then((res) => {
 			console.log('products', res);

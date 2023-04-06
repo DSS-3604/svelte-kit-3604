@@ -10,7 +10,11 @@
 		Card,
 		Textarea,
 		RatingComment,
+		Checkbox,
+		Input,
+		Label,
 		Button,
+		Modal,
 		Avatar,
 		Skeleton
 	} from 'flowbite-svelte';
@@ -37,6 +41,11 @@
 		timestamp: '',
 		category_name: ''
 	};
+
+	let message = '';
+	let farmer = '';
+	let email = '';
+	let productID='';
 
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
@@ -122,6 +131,13 @@
 			color: 'green'
 		}
 	];
+	function myFunction() {
+		let form = {"product_id":product.id,"message":message};
+		console.log(form);
+		$utils.submitForm(form).then((res) => {
+			console.log(res);
+		});
+	}
 </script>
 
 <div class="m-5">
@@ -327,6 +343,28 @@
 		</div>
 	</div>
 </div>
+
+<Modal bind:open={query} size="xs" autoclose={false} class="w-full">
+	<div class="flex flex-col space-y-6">
+		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Contact Farmer {product.farmer_name}</h3>
+		<Label class="space-y-2">
+			<h4>Farmer Name: {product.farmer_name}</h4>
+		</Label>
+		<Label class="space-y-2">
+			<h4>Product: {product.name}</h4>
+		</Label>
+		<Label class="space-y-2">
+			<h4>Message:</h4>
+			<Textarea
+				bind:value={message}
+				name="message"
+				placeholder="I would like to buy this product."
+				required
+			/>
+		</Label>
+		<Button type="submit" class="w-full1" on:click={myFunction}>Submit</Button>
+	</div>
+</Modal>
 
 <svelte:head>
 	<title>{$mainStore.product.name}</title>

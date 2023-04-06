@@ -4,7 +4,7 @@
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
-	import { Card, Button, Input, ButtonGroup, Chevron, Select } from 'flowbite-svelte';
+	import { Card, Button, Input, ButtonGroup, Chevron, Select, Modal, Textarea, Label } from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
 	onMount(() => {
@@ -23,6 +23,7 @@
 			];
 		});
 	});
+	let query = false;
 	let current_filter = 'all';
 	const time = (item) => {
 		let date = new Date(item);
@@ -57,6 +58,14 @@
 			});
 		}
 	};
+	let message="";
+	function myFunction() {
+		let form = {"product_id":product.id,"message":message};
+		console.log(form);
+		$utils.submitForm(form).then((res) => {
+			console.log(res);
+		});
+	}
 </script>
 
 <div class="m-5">
@@ -164,8 +173,6 @@
 		{/each}
 	</div>
 </div>
-
-
 <svelte:head>
 	<title>Catalog</title>
 </svelte:head>
