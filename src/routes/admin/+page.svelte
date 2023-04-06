@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import utils from '$lib/stores/utils';
 	import mainStore from '$lib/stores/mainStore';
+	import { goto } from '$app/navigation';
 	let table = [];
 	let keys = [];
 	const tableNames = [
@@ -11,29 +12,33 @@
 			name: 'Users',
 			value: 'users'
 		},
-		{
-			name: 'Farmers Application',
-			value: 'farmers_application'
-		},
+		// {
+		// 	name: 'Farmers Application',
+		// 	value: 'farmers_application'
+		// },
 		{
 			name: 'Products',
 			value: 'products'
-		},
-		{
-			name: 'Product Categories',
-			value: 'product_categories'
-		},
-		{
-			name: 'Logs',
-			value: 'logs'
-		},
-		{
-			name: 'Product Comments',
-			value: 'product/comments'
 		}
+		// {
+		// 	name: 'Product Categories',
+		// 	value: 'product_categories'
+		// },
+		// {
+		// 	name: 'Logs',
+		// 	value: 'logs'
+		// },
+		// {
+		// 	name: 'Product Comments',
+		// 	value: 'product/comments'
+		// }
 	];
+	let reports = {};
 	let selected = '';
 	onMount(async () => {
+		if ($mainStore.access_level !== 'admin') {
+			goto('/');
+		}
 		selected = 'users';
 		if (!$mainStore.loggedIn) {
 			$utils.silentLogin().then((res) => {
@@ -42,11 +47,27 @@
 					keys = Object.keys(table[0]);
 					console.log(table);
 				});
+				$utils.fetchReports().then((res) => {
+					reports = {
+						'New Users': res.new_user_count,
+						'New Products': res.new_product_count,
+						'New Farmers': res.new_farmer_count,
+						'Pending Applications ': res.total_pending_applications_count
+					};
+				});
 			});
 		} else {
 			$utils.fetchTable('users').then((res) => {
 				table = res;
 				keys = Object.keys(table[0]);
+			});
+			$utils.fetchReports().then((res) => {
+				reports = {
+					'New Users': res.new_user_count,
+					'New Products': res.new_product_count,
+					'New Farmers': res.new_farmer_count,
+					'Pending Applications ': res.total_pending_applications_count
+				};
 			});
 		}
 	});
@@ -79,7 +100,7 @@
 <div class="p-5">
 	<!-- row 1 -->
 	<div class="flex flex-wrap -mx-3">
-		{#each [1, 2, 3, 4] as item}
+		{#each Object.entries(reports) as [key, value]}
 			<div
 				class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4 dark:text-white"
 			>
@@ -90,9 +111,9 @@
 						<div class="flex flex-row -mx-3">
 							<div class="flex-none w-2/3 max-w-full px-3">
 								<div>
-									<p class="mb-0 font-sans font-semibold leading-normal text-size-sm">New Users</p>
+									<p class="mb-0 font-sans font-semibold leading-normal text-size-sm">{key}</p>
 									<h5 class="mb-0 font-bold">
-										200
+										{value ? value : 0}
 										<span class="leading-normal text-size-sm font-weight-bolder text-lime-500"
 											>+5%</span
 										>

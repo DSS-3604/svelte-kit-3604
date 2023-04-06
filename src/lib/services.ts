@@ -12,6 +12,11 @@ export default class Service {
 			this.store = value;
 		});
 	}
+	async fetchReports() {
+		return this.fetch('api/reports').then((res) => {
+			return res;
+		});
+	}
 	async submitForm(form: any) {
 		return this.post('api/product_queries/', form).then((res) => {
 			return res;
@@ -27,7 +32,6 @@ export default class Service {
 			return res;
 		});
 	}
-
 	async fetchQueryUser(user_id:string){
 		return this.fetch(`api/product_queries/user/${user_id}`).then((res) => {
 			mainStore.update((store) => {
