@@ -18,7 +18,7 @@ export default class Service {
 		});
 	}
 	async submitForm(form: any) {
-		return this.post('api/product_queries/', form).then((res) => {
+		return this.post('api/product_queries', form).then((res) => {
 			return res;
 		});
 	}

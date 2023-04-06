@@ -103,11 +103,13 @@
 				href="/my-profile"
 				on:click={() => (active = 'Profile')}>Profile</NavLi
 			>
-			<NavLi
-				active={active == 'Report' ? true : false}
-				href="/report"
-				on:click={() => (active = 'Report')}>Report</NavLi
-			>
+			{#if $mainStore.user.info.access == 'admin'}
+				<NavLi
+					active={active == 'Report' ? true : false}
+					href="/report"
+					on:click={() => (active = 'Report')}>Report</NavLi
+				>
+			{/if}
 			<NavLi
 				active={active == 'Settings' ? true : false}
 				href="/settings"

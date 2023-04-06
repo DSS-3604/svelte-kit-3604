@@ -65,6 +65,7 @@
 		console.log(form);
 		$utils.submitForm(form).then((res) => {
 			console.log(res);
+			query = false;
 		});
 	}
 </script>
