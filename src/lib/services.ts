@@ -12,8 +12,19 @@ export default class Service {
 			this.store = value;
 		});
 	}
+
+	async fetchTable(name: string) {
+		return this.fetch(`api/${name}`).then((res) => {
+			return res;
+		});
+	}
+	async downloadTable(name: string) {
+		return this.fetchCSV(`api/reports/export/${name}`).then((res) => {
+			return res;
+		});
+	}
 	async fetchUserProducts() {
-		return this.fetch(`products/farmer/${this.store.user.info.id}`).then((res) => {
+		return this.fetch(`api/products/farmer/${this.store.user.info.id}`).then((res) => {
 			console.log('products', res);
 			mainStore.update((store) => {
 				store.user.products = res;
@@ -43,7 +54,7 @@ export default class Service {
 		});
 	}
 	async filterProducts(filter: any) {
-		return this.fetch(`products/category/${filter}`).then((res) => {
+		return this.fetch(`api/products/category/${filter}`).then((res) => {
 			if (res.message) {
 				mainStore.update((store) => {
 					store.catalog = [];
@@ -59,7 +70,7 @@ export default class Service {
 		});
 	}
 	async searchProducts(search: any) {
-		return this.fetch(`products/search/${search}`).then((res) => {
+		return this.fetch(`api/products/search/${search}`).then((res) => {
 			if (res.message) {
 				mainStore.update((store) => {
 					store.catalog = [];
@@ -76,7 +87,7 @@ export default class Service {
 	}
 
 	async fetchProductCategories() {
-		return this.fetch(`product_categories`).then((res) => {
+		return this.fetch(`api/product_categories`).then((res) => {
 			if (res.message) {
 				mainStore.update((store) => {
 					store.product_categories = [];
@@ -98,7 +109,7 @@ export default class Service {
 	}
 
 	async fetchProduct(id: string) {
-		return this.fetch(`products/${id}`).then((res) => {
+		return this.fetch(`api/products/${id}`).then((res) => {
 			mainStore.update((store) => {
 				store.product = res;
 				return store;
@@ -108,7 +119,7 @@ export default class Service {
 	}
 
 	async fetchFarmerProducts(id: string) {
-		return this.fetch(`products/farmer/${id}`).then((res) => {
+		return this.fetch(`api/products/farmer/${id}`).then((res) => {
 			console.log(res);
 			mainStore.update((store) => {
 				store.farmer.products = res;
@@ -117,12 +128,12 @@ export default class Service {
 		});
 	}
 	async getFarmerReviews(id: string) {
-		return this.fetch(`farmer/${id}/review`).then((res) => {
+		return this.fetch(`api/farmer/${id}/review`).then((res) => {
 			return res;
 		});
 	}
 	async getUserReviews(id: string) {
-		return this.fetch(`farmer/review/user/${id}`).then((res) => {
+		return this.fetch(`api/farmer/review/user/${id}`).then((res) => {
 			mainStore.update((store) => {
 				store.user.reviews = res;
 				return store;
@@ -141,14 +152,14 @@ export default class Service {
 		});
 	}
 	async reviewProduct(review: any) {
-		return this.post(`product/review`, review).then((res) => {
+		return this.post(`api/product/review`, review).then((res) => {
 			if (res) {
 				console.log(res);
 			}
 		});
 	}
 	async reviewFarmer(review: any) {
-		return this.post(`farmer/${review.farmer_id}/review`, review).then((res) => {
+		return this.post(`api/farmer/${review.farmer_id}/review`, review).then((res) => {
 			if (res) {
 				if (res.message) {
 					return new Error(res.message);
@@ -163,7 +174,7 @@ export default class Service {
 	}
 
 	async fetchProducts() {
-		return this.fetch('products').then((res) => {
+		return this.fetch('api/products').then((res) => {
 			if (res.message) {
 				mainStore.update((store) => {
 					store.catalog = [];
@@ -178,7 +189,7 @@ export default class Service {
 		});
 	}
 	async createComment(comment: any) {
-		return this.post(`product/comment`, comment).then((res) => {
+		return this.post(`api/product/comment`, comment).then((res) => {
 			if (res) {
 				mainStore.update((store) => {
 					store.product.comments.push(res);
@@ -188,7 +199,7 @@ export default class Service {
 		});
 	}
 	async createProduct(product: any) {
-		return this.post('products', product).then((res) => {
+		return this.post('api/products', product).then((res) => {
 			console.log(res);
 			if (res) {
 				//update the store
@@ -200,7 +211,7 @@ export default class Service {
 		});
 	}
 	async updateProduct(product: any) {
-		return this.put(`products/${product.id}`, product).then((res) => {
+		return this.put(`api/products/${product.id}`, product).then((res) => {
 			if (res) {
 				//update the store
 				mainStore.update((store) => {
@@ -282,6 +293,24 @@ export default class Service {
 				console.log(err);
 			});
 	}
+	async fetchCSV(path: string) {
+		return fetch(`${this.endpoint}/${path}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'text/csv',
+				Authorization: `JWT ${this.store.access_token}`
+			}
+		})
+			.then((res) => {
+				const json = res.text();
+				console.log(json);
+				return json;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+
 	async fetchWithBody(path: string, body: object) {
 		return fetch(`${this.endpoint}/${path}`, {
 			method: 'GET',

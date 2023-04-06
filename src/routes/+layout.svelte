@@ -31,7 +31,6 @@
 	let active = '';
 	onMount(() => {
 		let url = window.location.href;
-		console.log('Pain:', url);
 		if (url.includes('my-profile')) {
 			active = 'Profile';
 		} else if (url.includes('settings')) {
@@ -52,10 +51,12 @@
 		setTimeout(() => {
 			preloader.classList.add('hidden');
 		}, 3000);
-	});	
+	});
 </script>
 
-<div class="preloader-wrapper h-screen flex justify-center items-center fixed top-0 left-0 z-50 w-full p-4 border-b border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+<div
+	class="preloader-wrapper h-screen flex justify-center items-center fixed top-0 left-0 z-50 w-full p-4 border-b border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+>
 	<div id="loader" class="preloader" />
 	<h1 class="text-xl font-semibold text-white-600/100 dark:text-white ml-2 animate-bounce">
 		Page Loaging...
@@ -111,6 +112,11 @@
 				active={active == 'Settings' ? true : false}
 				href="/settings"
 				on:click={() => (active = 'Settings')}>Settings</NavLi
+			>
+			<NavLi
+				active={active == 'Admin' ? true : false}
+				href="/admin"
+				on:click={() => (active = 'Admin')}>Admin</NavLi
 			>
 		</NavUl>
 	</Navbar>
