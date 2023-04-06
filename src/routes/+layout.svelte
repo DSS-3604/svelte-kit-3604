@@ -78,9 +78,11 @@
 			/>
 			<p class="px-2 hidden md:block">{$mainStore.user.info.username}</p>
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
-				<DropdownDivider />
-				<DropdownItem on:click={signOut}>Sign out</DropdownItem>
-				<DropdownDivider />
+				{#if $mainStore.loggedIn}
+					<DropdownDivider />
+					<DropdownItem on:click={signOut}>Sign out</DropdownItem>
+					<DropdownDivider />
+				{/if}
 			</Dropdown>
 			<NavHamburger on:click={toggle} />
 		</div>

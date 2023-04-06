@@ -115,7 +115,7 @@
 			<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
 				{$mainStore.user.info.username}
 			</h5>
-			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
+			<span class="text-sm text-gray-500 dark:text-gray-400">{$mainStore.access_level}</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				<Button
 					on:click={() => goto('/settings')}
@@ -282,9 +282,26 @@
 						<Skeleton size="lg" />
 					</Card>
 				{/if}
-				{#each $mainStore.query as item}
-					<h4>{item.id}</h4>
-				{/each}
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+					{#each $mainStore.query as item}
+						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300">
+							<div class="flex flex-col gap-2">
+								<div class="flex justify-between">
+									<p class="font-semibold">Farmer Name:</p>
+									<p>{item.farmer_name}</p>
+								</div>
+								<div class="flex justify-between">
+									<p class="font-semibold">Product Name:</p>
+									<p>{item.product_name}</p>
+								</div>
+								<div class="flex justify-between">
+									<p class="font-semibold">Message:</p>
+									<p>{item.message}</p>
+								</div>
+							</div>
+						</Card>
+					{/each}
+				</div>
 			{/if}
 		</div>
 	</div>
