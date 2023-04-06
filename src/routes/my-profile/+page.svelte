@@ -40,6 +40,7 @@
 	let about_btn_color = btnDefault;
 	let reviews_btn_color = btnDefault;
 	let post_btn_color = btnDefault;
+	let queries_btn_color = btnDefault;
 
 	const setActive = (btn) => {
 		activeButton = btn;
@@ -47,14 +48,22 @@
 			about_btn_color = btnActive;
 			reviews_btn_color = btnDefault;
 			post_btn_color = btnDefault;
+			queries_btn_color = btnDefault;
 		} else if (btn === 'review') {
 			about_btn_color = btnDefault;
 			reviews_btn_color = btnActive;
 			post_btn_color = btnDefault;
+			queries_btn_color = btnDefault;
 		} else if (btn === 'post') {
 			about_btn_color = btnDefault;
 			reviews_btn_color = btnDefault;
 			post_btn_color = btnActive;
+			queries_btn_color = btnDefault;
+		} else if (btn === 'queries') {
+			about_btn_color = btnDefault;
+			reviews_btn_color = btnDefault;
+			post_btn_color = btnDefault;
+			queries_btn_color = btnActive;
 		}
 	};
 	let popupModal = false;
@@ -75,6 +84,9 @@
 						console.log(res);
 					});
 				}
+				$utils.fetchQueryUser($mainStore.user.info.id).then((res) => {
+					console.log(res);
+				});
 			} else {
 				goto('/');
 			}
@@ -105,7 +117,11 @@
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button on:click={() => goto('/settings')} class="bg-primary rounded-lg text-white" style="background:#889c0c">Edit Profile</Button>
+				<Button
+					on:click={() => goto('/settings')}
+					class="bg-primary rounded-lg text-white"
+					style="background:#889c0c">Edit Profile</Button
+				>
 				{#if $mainStore.access_level === 'farmer'}
 					<Button on:click={() => (popupModal = true)} color="light" class="dark:text-white"
 						>New Post</Button
@@ -155,6 +171,9 @@
 					</button>
 					<button class="w-full {reviews_btn_color} py-1" on:click={() => setActive('review')}>
 						Reviews
+					</button>
+					<button class="w-full {queries_btn_color} py-1" on:click={() => setActive('queries')}>
+						Queries
 					</button>
 				</div>
 			</div>
@@ -250,6 +269,22 @@
 						</div>
 					</div>
 				</div>
+			{:else if activeButton === 'queries'}
+				{#if $mainStore.query.length === 0}
+					<Card
+						padding="sm"
+						class="flex items-center text-center w-80 shadow-xl p-2 mt-5 "
+						size="lg"
+					>
+						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+							No Queries
+						</h1>
+						<Skeleton size="lg" />
+					</Card>
+				{/if}
+				{#each $mainStore.query as item}
+					<h4>{item.id}</h4>
+				{/each}
 			{/if}
 		</div>
 	</div>
@@ -260,7 +295,6 @@
 		<UpdateProduct item={toEdit} />
 	</Modal>
 </div>
-
 
 <svelte:head>
 	<title>{$mainStore.user.info.username}</title>

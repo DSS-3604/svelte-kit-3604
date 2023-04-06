@@ -2,6 +2,19 @@ import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 export { Writable };
 
+type Query = {
+	id:string;
+	user_id:string;
+	user_name:string;
+	product_id:string;
+	product_name:string;
+	farmer_id:string;
+	farmer_name:string;
+	phone:string;
+	email:string;
+	message:string;
+	timestamp:string;
+};
 type Review = {
 	id: string;
 	farmer_id: string;
@@ -65,6 +78,7 @@ type MainStore = {
 	farmer: User;
 	product: Product;
 	catalog: Product[];
+	query: Query[];
 };
 
 const mainStore: Writable<MainStore> = writable({
@@ -120,6 +134,7 @@ const mainStore: Writable<MainStore> = writable({
 		comments: [],
 		timestamp: '',
 		category_name: ''
-	}
+	},
+	query: [],
 });
 export default mainStore;

@@ -13,8 +13,28 @@ export default class Service {
 		});
 	}
 	async submitForm(form: any) {
-		return this.post('api/query/post', form).then((res) => {
+		return this.post('api/product_queries/', form).then((res) => {
 			return res;
+		});
+	}
+
+	async fetchProdQueries(product_id: string) {
+		return this.fetch(`api/product_queries/${product_id}`).then((res) => {
+			mainStore.update((store) => {
+				store.query = res;
+				return store;
+			});
+			return res;
+		});
+	}
+
+	async fetchQueryUser(user_id:string){
+		return this.fetch(`api/product_queries/user/${user_id}`).then((res) => {
+			mainStore.update((store) => {
+				store.query = res;
+				return store;
+			});
+			return res
 		});
 	}
 
