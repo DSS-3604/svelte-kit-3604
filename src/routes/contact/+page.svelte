@@ -5,7 +5,7 @@
 	</div>
 
 	<div class="formbold-form-wrapper">
-		<form action="https://formbold.com/s/FORM_ID" method="POST">
+		<form action="/catalogue" method="POST">
 			<div class="formbold-mb-5">
 				<label for="name" class="formbold-form-label"> Full Name </label>
 				<input
@@ -37,10 +37,6 @@
 					class="formbold-form-input"
 					required
 				/>
-			</div>
-			<div class="formbold-mb-5">
-				<label for="email" class="formbold-form-label"> Date </label>
-				<input type="date" name="date" id="date" class="formbold-form-input" />
 			</div>
 			<div class="formbold-mb-5">
 				<label class="formbold-form-label formbold-form-label-2"> Message Details </label>
