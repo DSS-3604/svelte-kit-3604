@@ -12,12 +12,16 @@ export default class Service {
 			this.store = value;
 		});
 	}
+	async fetchReports() {
+		return this.fetch('api/reports').then((res) => {
+			return res;
+		});
+	}
 	async submitForm(form: any) {
 		return this.post('api/query/post', form).then((res) => {
 			return res;
 		});
 	}
-
 
 	async fetchTable(name: string) {
 		return this.fetch(`api/${name}`).then((res) => {

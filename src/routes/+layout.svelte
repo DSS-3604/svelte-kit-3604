@@ -113,11 +113,13 @@
 				href="/settings"
 				on:click={() => (active = 'Settings')}>Settings</NavLi
 			>
-			<NavLi
-				active={active == 'Admin' ? true : false}
-				href="/admin"
-				on:click={() => (active = 'Admin')}>Admin</NavLi
-			>
+			{#if $mainStore.user.info.access == 'admin'}
+				<NavLi
+					active={active == 'Admin' ? true : false}
+					href="/admin"
+					on:click={() => (active = 'Admin')}>Admin</NavLi
+				>
+			{/if}
 		</NavUl>
 	</Navbar>
 </div>
