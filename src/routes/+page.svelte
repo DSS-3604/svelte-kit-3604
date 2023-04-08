@@ -95,7 +95,6 @@
 			<h1 class="font-extrabold">
 				Welcome to Cari<span class="text-orange-400">g</span>ro
 			</h1>
-			<p>some more text</p>
 			<div class="flex justify-center">
 				<button
 					on:click={() => (formModal = true)}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import avatar from '$lib/images/avatar.webp';
 	import mainStore from '$lib/stores/mainStore';
 	import DisplayReview from '../../components/DisplayReview.svelte';
 	import utils from '$lib/stores/utils';
@@ -10,12 +11,19 @@
 		Button,
 		Badge,
 		Modal,
-		Skeleton
+		Select,
+		Dropdown,
+		Chevron
 	} from 'flowbite-svelte';
+	import pencil from '$lib/images/pencil.png';
+	import veg from '$lib/images/veg.png';
+	import darkVeg from '$lib/images/dark-veg.png';
+	import bunny_carrot from '$lib/images/bunny-carrot.png';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
 	import { goto } from '$app/navigation';
 	import UpdateProduct from '../../components/UpdateProduct.svelte';
+	import NoItems from '../../components/NoItems.svelte';
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
@@ -66,6 +74,7 @@
 			queries_btn_color = btnActive;
 		}
 	};
+	let queryType = '';
 	let popupModal = false;
 	onMount(() => {
 		$utils.silentLogin().then(() => {
@@ -94,7 +103,8 @@
 				goto('/');
 			}
 		});
-		setActive('post');
+		queryType = 'farmer';
+		setActive('queries');
 	});
 	let toEdit = {};
 	let edit = false;
@@ -103,6 +113,21 @@
 		let time = date.toLocaleTimeString();
 		let date2 = date.toLocaleDateString();
 		return `${date2} ${time}`;
+	};
+	const queryTypes = [
+		{ name: 'My Queries', value: 'user' },
+		{ name: 'Queries to me', value: 'farmer' }
+	];
+	let truncate = 'truncate';
+	let messageAction = 'Show more';
+	const message = () => {
+		if (truncate === 'truncate') {
+			truncate = '';
+			messageAction = 'Show less';
+		} else {
+			truncate = 'truncate';
+			messageAction = 'Show more';
+		}
 	};
 </script>
 
@@ -182,16 +207,7 @@
 			</div>
 			{#if activeButton === 'post'}
 				{#if $mainStore.user.products.length === 0}
-					<!-- <Card
-						padding="sm"
-						class="flex items-center text-center w-80 shadow-xl p-2 mt-5"
-						size="lg"
-					> -->
-					<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-						No Products
-					</h1>
-					<!-- <Skeleton size="lg" />
-					</Card> -->
+					<NoItems name="products" actionText="creating a product" image={darkVeg} />
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.products as item}
@@ -232,16 +248,12 @@
 				</div>
 			{:else if activeButton === 'review'}
 				{#if $mainStore.user.reviews.length === 0}
-					<Card
-						padding="sm"
-						class="flex items-center text-center w-80 shadow-xl p-2 mt-5 "
-						size="lg"
-					>
-						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-							No Reviews
-						</h1>
-						<Skeleton size="lg" />
-					</Card>
+					<NoItems
+						name="reviews"
+						action="/catalog"
+						actionText="reviewing a product"
+						image={darkVeg}
+					/>
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
 					{#each $mainStore.user.reviews as item}
@@ -273,55 +285,85 @@
 					</div>
 				</div>
 			{:else if activeButton === 'queries'}
-				{#if $mainStore.userQuery.length === 0 && $mainStore.farmerQuery.length === 0}
-					<Card
-						padding="sm"
-						class="flex items-center text-center w-80 shadow-xl p-2 mt-5 "
-						size="lg"
-					>
-						<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-							No Queries
-						</h1>
-						<Skeleton size="lg" />
-					</Card>
+				<div class="flex items-center justify-center gap-5 p-5">
+					<p class="text-gray-500 dark:text-gray-400">Filter</p>
+					<Select items={queryTypes} bind:value={queryType} />
+				</div>
+				{#if $mainStore.farmerQuery.length === 0 && queryType === 'farmer'}
+					<NoItems name="Queries" actionText="reviewing a product" image={darkVeg} />
+				{:else if $mainStore.userQuery.length === 0 && queryType === 'user'}
+					<NoItems name="Queries" actionText="reviewing a product" image={darkVeg} />
 				{/if}
-				<h4 class="dark:text-white">User Queries</h4>
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-					{#each $mainStore.userQuery as item}
-						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300">
-							<div class="flex flex-col gap-2">
-								<div class="flex justify-between">
-									<p class="font-semibold">Farmer Name:</p>
-									<p>{item.farmer_name}</p>
+
+				<div class="mt-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+					{#each queryType === 'user' ? $mainStore.userQuery : $mainStore.farmerQuery as item}
+						<Card
+							padding="none"
+							class="flex relative w-80  shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300"
+						>
+							<div class="flex items-center gap-5 p-2">
+								<div class="relative w-28">
+									<img src={avatar} alt="product" />
+									<img
+										src={avatar}
+										alt="user"
+										class="w-10 h-10 absolute bottom-1 right-1 rounded-full"
+									/>
 								</div>
-								<div class="flex justify-between">
-									<p class="font-semibold">Product Name:</p>
-									<p>{item.product_name}</p>
-								</div>
-								<div class="flex justify-between">
-									<p class="font-semibold">Message:</p>
-									<p>{item.message}</p>
+								<div class="w-2/3">
+									{#if queryType === 'user'}
+										<div class="flex gap-2">
+											<p class="font-semibold">To:</p>
+											<a
+												href={'/profile/' + item.farmer_id}
+												class="truncate underline text-blue-500">{item.farmer_name}</a
+											>
+										</div>
+										<div class="flex gap-2">
+											<p class="font-semibold">Product:</p>
+											<a
+												href={'/products/' + item.product_id}
+												class="truncate underline text-blue-500">{item.product_name}</a
+											>
+										</div>
+									{:else}
+										<div class="flex gap-2">
+											<p class="font-semibold">From:</p>
+											<a href={'/profile/' + item.user_id} class="truncate underline text-blue-500"
+												>{item.user_name}</a
+											>
+										</div>
+										<div class="flex gap-2">
+											<p class="font-semibold">Product:</p>
+											<a
+												href={'/products/' + item.product_id}
+												class="truncate underline text-blue-500">{item.product_name}</a
+											>
+										</div>
+										<div class="w-full">
+											<a href="mailto:{item.email}" class="underline text-blue-500">
+												<p class="truncate">
+													{item.email}
+												</p>
+											</a>
+										</div>
+									{/if}
 								</div>
 							</div>
-						</Card>
-					{/each}
-				</div>
-				<h4 class="dark:text-white">Farmer Queries</h4>
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-					{#each $mainStore.farmerQuery as item}
-						<Card padding="none" class="flex relative w-80 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300">
-							<div class="flex flex-col gap-2">
-								<div class="flex justify-between">
-									<p class="font-semibold">Farmer Name:</p>
-									<p>{item.farmer_name}</p>
-								</div>
-								<div class="flex justify-between">
-									<p class="font-semibold">Product Name:</p>
-									<p>{item.product_name}</p>
-								</div>
-								<div class="flex justify-between">
-									<p class="font-semibold">Message:</p>
-									<p>{item.message}</p>
+							<div class="p-2">
+								<p class="font-semibold">Message:</p>
+								<p class="break-words {truncate}">
+									{item.message}
+								</p>
+								{#if item.message.length > 31}
+									<div class="flex">
+										<button class="underline" on:click={message}>{messageAction}</button>
+									</div>
+								{/if}
+							</div>
+							<div class="p-2 flex items-center justify-end">
+								<div class="justify-start">
+									<Button size="sm">Reply</Button>
 								</div>
 							</div>
 						</Card>
