@@ -15,10 +15,7 @@
 		Dropdown,
 		Chevron
 	} from 'flowbite-svelte';
-	import pencil from '$lib/images/pencil.png';
-	import veg from '$lib/images/veg.png';
 	import darkVeg from '$lib/images/dark-veg.png';
-	import bunny_carrot from '$lib/images/bunny-carrot.png';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
 	import { goto } from '$app/navigation';
