@@ -63,6 +63,9 @@
 	let username = '';
 	let error = '';
 	const login = async () => {
+		if (username == '' || password == '') {
+			alert("Please fill in the form correctly. Ensure both username and password fields are filled in.");
+		}
 		error = '';
 		let user = {
 			username: username,
@@ -131,11 +134,13 @@
 				href="/contact"
 				on:click={() => (active = 'Contact')}>Contact</NavLi
 			>
-			<NavLi
-				active={active == 'Profile' ? true : false}
-				href="/my-profile"
-				on:click={() => (active = 'Profile')}>Profile</NavLi
-			>
+			{#if $mainStore.loggedIn}
+				<NavLi
+					active={active == 'Profile' ? true : false}
+					href="/my-profile"
+					on:click={() => (active = 'Profile')}>Profile</NavLi
+				>
+			{/if}
 			{#if $mainStore.user.info.access == 'admin'}
 				<NavLi
 					active={active == 'Report' ? true : false}
@@ -143,11 +148,13 @@
 					on:click={() => (active = 'Report')}>Report</NavLi
 				>
 			{/if}
-			<NavLi
-				active={active == 'Settings' ? true : false}
-				href="/settings"
-				on:click={() => (active = 'Settings')}>Settings</NavLi
-			>
+			{#if $mainStore.loggedIn}
+				<NavLi
+					active={active == 'Settings' ? true : false}
+					href="/settings"
+					on:click={() => (active = 'Settings')}>Settings</NavLi
+				>
+			{/if}
 			{#if $mainStore.user.info.access == 'admin'}
 				<NavLi
 					active={active == 'Admin' ? true : false}

@@ -2,6 +2,14 @@ import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 export { Writable };
 
+type ContactForm = {
+	id: string;
+	name: string;
+	phone: string;
+	email: string;
+	message: string;
+	timestamp: string;
+}
 type Query = {
 	id:string;
 	user_id:string;
@@ -80,6 +88,7 @@ type MainStore = {
 	catalog: Product[];
 	userQuery: Query[];
 	farmerQuery: Query[];
+	contactForm: ContactForm[];
 };
 
 const mainStore: Writable<MainStore> = writable({
