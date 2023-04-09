@@ -35,6 +35,21 @@
 	];
 	let reports = {};
 	let selected = '';
+	const adminPageFetch = () => {
+		$utils.fetchTable('users').then((res) => {
+			table = res;
+			keys = Object.keys(table[0]);
+			console.log(table);
+		});
+		$utils.fetchReports().then((res) => {
+			reports = {
+				'New Users': res.new_user_count,
+				'New Products': res.new_product_count,
+				'New Farmers': res.new_farmer_count,
+				'Pending Applications ': res.total_pending_applications_count
+			};
+		});
+	};
 	onMount(async () => {
 		if ($mainStore.access_level !== 'admin') {
 			goto('/');
@@ -42,33 +57,14 @@
 		selected = 'users';
 		if (!$mainStore.loggedIn) {
 			$utils.silentLogin().then((res) => {
-				$utils.fetchTable('users').then((res) => {
-					table = res;
-					keys = Object.keys(table[0]);
-					console.log(table);
-				});
-				$utils.fetchReports().then((res) => {
-					reports = {
-						'New Users': res.new_user_count,
-						'New Products': res.new_product_count,
-						'New Farmers': res.new_farmer_count,
-						'Pending Applications ': res.total_pending_applications_count
-					};
-				});
+				if (!$mainStore.loggedIn || $mainStore.access_level !== 'admin') {
+					goto('/');
+				} else {
+					adminPageFetch();
+				}
 			});
 		} else {
-			$utils.fetchTable('users').then((res) => {
-				table = res;
-				keys = Object.keys(table[0]);
-			});
-			$utils.fetchReports().then((res) => {
-				reports = {
-					'New Users': res.new_user_count,
-					'New Products': res.new_product_count,
-					'New Farmers': res.new_farmer_count,
-					'Pending Applications ': res.total_pending_applications_count
-				};
-			});
+			adminPageFetch();
 		}
 	});
 	const getTable = async (e) => {
@@ -80,8 +76,6 @@
 	const download = async () => {
 		$utils.downloadTable(selected).then((res) => {
 			console.log('csv', res);
-			//res is the csv file
-			//prompt the download here
 			const blob = new Blob([res], { type: 'text/csv' });
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');

@@ -1,8 +1,7 @@
 <script lang="ts">
-	import bunny_carrot from '$lib/images/bunny_carrot.png';
 	export let name = 'NoItems';
-	export let image = bunny_carrot;
 	export let action = '';
+	export let image = '';
 	export let actionText = '';
 </script>
 

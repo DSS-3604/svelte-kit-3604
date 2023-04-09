@@ -22,25 +22,24 @@ export default class Service {
 			return res;
 		});
 	}
-	async fetchQueryUser(user_id:string){
+	async fetchQueryUser(user_id: string) {
 		return this.fetch(`api/product_queries/user/${user_id}`).then((res) => {
 			mainStore.update((store) => {
 				store.userQuery = res;
 				return store;
 			});
-			return res
+			return res;
 		});
 	}
-	async fetchQueryFarmer(user_id:string){
+	async fetchQueryFarmer(user_id: string) {
 		return this.fetch(`api/product_queries/farmer/${user_id}`).then((res) => {
 			mainStore.update((store) => {
 				store.farmerQuery = res;
 				return store;
 			});
-			return res
+			return res;
 		});
 	}
-
 
 	async fetchTable(name: string) {
 		return this.fetch(`api/${name}`).then((res) => {
@@ -280,6 +279,8 @@ export default class Service {
 					return store;
 				});
 				return res;
+			} else {
+				return null;
 			}
 		});
 	}
