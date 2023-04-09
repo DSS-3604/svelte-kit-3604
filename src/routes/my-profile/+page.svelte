@@ -3,18 +3,7 @@
 	import mainStore from '$lib/stores/mainStore';
 	import DisplayReview from '../../components/DisplayReview.svelte';
 	import utils from '$lib/stores/utils';
-	import {
-		Card,
-		Rating,
-		RatingComment,
-		Avatar,
-		Button,
-		Badge,
-		Modal,
-		Select,
-		Dropdown,
-		Chevron
-	} from 'flowbite-svelte';
+	import { Card, Rating, RatingComment, Avatar, Button, Modal, Select } from 'flowbite-svelte';
 	import darkVeg from '$lib/images/dark-veg.png';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
@@ -24,23 +13,6 @@
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
-
-	type Product = {
-		farmer_id: string;
-		category_id: string;
-		name: string;
-		description: string;
-		image: string;
-		retail_price: string;
-		wholesale_price: string;
-		wholesale_unit_quantity: string;
-		total_product_quantity: string;
-		farmer_name: string;
-		comments: any[];
-		timestamp: string;
-		category_name: string;
-		id: string;
-	};
 
 	let about_btn_color = btnDefault;
 	let reviews_btn_color = btnDefault;
