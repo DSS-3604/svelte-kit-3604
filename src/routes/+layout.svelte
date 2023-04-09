@@ -17,9 +17,15 @@
 		DropdownItem,
 		DropdownDivider,
 		Tooltip,
-		Avatar
+		Avatar,
+		Modal,
+		Input,
+		Label,
+		Checkbox,
+		Button,
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	let placement = 'bottom';
 	let darkmodebtn =
 		'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5 m-1 z-50';
@@ -28,6 +34,7 @@
 		localStorage.removeItem('access_token');
 		window.location.href = '/';
 	};
+	let signInModal=false;
 	let active = '';
 	onMount(() => {
 		let url = window.location.href;
@@ -52,6 +59,26 @@
 			preloader.classList.add('hidden');
 		}, 3000);
 	});
+	let password = '';
+	let username = '';
+	let error = '';
+	const login = async () => {
+		error = '';
+		let user = {
+			username: username,
+			password: password
+		};
+		$utils.login(user).then((res) => {
+			if (res) {
+				goto('/my-profile');
+				console.log(res);
+			} else {
+				error = 'username or password is incorrect';
+				console.log(error);
+			}
+		});
+		signInModal = false;
+	};
 </script>
 
 <div
@@ -81,6 +108,10 @@
 				{#if $mainStore.loggedIn}
 					<DropdownDivider />
 					<DropdownItem on:click={signOut}>Sign out</DropdownItem>
+					<DropdownDivider />
+				{:else}
+					<DropdownDivider />
+					<DropdownItem on:click={() => (signInModal = true)}>Sign in</DropdownItem>
 					<DropdownDivider />
 				{/if}
 			</Dropdown>
@@ -213,3 +244,24 @@
 		}
 	}
 </style>
+
+<Modal bind:open={signInModal} size="xs" autoclose={false} class="w-full">
+	<div class="flex flex-col space-y-6">
+		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
+		<Label class="space-y-2">
+			<span>Username</span>
+			<Input bind:value={username} type="text" name="username" placeholder="username" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Your password</span>
+			<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
+		</Label>
+		<div class="flex items-start">
+			<Checkbox>Remember me</Checkbox>
+			<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+				>Lost password?</a
+			>
+		</div>
+		<Button type="submit" class="w-full1" on:click={login}>Submit</Button>
+	</div>
+</Modal>
