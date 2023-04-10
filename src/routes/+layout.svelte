@@ -170,10 +170,7 @@
 	<FooterLinkGroup
 		ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
 	>
-		<FooterLink href="/">About</FooterLink>
-		<FooterLink href="/">Privacy Policy</FooterLink>
-		<FooterLink href="/">Licensing</FooterLink>
-		<FooterLink href="/">Contact</FooterLink>
+		<FooterLink href="/contact">Contact</FooterLink>
 	</FooterLinkGroup>
 </Footer>
 
@@ -278,6 +275,6 @@
 				>Lost password?</a
 			>
 		</div>
-		<Button type="submit" class="w-full1" on:click={login}>Submit</Button>
+		<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={login}>Submit</Button>
 	</div>
 </Modal>
