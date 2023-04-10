@@ -168,7 +168,7 @@
 					>Lost password?</a
 				>
 			</div>
-			<Button type="submit" class="w-full1" on:click={signUp}>Submit</Button>
+			<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={signUp}>Submit</Button>
 			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
 				Registered? <a
 					on:click={() => (loginModal = true)}
@@ -198,7 +198,7 @@
 					>Lost password?</a
 				>
 			</div>
-			<Button type="submit" class="w-full1" on:click={login}>Submit</Button>
+			<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={login}>Submit</Button>
 			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
 				Not registered? <a
 					on:click={() => (loginModal = false)}

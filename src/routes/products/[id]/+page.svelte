@@ -121,7 +121,7 @@
 			<p class="text-xl font-bold dark:text-white">{product.name}</p>
 			<p class="text-xl font-bold dark:text-white">by {product.farmer_name}</p>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button on:click={() => (query = true)}>Query</Button>
+				<Button on:click={() => (query = true)} class="dark:text-white bg-primary-light" color="lime">Query</Button>
 				<Button on:click={() => 'hi'} color="light" class="dark:text-white">Contact</Button>
 			</div>
 		</div>
@@ -137,7 +137,7 @@
 					class="w-1/3 {predictions_btn_color} py-1"
 					on:click={() => setActive('predictions')}
 				>
-					Predictions
+					History
 				</button>
 			</div>
 		</div>
@@ -158,7 +158,7 @@
 									placeholder="Write your review"
 									class="w-full"
 								/>
-								<Button type="submit" on:click={commentProduct} class="mt-1 w-full">Submit</Button>
+								<Button type="submit" on:click={commentProduct} class="mt-1 w-full dark:text-white bg-primary-light" color="lime">Submit</Button>
 							</div>
 						</div>
 					</Card>
@@ -305,7 +305,7 @@
 				required
 			/>
 		</Label>
-		<Button type="submit" class="w-full1" on:click={myFunction}>Submit</Button>
+		<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={myFunction}>Submit</Button>
 	</div>
 </Modal>
 

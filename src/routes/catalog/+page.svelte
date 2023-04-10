@@ -101,7 +101,7 @@
 					/>
 				</div>
 				<Input bind:value={search} placeholder="Search" on:keyup={doSearch} />
-				<Button on:click={doSearch} color="blue" class="!p-2.5" type="submit">
+				<Button on:click={doSearch} class="!p-2.5 bg-primary-light" color="lime" type="submit">
 					<svg
 						class="w-5 h-5"
 						fill="none"
@@ -182,8 +182,7 @@
 					</p>
 				</div>
 				<Button
-					class="w-full"
-					color="blue"
+				class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime"
 					on:click={() => {
 						query = true;
 						tem = item;
@@ -213,7 +212,7 @@
 				required
 			/>
 		</Label>
-		<Button type="submit" class="w-full1" on:click={myFunction}>Submit</Button>
+		<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={myFunction}>Submit</Button>
 	</div>
 </Modal>
 <svelte:head>

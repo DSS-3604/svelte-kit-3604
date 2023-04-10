@@ -93,7 +93,7 @@
 					placeholder="I would like information."
 				/>
 			</div>
-			<Button type="submit" class="w-full1" on:click={sendMessage}>Submit</Button>
+			<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={sendMessage}>Submit</Button>
 		</form>
 	</div>
 </div>

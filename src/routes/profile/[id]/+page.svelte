@@ -116,7 +116,7 @@
 			</h5>
 			<span class="text-sm text-gray-500 dark:text-gray-400">Farmer</span>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<Button>Report</Button>
+				<Button class="dark:text-white bg-primary-light" color="lime">Report</Button>
 				<Button color="light" class="dark:text-white">Message</Button>
 			</div>
 		</div>
@@ -186,7 +186,7 @@
 								</p>
 								<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
 							</div>
-							<Button class="w-full" color="blue">Query</Button>
+							<Button class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" >Query</Button>
 						</Card>
 					{/each}
 				</div>
@@ -218,7 +218,7 @@
 								placeholder="Write your review"
 								class="w-full"
 							/>
-							<Button type="submit" on:click={rateFarmer} class="w-full">Submit</Button>
+							<Button type="submit" on:click={rateFarmer} class="w-full dark:text-white bg-primary-light" color="lime">Submit</Button>
 						</div>
 					</Card>
 					{#each $mainStore.farmer.reviews as item}
