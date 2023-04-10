@@ -40,7 +40,21 @@ export default class Service {
 			return res;
 		});
 	}
-
+	async submitMessage(message: any) {
+		return this.post('api/contact_forms', message).then((res) => {
+			return res;
+		});
+	}
+	async getMessages(message: any) {
+		return this.post('api/contact_forms', message).then((res) => {
+			if (res) {
+				mainStore.update((store) => {
+					store.contactForm.push(res);
+					return store;
+				});
+			}
+		});
+	}
 	async fetchTable(name: string) {
 		return this.fetch(`api/${name}`).then((res) => {
 			return res;
@@ -216,6 +230,7 @@ export default class Service {
 			}
 		});
 	}
+
 	async createComment(comment: any) {
 		return this.post(`api/product/comment`, comment).then((res) => {
 			if (res) {
