@@ -101,29 +101,6 @@
 		});
 		return date2;
 	};
-	const nutritions = [
-		{
-			id: 0,
-			name: 'Calories',
-			value: '43',
-			unit: 'kcal',
-			color: 'red'
-		},
-		{
-			id: 1,
-			name: 'Sugar',
-			value: '20',
-			unit: 'g',
-			color: 'yellow'
-		},
-		{
-			id: 3,
-			name: 'Carbs',
-			value: '20',
-			unit: 'g',
-			color: 'green'
-		}
-	];
 	function myFunction() {
 		let form = { product_id: product.id, message: message };
 		console.log(form);
@@ -273,18 +250,7 @@
 						</Card>
 					</Card>
 				</div>
-				<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-				<div class="grid grid-cols-3 gap-10">
-					{#each nutritions as item}
-						<div class="my-4 progress">
-							<div class="dark:text-white un-progress">
-								<p class="font-bold">{item.value} g</p>
-								<p>{item.name}</p>
-							</div>
-							<Progressbar progress={item.value} color={item.color} class="mt-3" />
-						</div>
-					{/each}
-				</div>
+				
 			{:else if activeButton === 'predictions'}
 				<!-- Line chart with product cost on y-axis and time on x-axis -->
 				<LineChart

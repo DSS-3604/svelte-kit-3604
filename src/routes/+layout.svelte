@@ -101,7 +101,7 @@
 	<Navbar let:hidden let:toggle>
 		<NavBrand>
 			<DarkMode btnClass={darkmodebtn} />
-			<img src={carigro_logo} class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" />
+			<NavUl><NavLi active={active == 'Home' ? true : false} href="/" on:click={() => (active = 'Home')}><img src={carigro_logo} class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" /></NavLi></NavUl> 
 		</NavBrand>
 		<div class="flex items-center md:order-2">
 			<Avatar
@@ -165,7 +165,7 @@
 
 <slot />
 
-<Footer>
+<Footer class="bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
 	<FooterCopyright href="/" by="Carigro™" year={2023} />
 	<FooterLinkGroup
 		ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
