@@ -4,7 +4,18 @@
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
-	import { Card, Button, Input, ButtonGroup, Chevron, Select, Modal, Textarea, Label, GroupItem } from 'flowbite-svelte';
+	import {
+		Card,
+		Button,
+		Input,
+		ButtonGroup,
+		Chevron,
+		Select,
+		Modal,
+		Textarea,
+		Label,
+		GroupItem
+	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
 	onMount(() => {
@@ -23,7 +34,7 @@
 			];
 		});
 	});
-	let tem={};
+	let tem = {};
 	let query = false;
 	let current_filter = 'all';
 	const time = (item) => {
@@ -59,9 +70,9 @@
 			});
 		}
 	};
-	let message="";
+	let message = '';
 	function myFunction() {
-		let form = {"product_id":tem.id,"message":message};
+		let form = { product_id: tem.id, message: message };
 		console.log(form);
 		$utils.submitForm(form).then((res) => {
 			console.log(res);
@@ -170,14 +181,23 @@
 						Quantity: {item.total_product_quantity}
 					</p>
 				</div>
-				<Button class="w-full" color="blue" on:click={() => {query = true;tem=item}}>Query</Button>
+				<Button
+					class="w-full"
+					color="blue"
+					on:click={() => {
+						query = true;
+						tem = item;
+					}}>Query</Button
+				>
 			</Card>
 		{/each}
 	</div>
 </div>
 <Modal bind:open={query} size="xs" autoclose={false} class="w-full">
 	<div class="flex flex-col space-y-6">
-		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Contact Farmer {tem.farmer_name}</h3>
+		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">
+			Contact Farmer {tem.farmer_name}
+		</h3>
 		<Label class="space-y-2">
 			<h4>Farmer Name: {tem.farmer_name}</h4>
 		</Label>

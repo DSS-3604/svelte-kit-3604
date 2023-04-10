@@ -1,13 +1,15 @@
 <script lang="ts">
+	import { comment } from 'postcss';
 	import avatar from '$lib/images/avatar.webp';
-	import { Timeline, TimelineItem, Select, Label, Button, Card} from 'flowbite-svelte';
+	import { Timeline, TimelineItem, Select, Label, Button, Card } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import utils from '$lib/stores/utils';
 	import mainStore from '$lib/stores/mainStore';
+	import pending from '$lib/images/pending.png';
 	import { goto } from '$app/navigation';
 	let table = [];
 	let keys = [];
-	let tkeys=["name", "phone", "email", "message", "time"];
+	let tkeys = ['name', 'phone', 'email', 'message', 'time'];
 	const tableNames = [
 		{
 			name: 'Users',
@@ -36,6 +38,17 @@
 	];
 	let reports = {};
 	let selected = '';
+	const applicationAction = async (action, id) => {
+		$utils.farmerApplicationActions(action, id).then((res) => {
+			if (res) {
+				console.log('farmer application action', res);
+				// $utils.getFarmerApplications().then((res) => {
+				// 	farmerApplications = res;
+				// 	console.log('farmer applications', farmerApplications);
+				// });
+			}
+		});
+	};
 	const adminPageFetch = () => {
 		$utils.fetchTable('users').then((res) => {
 			table = res;
@@ -52,20 +65,24 @@
 		});
 	};
 	onMount(async () => {
-		// if ($mainStore.access_level !== 'admin') {
-		// 	goto('/');
-		// }
 		selected = 'users';
 		if (!$mainStore.loggedIn) {
 			$utils.silentLogin().then((res) => {
 				if (!$mainStore.loggedIn || $mainStore.access_level !== 'admin') {
 					goto('/');
 				} else {
+					$utils.getFarmerApplications().then((res) => {
+						farmerApplications = res;
+						console.log('farmer applications', farmerApplications);
+					});
 					adminPageFetch();
 					getAdminMessages();
 				}
 			});
 		} else {
+			$utils.getFarmerApplications().then((res) => {
+				console.log('farmer applications', farmerApplications);
+			});
 			adminPageFetch();
 			getAdminMessages();
 		}
@@ -94,7 +111,7 @@
 	};
 	const getAdminMessages = async () => {
 		$utils.getMessages('messages').then((res) => {
-			console.log("why:",res);
+			console.log(res);
 		});
 	};
 </script>
@@ -142,6 +159,76 @@
 					</div>
 				</div>
 			</div>
+		{/each}
+	</div>
+	<!-- Farmer Applications -->
+	<div class="mt-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
+		{#each $mainStore.farmerApplications as item}
+			<Card class="w-80 relative">
+				<p class="text-sm absolute  right-3 top-3">
+					{$utils.timeConverter(item.created_timestamp)}
+				</p>
+				<div class="flex gap-10">
+					<div class="">
+						<img src={pending} alt="pending" class="w-16" />
+					</div>
+					<div class="w-3/4">
+						<div class="flex flex-col">
+							<p class="font-semibold mt-5 truncate">
+								User: {item.user_name}
+							</p>
+						</div>
+					</div>
+				</div>
+				<h3 class=" font-semibold">Comment:</h3>
+				<h3 class=" font-semibold overflow-auto max-h-28 ">
+					{item.comment}
+				</h3>
+				<div class="flex justify-between mt-3">
+					<Button
+						size="xs"
+						color="green"
+						class=" text-white font-bold py-2 px-4 rounded"
+						on:click={() => {
+							applicationAction('approve', item.id);
+						}}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-6 h-6"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+						</svg>
+					</Button>
+					<Button
+						size="xs"
+						color="red"
+						class=" text-white font-bold py-2 px-4 rounded"
+						on:click={() => {
+							applicationAction('reject', item.id);
+						}}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-6 h-6"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+					</Button>
+				</div>
+			</Card>
 		{/each}
 	</div>
 	<div class="flex flex-wrap my-6 -mx-3 ">
@@ -266,7 +353,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="dark:bg-gray-900 pl-10 rounded-2xl pb-8 dark:bg-gray-900 rounded-2xl w-full max-w-full px-3 mt-3 md:flex-none lg:flex-none p-5">
+			<div
+				class="dark:bg-gray-900 pl-10 rounded-2xl pb-8 dark:bg-gray-900 rounded-2xl w-full max-w-full px-3 mt-3 md:flex-none lg:flex-none p-5"
+			>
 				<h6 class="dark:text-white">Contact Form Requests</h6>
 				<div class="flex-auto p-6 px-0 pb-2 ">
 					<div class="overflow-x-auto">
@@ -301,8 +390,6 @@
 						</table>
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
