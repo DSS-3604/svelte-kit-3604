@@ -1,4 +1,5 @@
 <script lang="ts">
+	import darkVeg from '$lib/images/dark-veg.png';
 	import avatar from '$lib/images/avatar.webp';
 	import DisplayReview from '../../../components/DisplayReview.svelte';
 	import mainStore from '$lib/stores/mainStore';
@@ -6,6 +7,7 @@
 	export let data;
 	import { Card, Rating, RatingComment, Avatar, Button, Badge, Textarea } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
+	import NoItems from '../../../components/NoItems.svelte';
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
@@ -62,6 +64,8 @@
 		review.user_id = $mainStore.user.info.id;
 		$utils.reviewFarmer(review).then((res) => {
 			console.log(res);
+			review.body = '';
+			review.rating = 0;
 		});
 	};
 	const setRating = (n) => {
@@ -158,9 +162,12 @@
 				</div>
 			</div>
 			{#if activeButton === 'post'}
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+				{#if $mainStore.farmer.products.length === 0}
+					<NoItems name="products" image={darkVeg} />
+				{/if}
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each $mainStore.farmer.products as item}
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4 ">
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
 							<p>{time(item.timestamp)}</p>
 							<div class="px-5">
@@ -184,14 +191,11 @@
 					{/each}
 				</div>
 			{:else if activeButton === 'review'}
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-					{#each $mainStore.farmer.reviews as item}
-						<DisplayReview {item} />
-					{/each}
-					<div class="border sticky bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-80 ">
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+					<Card class="w-80 h-64">
 						<div class="flex flex-col items-center gap-2 text-center">
-							<div class="flex gap-10 p-1">
-								<h3 class="text-lg font-medium text-gray-900 dark:text-white">Add review</h3>
+							<div class="flex gap-10">
+								<h3 class="text-md font-medium text-gray-900 dark:text-white">Add review</h3>
 								<div class="flex items-center">
 									{#each rankingOptions as option}
 										<svg
@@ -209,14 +213,17 @@
 								</div>
 							</div>
 							<Textarea
-								rows="6"
+								rows="5"
 								bind:value={review.body}
 								placeholder="Write your review"
 								class="w-full"
 							/>
 							<Button type="submit" on:click={rateFarmer} class="w-full">Submit</Button>
 						</div>
-					</div>
+					</Card>
+					{#each $mainStore.farmer.reviews as item}
+						<DisplayReview {item} />
+					{/each}
 				</div>
 			{:else if activeButton === 'about'}
 				<div class="mt-5 flex flex-col w-full">

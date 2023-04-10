@@ -166,73 +166,54 @@
 		</div>
 		<div class="mt-5">
 			{#if activeButton === 'comments'}
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
-					{#if $mainStore.product.comments.length === 0}
-						<div class="flex justify-center items-center">
-							<Card
-								padding="sm"
-								class="flex items-center text-center w-100 shadow-xl p-2 mt-5 w-100"
-								size="xl"
-							>
-								<h1 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-									No Comments
-								</h1>
-								<Skeleton size="xl" />
-							</Card>
+				<div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+					<Card class="shadow-2xl p-3 h-64 w-80 border-solid border-black">
+						<div class="rounded-lg w-100 p-2">
+							<div class="flex flex-col items-center gap-2 text-center">
+								<div class="flex gap-10">
+									<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">
+										Add Comment
+									</h3>
+								</div>
+								<Textarea
+									rows="5"
+									bind:value={commentToPost.body}
+									placeholder="Write your review"
+									class="w-full"
+								/>
+								<Button type="submit" on:click={commentProduct} class="mt-1 w-full">Submit</Button>
+							</div>
 						</div>
-					{/if}
+					</Card>
 					{#each $mainStore.product.comments as item}
-						<Card
-							size="xl"
-							class="flex relative w-100 h-64 shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300 "
-						>
-							<div class="flex gap-4 p-1 w-100">
-								<Avatar size="sm" src={avatar} />
-								<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-									{item.user_id}
-								</p>
-								<div class="text-right items-right ml-3">
+						<Card class="shadow-xl w-80 h-64 border-solid border-black p-3">
+							<div class="flex justify-between p-1">
+								<div class="flex gap-4">
+									<Avatar size="sm" src={avatar} />
+									<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+										{item.user_name}
+									</p>
+								</div>
+								<div class="">
 									<p class="p-1">{time(item.timestamp)}</p>
 								</div>
 							</div>
 
-							<Card size="xl" class="mt-3">
+							<div class="mt-3">
 								{#if item.body === ''}
 									<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
 										{product.name} is a {product.category_name} grown by {product.farmer_name}. It
 										is an excellent product and is highly recommended.
 									</p>
 								{:else}
-									<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto">
+									<p class="text-md dark:text-gray-300 p-1 break-words overflow-y-auto h-28">
 										{item.body}
 									</p>
 								{/if}
-							</Card>
-
-							<Button class="absolute bottom-2 right-2">Reply</Button>
+							</div>
+							<Button class="mt-3">Reply</Button>
 						</Card>
 					{/each}
-
-					<div class="border bottom-0 dark:bg-gray-800 bg-white p-2 rounded-lg w-100">
-						<div class="flex flex-col items-center gap-2 text-center">
-							<div class="flex gap-10 p-1">
-								<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">Add Comment</h3>
-							</div>
-							<Textarea
-								rows="6"
-								bind:value={commentToPost.body}
-								placeholder="Write your review"
-								class="w-full"
-							/>
-							<Button type="submit" on:click={commentProduct} class="w-full">Submit</Button>
-						</div>
-					</div>
-					<Card size="xl" class="">
-						<p>
-							There currently exists {product.comments.length} comments for the product {product.name},
-							add a comment above containing your reviews about said product.
-						</p>
-					</Card>
 				</div>
 			{:else if activeButton === 'about'}
 				<div class="flex flex-col gap-10 text-center items-center justify-center">

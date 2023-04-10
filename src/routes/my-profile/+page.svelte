@@ -178,7 +178,7 @@
 				{#if $mainStore.user.products.length === 0}
 					<NoItems name="products" actionText="creating a product" image={darkVeg} />
 				{/if}
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each $mainStore.user.products as item}
 						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
@@ -224,7 +224,7 @@
 						image={darkVeg}
 					/>
 				{/if}
-				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each $mainStore.user.reviews as item}
 						<DisplayReview {item} />
 					{/each}
@@ -264,7 +264,7 @@
 					<NoItems name="Queries" actionText="reviewing a product" image={darkVeg} />
 				{/if}
 
-				<div class="mt-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+				<div class="mt-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each queryType === 'user' ? $mainStore.userQuery : $mainStore.farmerQuery as item}
 						<Card
 							padding="none"
