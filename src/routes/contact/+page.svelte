@@ -104,3 +104,7 @@
 		margin-right: auto;
 	}
 </style>
+
+<svelte:head>
+	<title>Contact</title>
+</svelte:head>
