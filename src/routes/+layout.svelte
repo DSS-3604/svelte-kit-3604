@@ -145,13 +145,6 @@
 					on:click={() => (active = 'Profile')}>Profile</NavLi
 				>
 			{/if}
-			{#if $mainStore.user.info.access == 'admin'}
-				<NavLi
-					active={active == 'Report' ? true : false}
-					href="/report"
-					on:click={() => (active = 'Report')}>Report</NavLi
-				>
-			{/if}
 			{#if $mainStore.loggedIn}
 				<NavLi
 					active={active == 'Settings' ? true : false}
