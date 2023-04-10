@@ -1,18 +1,12 @@
 <script lang="ts">
 	import { Card, Rating, Badge, Progressbar } from 'flowbite-svelte';
-	export let rating = '';
 	export let image = '';
-	export let nutritions: Nutritions[] = [];
 	export let name: string = '';
-
-	type Nutritions = {
-		name: string;
-		value: string;
-		color: string;
-	};
+	export let category: string = '';
+	export let description: string = '';
 </script>
 
-<Card padding="none" class="flex items-center text-center w-80 shadow-xl">
+<Card padding="10px" class="flex items-center text-center w-80 shadow-xl">
 	<a href="/">
 		<img class="p-8 rounded-t-lg  h-40" src={image} alt="product 1" />
 	</a>
@@ -20,21 +14,19 @@
 		<a href="/">
 			<h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{name}</h5>
 		</a>
-		<Rating {rating} size="18" class="m-2.5">
-			<Badge slot="text" class="ml-3">{rating}</Badge>
-		</Rating>
 	</div>
-	<div class="grid grid-cols-3 gap-10">
-		{#each nutritions as item}
-			<div class="my-4 progress">
-				<div class="dark:text-white un-progress">
-					<p class="font-bold">{item.value} g</p>
-					<p>{item.name}</p>
-				</div>
-				<Progressbar progress={item.value} color={item.color} class="mt-3" />
-			</div>
-		{/each}
+	<div class="p-5">
+		{#if description === ''}
+			<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				A {name} is a {category} product.
+			</p>
+		{:else}
+			<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+				{description}
+			</p>
+		{/if}
 	</div>
+	
 </Card>
 
 <style>

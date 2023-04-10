@@ -83,6 +83,22 @@
 			}
 		});
 	};
+	onMount(() => {
+		$utils.fetchProducts();
+		$utils.silentLogin().then(() => {
+			$utils.fetchProducts();
+		});
+		$utils.fetchProductCategories().then((res) => {
+			console.log(res);
+			$mainStore.product_categories = [
+				{
+					name: 'All categories',
+					value: 'all'
+				},
+				...$mainStore.product_categories
+			];
+		});
+	});
 </script>
 
 <div class="relative">
@@ -113,29 +129,15 @@
 		</div>
 	</div>
 </div>
-<h1 class="text-primary text-center text-3xl m-10 font-semibold">Top Products</h1>
+<h1 class="text-primary text-center text-3xl m-10 font-semibold">New Products</h1>
 <div class="m-5 sm:ml-20 sm:mr-20">
 	<div class="overflow-x-auto grid grid-flow-col gap-7">
-		{#each [1, 2, 3, 4, 5] as item}
-			<ProductCard rating="4" image={orange} {nutritions} name="Oranges" />
+		{#each $mainStore.catalog.reverse().slice(0,5) as item}
+			<ProductCard image={item.image} category={item.category_name} name={item.name} description={item.description} />
 		{/each}
 	</div>
 </div>
 
-<h1 class="text-primary text-center text-3xl m-10 font-semibold">Top Sellers</h1>
-<div class="m-5 sm:ml-20 sm:mr-20">
-	<div class="overflow-x-auto grid grid-flow-col gap-7">
-		{#each [1, 2, 3, 4, 5] as item}
-			<SellerCard
-				rating="4"
-				image={avatar}
-				name="John Doe"
-				role="Farmer"
-				desciption="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-			/>
-		{/each}
-	</div>
-</div>
 {#if !loginModal}
 	<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
 		<div class="flex flex-col space-y-6">
@@ -211,16 +213,7 @@
 	</Modal>
 {/if}
 
-<Footer>
-	<FooterCopyright href="/" by="Carigro™" year={2023} />
-	<FooterLinkGroup
-		ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
-	>
-		<FooterLink href="/">About</FooterLink>
-		<FooterLink href="/">Privacy Policy</FooterLink>
-		<FooterLink href="/">Licensing</FooterLink>
-		<FooterLink href="/">Contact</FooterLink>
-	</FooterLinkGroup>
-</Footer>
 
-<svelte:head />
+<svelte:head>
+	<title>Home</title>
+</svelte:head>
