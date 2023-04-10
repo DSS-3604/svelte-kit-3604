@@ -40,19 +40,20 @@ export default class Service {
 			return res;
 		});
 	}
-	async submitMessage(message: any) {
-		return this.post('api/contact_forms', message).then((res) => {
-			return res;
-		});
-	}
+	// async submitMessage(message: any) {
+	// 	return this.post('api/contact_forms', message).then((res) => {
+	// 		return res;
+	// 	});
+	// }
 	async getMessages(message: any) {
-		return this.post('api/contact_forms', message).then((res) => {
+		return this.fetch('api/contact_forms').then((res) => {
 			if (res) {
 				mainStore.update((store) => {
-					store.contactForm.push(res);
+					store.contactForm = res;
 					return store;
 				});
 			}
+			return res;
 		});
 	}
 	async fetchTable(name: string) {
