@@ -40,6 +40,11 @@ export default class Service {
 			return res;
 		});
 	}
+	async upgradeAccount(message: object) {
+		return this.post('api/farmer_applications', message).then((res) => {
+			return res;
+		});
+	}
 	async submitMessage(message: any) {
 		return this.post('api/contact_forms', message).then((res) => {
 			return res;
@@ -53,6 +58,7 @@ export default class Service {
 					return store;
 				});
 			}
+			return res;
 		});
 	}
 	async fetchTable(name: string) {

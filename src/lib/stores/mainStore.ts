@@ -9,19 +9,19 @@ type ContactForm = {
 	email: string;
 	message: string;
 	timestamp: string;
-}
+};
 type Query = {
-	id:string;
-	user_id:string;
-	user_name:string;
-	product_id:string;
-	product_name:string;
-	farmer_id:string;
-	farmer_name:string;
-	phone:string;
-	email:string;
-	message:string;
-	timestamp:string;
+	id: string;
+	user_id: string;
+	user_name: string;
+	product_id: string;
+	product_name: string;
+	farmer_id: string;
+	farmer_name: string;
+	phone: string;
+	email: string;
+	message: string;
+	timestamp: string;
 };
 type Review = {
 	id: string;
@@ -147,5 +147,6 @@ const mainStore: Writable<MainStore> = writable({
 	},
 	userQuery: [],
 	farmerQuery: [],
+	contactForm: []
 });
 export default mainStore;

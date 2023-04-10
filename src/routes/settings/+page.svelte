@@ -1,7 +1,6 @@
 <script lang="ts">
 	import avatar from '$lib/images/avatar.webp';
 	import {
-		Card,
 		Button,
 		Input,
 		Label,
@@ -11,7 +10,8 @@
 		SidebarWrapper,
 		Modal,
 		Avatar,
-		Select
+		Select,
+		Textarea
 	} from 'flowbite-svelte';
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
@@ -20,6 +20,10 @@
 	import ImageUpload from '../../components/ImageUpload.svelte';
 	let formModal = false;
 	let avatarModal = false;
+	let upgradeModal = false;
+	let upgrade = {
+		comment: ''
+	};
 	let toChange = {
 		value: '',
 		placeholder: '',
@@ -27,11 +31,8 @@
 		type: 'text',
 		item: ''
 	};
-	// const save = () => {
-	// 	// $utils.updateUserInfo($mainStore.user.info).then((res) => {
-	// 	// 	console.log(res);
-	// 	// });
-	// };
+	let accessColor = '';
+
 	const setToChange = (value: string, label: string) => {
 		//@ts-ignore
 		toChange.value = $mainStore.user.info[value];
@@ -65,12 +66,22 @@
 		});
 	};
 	let error = '';
+	const accessChecker = () => {
+		if ($mainStore.access_level === 'user') {
+			accessColor = 'text-red-500';
+		} else if ($mainStore.access_level === 'farmer') {
+			accessColor = 'text-green-500';
+		} else if ($mainStore.access_level === 'admin') {
+			accessColor = 'text-blue-500';
+		}
+	};
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
 				$utils.fetchUserInfo().then((res) => {
 					console.log(res);
 				});
+				accessChecker();
 			} else {
 				goto('/');
 			}
@@ -130,6 +141,12 @@
 			});
 		}
 	};
+
+	const upgradeAccount = () => {
+		$utils.upgradeAccount(upgrade).then((res) => {
+			console.log(res);
+		});
+	};
 </script>
 
 <div class="flex justify-center min-h-full">
@@ -152,7 +169,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -173,7 +190,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -190,7 +207,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -207,7 +224,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -226,7 +243,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -243,7 +260,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -260,7 +277,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -277,7 +294,7 @@
 									viewBox="0 0 24 24"
 									stroke-width="1.5"
 									stroke="currentColor"
-									class="w-6 h-6"
+									class="w-6 h-6 button"
 									><path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -308,12 +325,12 @@
 						</div>
 					</div>
 					<div class="settings-section">
-						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">General Information</h2>
+						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">Account</h2>
 						<div class="non-active-form">
 							<p class="dark:text-gray-400">Username: {$mainStore.user.info.username}</p>
 							<button on:click={() => setToChange('username', 'Username')}>
 								<svg
-									class="h-8 w-8 text-green-500"
+									class="h-8 w-8 button"
 									viewBox="0 0 24 24"
 									stroke-width="2"
 									stroke="currentColor"
@@ -329,10 +346,39 @@
 							</button>
 						</div>
 						<div class="non-active-form">
+							<p class="dark:text-gray-400">
+								Account Type:
+								<span class="{accessColor} capitalize">
+									{$mainStore.access_level}
+								</span>
+							</p>
+							{#if $mainStore.access_level === 'user'}
+								<button class="p-2" on:click={() => (upgradeModal = true)}>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-10 h-10 hover:text-green-400 text-primary-light"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M4.5 12.75l7.5-7.5 7.5 7.5m-15 6l7.5-7.5 7.5 7.5"
+										/>
+									</svg>
+								</button>
+							{/if}
+						</div>
+					</div>
+					<div class="settings-section">
+						<h2 class="uppercase dark:text-gray-400 text-xl mb-2">General Information</h2>
+						<div class="non-active-form">
 							<p class="dark:text-gray-400">Email: {$mainStore.user.info.email}</p>
 							<button on:click={() => setToChange('email', 'email')}>
 								<svg
-									class="h-8 w-8 text-green-500"
+									class="h-8 w-8 button"
 									viewBox="0 0 24 24"
 									stroke-width="2"
 									stroke="currentColor"
@@ -351,7 +397,7 @@
 							<p class="dark:text-gray-400">Phone: {$mainStore.user.info.phone}</p>
 							<button on:click={() => setToChange('phone', 'Phone')}>
 								<svg
-									class="h-8 w-8 text-green-500"
+									class="h-8 w-8 button"
 									viewBox="0 0 24 24"
 									stroke-width="2"
 									stroke="currentColor"
@@ -370,7 +416,7 @@
 							<p class="dark:text-gray-400">Bio: {$mainStore.user.info.bio}</p>
 							<button on:click={() => setToChange('bio', 'Bio')}>
 								<svg
-									class="h-8 w-8 text-green-500"
+									class="h-8 w-8 button"
 									viewBox="0 0 24 24"
 									stroke-width="2"
 									stroke="currentColor"
@@ -389,7 +435,7 @@
 							<p class="dark:text-gray-400">Address: {$mainStore.user.info.address}</p>
 							<button on:click={() => setToChange('address', 'Address')}>
 								<svg
-									class="h-8 w-8 text-green-500"
+									class="h-8 w-8 button"
 									viewBox="0 0 24 24"
 									stroke-width="2"
 									stroke="currentColor"
@@ -480,10 +526,26 @@
 		<Button on:click={() => setChange(toChange.item)} class="w-full">Submit</Button>
 	</form>
 </Modal>
+<Modal bind:open={upgradeModal} size="xs" autoclose={false} class="w-full">
+	<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Upgrade to Farmer</h3>
+	<Label class="space-y-2">
+		<Textarea
+			rows="7"
+			bind:value={upgrade.comment}
+			placeholder="Tell us why you want to upgrade to a farmer"
+			class="w-full"
+		/>
+	</Label>
+	<Button on:click={upgradeAccount} class="w-full">Submit</Button>
+</Modal>
 
 <Modal bind:open={avatarModal} size="xs" class="w-full">
 	<ImageUpload />
 </Modal>
+
+<svelte:head>
+	<title>Settings</title>
+</svelte:head>
 
 <style>
 	.mainwrapper {
@@ -533,18 +595,14 @@
 		font-size: 1rem;
 		cursor: default;
 	}
-	svg {
+	.button {
 		cursor: pointer;
 		color: #454545;
 		transition: all 0.5s;
 		margin-right: 10px;
 	}
-	svg:hover {
+	.button:hover {
 		color: green;
 		transform: scale(1.1);
 	}
 </style>
-
-<svelte:head>
-	<title>Settings</title>
-</svelte:head>
