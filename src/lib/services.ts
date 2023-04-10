@@ -12,11 +12,32 @@ export default class Service {
 			this.store = value;
 		});
 	}
+
 	async fetchReports() {
 		return this.fetch('api/reports').then((res) => {
 			return res;
 		});
 	}
+	async farmerApplicationActions(action: string, id: string) {
+		const promise = [];
+		if (action === 'approve') {
+			promise.push(this.put(`api/farmer_applications/approve/${id}`, { action }));
+		} else if (action === 'reject') {
+			promise.push(this.put(`api/farmer_applications/reject/${id}`, { action }));
+		}
+		Promise.all(promise).then((res) => {
+			this.getFarmerApplications().then((res) => {
+				return res;
+			});
+		});
+	}
+	timeConverter(data: string) {
+		const dateTime = new Date(data);
+		const date = dateTime.toLocaleDateString();
+		const time = dateTime.toLocaleTimeString();
+		return date + ' ' + time;
+	}
+
 	async submitForm(form: any) {
 		return this.post('api/product_queries', form).then((res) => {
 			return res;
@@ -42,6 +63,15 @@ export default class Service {
 	}
 	async upgradeAccount(message: object) {
 		return this.post('api/farmer_applications', message).then((res) => {
+			return res;
+		});
+	}
+	async getFarmerApplications() {
+		return this.fetch('api/farmer_applications/pending').then((res) => {
+			mainStore.update((store) => {
+				store.farmerApplications = res;
+				return store;
+			});
 			return res;
 		});
 	}

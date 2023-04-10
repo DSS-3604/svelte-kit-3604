@@ -89,6 +89,7 @@ type MainStore = {
 	userQuery: Query[];
 	farmerQuery: Query[];
 	contactForm: ContactForm[];
+	farmerApplications: any[];
 };
 
 const mainStore: Writable<MainStore> = writable({
@@ -147,6 +148,7 @@ const mainStore: Writable<MainStore> = writable({
 	},
 	userQuery: [],
 	farmerQuery: [],
-	contactForm: []
+	contactForm: [],
+	farmerApplications: []
 });
 export default mainStore;

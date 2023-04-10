@@ -145,6 +145,7 @@
 	const upgradeAccount = () => {
 		$utils.upgradeAccount(upgrade).then((res) => {
 			console.log(res);
+			upgradeModal = false;
 		});
 	};
 </script>
