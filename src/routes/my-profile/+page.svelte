@@ -205,8 +205,7 @@
 								</p>
 							</div>
 							<Button
-								class="w-full"
-								color="blue"
+							class="w-full text-white text-base xs:text-3xl bg-primary-light" color="lime"
 								on:click={() => {
 									toEdit = item;
 									edit = true;
@@ -330,11 +329,13 @@
 									</div>
 								{/if}
 							</div>
-							<div class="p-2 flex items-center justify-end">
-								<div class="justify-start">
-									<Button size="sm">Reply</Button>
+							{#if $mainStore.user.info.access != 'user' && queryType != 'user'}
+								<div class="p-2 flex items-center justify-end">
+									<div class="justify-start">
+										<Button size="sm" class="w-full text-white text-base xs:text-3xl bg-primary-light" color="lime">Reply</Button>
+									</div>
 								</div>
-							</div>
+							{/if}
 						</Card>
 					{/each}
 				</div>

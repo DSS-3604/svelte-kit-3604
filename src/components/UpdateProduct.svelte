@@ -224,7 +224,7 @@
 	</div>
 	{#if product.image}
 		<div class="pt-2">
-			<Button class="w-full" color="blue" on:click={updateProduct}>Update</Button>
+			<Button class="w-full text-white text-base xs:text-3xl bg-primary-light" color="lime" on:click={updateProduct}>Update</Button>
 		</div>
 	{/if}
 </div>

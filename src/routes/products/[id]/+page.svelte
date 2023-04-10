@@ -188,7 +188,7 @@
 									</p>
 								{/if}
 							</div>
-							<Button class="mt-3">Reply</Button>
+							<Button class="mt-3 text-white text-base bg-primary-light" color="lime">Reply</Button>
 						</Card>
 					{/each}
 				</div>
