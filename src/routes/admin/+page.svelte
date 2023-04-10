@@ -1,12 +1,13 @@
 <script lang="ts">
 	import avatar from '$lib/images/avatar.webp';
-	import { Timeline, TimelineItem, Select, Label, Button } from 'flowbite-svelte';
+	import { Timeline, TimelineItem, Select, Label, Button, Card} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import utils from '$lib/stores/utils';
 	import mainStore from '$lib/stores/mainStore';
 	import { goto } from '$app/navigation';
 	let table = [];
 	let keys = [];
+	let tkeys=["name", "phone", "email", "message", "time"];
 	const tableNames = [
 		{
 			name: 'Users',
@@ -51,9 +52,9 @@
 		});
 	};
 	onMount(async () => {
-		if ($mainStore.access_level !== 'admin') {
-			goto('/');
-		}
+		// if ($mainStore.access_level !== 'admin') {
+		// 	goto('/');
+		// }
 		selected = 'users';
 		if (!$mainStore.loggedIn) {
 			$utils.silentLogin().then((res) => {
@@ -61,10 +62,12 @@
 					goto('/');
 				} else {
 					adminPageFetch();
+					getAdminMessages();
 				}
 			});
 		} else {
 			adminPageFetch();
+			getAdminMessages();
 		}
 	});
 	const getTable = async (e) => {
@@ -87,6 +90,11 @@
 			document.body.appendChild(a);
 			a.click();
 			document.body.removeChild(a);
+		});
+	};
+	const getAdminMessages = async () => {
+		$utils.getMessages('messages').then((res) => {
+			console.log("why:",res);
 		});
 	};
 </script>
@@ -257,6 +265,44 @@
 						</Timeline>
 					</div>
 				</div>
+			</div>
+			<div class="dark:bg-gray-900 pl-10 rounded-2xl pb-8 dark:bg-gray-900 rounded-2xl w-full max-w-full px-3 mt-3 md:flex-none lg:flex-none p-5">
+				<h6 class="dark:text-white">Contact Form Requests</h6>
+				<div class="flex-auto p-6 px-0 pb-2 ">
+					<div class="overflow-x-auto">
+						<table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+							<thead class="align-bottom dark:white">
+								<tr>
+									{#each tkeys as item}
+										<th
+											class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70"
+										>
+											{item}</th
+										>
+									{/each}
+								</tr>
+							</thead>
+							<tbody>
+								<h1>{$mainStore.contactForm}</h1>
+								<!-- {#each $mainStore.contactForm as item}
+									<tr>
+										{#each Object.values(item) as value}
+											<td class="p-2 align-middle bg-transparent border-b">
+												<div class="flex px-2 gap-2 py-1">
+													<div class="flex flex-col justify-center sm:w-full">
+														<h6 class="mb-0 leading-normal text-size-sm">{value}</h6>
+													</div>
+												</div>
+											</td>
+										{/each}
+									</tr>
+								{/each} -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
 			</div>
 		</div>
 	</div>
