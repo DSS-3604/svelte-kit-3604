@@ -41,6 +41,7 @@
 		timestamp: '',
 		category_name: ''
 	};
+	let historicData = [];
 
 	let message = '';
 	let farmer = '';
@@ -76,6 +77,9 @@
 	onMount(() => {
 		$utils.fetchProduct(data.id).then((res) => {
 			product = res;
+		});
+		$utils.fetchHistoricData(data.id).then((res) => {
+			historicData = res;
 		});
 		setActive('about');
 	});
@@ -249,35 +253,9 @@
 				<!-- Line chart with product cost on y-axis and time on x-axis -->
 				<LineChart
 					class=" bg-white p-3"
-					data={[
-						{
-							group: $mainStore.product.name,
-							date: '2019-01-02T04:00:00.000Z',
-							value: 0
-						},
-						{
-							group: $mainStore.product.name,
-							date: '2019-01-06T04:00:00.000Z',
-							value: 20
-						},
-						{
-							group: $mainStore.product.name,
-							date: '2019-01-08T04:00:00.000Z',
-							value: 30
-						},
-						{
-							group: $mainStore.product.name,
-							date: '2019-01-15T04:00:00.000Z',
-							value: 15
-						},
-						{
-							group: $mainStore.product.name,
-							date: '2019-01-19T04:00:00.000Z',
-							value: 25
-						}
-					]}
+					data={historicData}
 					options={{
-						title: $mainStore.product.name + ' Price Predictions',
+						title: $mainStore.product.category_name + ' Price Predictions',
 						axes: {
 							bottom: {
 								title: '2023 Annual Sales Figures',
@@ -285,7 +263,7 @@
 								scaleType: 'time'
 							},
 							left: {
-								mapsTo: 'value',
+								mapsTo: 'price',
 								title: 'Retail Price ($ USD)'
 							}
 						},

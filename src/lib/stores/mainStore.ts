@@ -92,6 +92,10 @@ type Notification = {
 	type: string;
 	active: boolean;
 };
+type GraphData = {
+	date: string;
+	price: number;
+}
 type MainStore = {
 	user: User;
 	product_categories: Category[];
@@ -107,6 +111,7 @@ type MainStore = {
 	farmerApplications: any[];
 	notification: Notification;
 	queryReply: QueryReply[];
+	historicData: GraphData[];
 };
 
 const mainStore: Writable<MainStore> = writable({
@@ -172,6 +177,7 @@ const mainStore: Writable<MainStore> = writable({
 		message: '',
 		type: ''
 	},
-	queryReply: []
+	queryReply: [],
+	historicData: []
 });
 export default mainStore;

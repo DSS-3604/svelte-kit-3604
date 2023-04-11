@@ -12,6 +12,15 @@ export default class Service {
 			this.store = value;
 		});
 	}
+	async fetchHistoricData(id: string) {
+		return this.fetch(`api/reports/price_history/${id}`).then((res) => {
+			mainStore.update((store) => {
+				store.historicData = res;
+				return store;
+			});
+			return res;
+		});
+	}
 	async fetchLogs() {
 		return this.fetch('api/logs').then((res) => {
 			return res;
