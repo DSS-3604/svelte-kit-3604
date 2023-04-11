@@ -115,7 +115,7 @@
 	<br />
 	<div>
 		<div class="flex justify-between">
-			<p class="text-sm dark:text-white">Showing list 1-10 of 28 results</p>
+			<p class="text-sm dark:text-white">Showing list of {$mainStore.catalog.length} results</p>
 		</div>
 	</div>
 	<br />
