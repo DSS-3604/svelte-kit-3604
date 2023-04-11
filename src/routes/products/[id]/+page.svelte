@@ -103,6 +103,8 @@
 		let form = { product_id: product.id, message: message };
 		$utils.submitForm(form).then((res) => {
 			query = false;
+			product.id = '';
+			message = '';
 		});
 	}
 </script>
@@ -124,12 +126,6 @@
 						color="lime">Query</Button
 					>
 				{/if}
-				<Button
-					on:click={() => 'hi'}
-					href="/contact"
-					color="light"
-					class="dark:text-white border-solid border-2 border-white-500">Contact Form</Button
-				>
 			</div>
 		</div>
 		<div class="mt-5 w-full">

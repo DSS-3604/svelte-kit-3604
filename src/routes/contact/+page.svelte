@@ -12,13 +12,13 @@
 	let error = '';
 
 	onMount(async () => {
-		if (!$mainStore.loggedIn) {
-			$utils.silentLogin().then((res) => {
-				if (!$mainStore.loggedIn) {
-					goto('/');
-				}
-			});
-		}
+		// if (!$mainStore.loggedIn) {
+		// 	$utils.silentLogin().then((res) => {
+		// 		if (!$mainStore.loggedIn) {
+		// 			goto('/');
+		// 		}
+		// 	});
+		// }
 	});
 
 	const sendMessage = async () => {

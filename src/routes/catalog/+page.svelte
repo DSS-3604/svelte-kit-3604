@@ -68,6 +68,8 @@
 		let form = { product_id: tem.id, message: message };
 		$utils.submitForm(form).then((res) => {
 			query = false;
+			tem.id = '';
+			message = '';
 		});
 	}
 </script>

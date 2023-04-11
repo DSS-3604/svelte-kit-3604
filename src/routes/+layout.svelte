@@ -154,7 +154,7 @@
 {#if $mainStore.notification && $mainStore.notification.active ? setTimeout(() => {
 			$mainStore.notification.active = false;
 	  }, 3000) : null}
-	<div class="relative z-100">
+	<div class="relative z-50">
 		<div class="w-80 absolute top-0 right-5">
 			{#if $mainStore.notification.type === 'success'}
 				<Alert dismissable color="green">
