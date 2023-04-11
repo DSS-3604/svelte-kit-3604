@@ -100,11 +100,15 @@
 				$mainStore.farmer.reviews = res;
 				let total = 0;
 				let count = 0;
-				for (let i = 0; i < $mainStore.user.reviews.length; i++) {
-					total = total + parseInt($mainStore.user.reviews[i].rating);
+				for (let i = 0; i < $mainStore.farmer.reviews.length; i++) {
+					total = total + parseInt($mainStore.farmer.reviews[i].rating);
 					count++;
 				}
-				averageRating = (total / count).toFixed(1);
+				if (count > 0) {
+					averageRating = (total / count).toFixed(1);
+				} else {
+					averageRating = '0';
+				}
 			});
 		});
 		setActive('review');

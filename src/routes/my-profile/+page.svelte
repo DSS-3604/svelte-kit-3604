@@ -73,7 +73,11 @@
 							total = total + parseInt($mainStore.user.reviews[i].rating);
 							count++;
 						}
-						averageRating = (total / count).toFixed(1);
+						if (count > 0) {
+							averageRating = (total / count).toFixed(1);
+						} else {
+							averageRating = '0';
+						}
 					});
 				}
 				if ($mainStore.access_level === 'user') {
