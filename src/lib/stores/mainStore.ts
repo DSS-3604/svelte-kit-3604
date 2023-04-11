@@ -77,6 +77,11 @@ type Category = {
 	value: string;
 	name: string;
 };
+type Notification = {
+	message: string;
+	type: string;
+	active: boolean;
+};
 type MainStore = {
 	user: User;
 	product_categories: Category[];
@@ -90,6 +95,7 @@ type MainStore = {
 	farmerQuery: Query[];
 	contactForm: ContactForm[];
 	farmerApplications: any[];
+	notification: Notification;
 };
 
 const mainStore: Writable<MainStore> = writable({
@@ -149,6 +155,11 @@ const mainStore: Writable<MainStore> = writable({
 	userQuery: [],
 	farmerQuery: [],
 	contactForm: [],
-	farmerApplications: []
+	farmerApplications: [],
+	notification: {
+		active: false,
+		message: '',
+		type: ''
+	}
 });
 export default mainStore;

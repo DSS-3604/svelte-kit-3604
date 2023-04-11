@@ -12,7 +12,11 @@ export default class Service {
 			this.store = value;
 		});
 	}
-
+	async fetchLogs() {
+		return this.fetch('api/logs').then((res) => {
+			return res;
+		});
+	}
 	async fetchReports() {
 		return this.fetch('api/reports').then((res) => {
 			return res;
@@ -33,7 +37,7 @@ export default class Service {
 	}
 	timeConverter(data: string) {
 		const dateTime = new Date(data);
-		const date = dateTime.toLocaleDateString();
+		const date = dateTime.toDateString();
 		const time = dateTime.toLocaleTimeString();
 		return date + ' ' + time;
 	}
@@ -80,6 +84,45 @@ export default class Service {
 			if (res) {
 				mainStore.update((store) => {
 					store.contactForm = res;
+					return store;
+				});
+			}
+			return res;
+		});
+	}
+	async resolveMessage(message: any) {
+		return this.put(`api/contact_forms/${message.id}/resolve`, message).then((res) => {
+			console.log('this', res);
+			if (res) {
+				mainStore.update((store) => {
+					store.notification = {
+						message: 'Message has been resolved',
+						type: 'success',
+						active: true
+					};
+					// update the message to resolved
+					store.contactForm = store.contactForm.map((item: any) => {
+						if (item.id === message.id) {
+							item.resolved = true;
+						}
+						return item;
+					});
+					return store;
+				});
+			}
+			return res;
+		});
+	}
+
+	async submitContactForm(message: any) {
+		return this.post('api/contact_forms', message).then((res) => {
+			if (res) {
+				mainStore.update((store) => {
+					store.notification = {
+						message: 'Your message has been sent',
+						type: 'success',
+						active: true
+					};
 					return store;
 				});
 			}
@@ -362,8 +405,23 @@ export default class Service {
 		})
 			.then((res) => {
 				const json = res.json();
-				console.log(json);
-				return json;
+				if (res.ok) {
+					return json;
+				} else {
+					json.then((res) => {
+						if (!res.ok) {
+							mainStore.update((store) => {
+								store.notification = {
+									message: res.message,
+									type: 'error',
+									active: true
+								};
+								return store;
+							});
+						}
+						return null;
+					});
+				}
 			})
 			.catch((err) => {
 				console.log(err);
@@ -386,25 +444,6 @@ export default class Service {
 				console.log(err);
 			});
 	}
-
-	async fetchWithBody(path: string, body: object) {
-		return fetch(`${this.endpoint}/${path}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `JWT ${this.store.access_token}`
-			},
-			body: JSON.stringify(body)
-		})
-			.then((res) => {
-				const json = res.json();
-				console.log(json);
-				return json;
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}
 	async post(path: string, body: object) {
 		return fetch(`${this.endpoint}/${path}`, {
 			method: 'POST',
@@ -418,7 +457,19 @@ export default class Service {
 				if (res.ok) {
 					return res.json();
 				} else {
-					return null;
+					res.json().then((json) => {
+						if (!json.ok) {
+							mainStore.update((store) => {
+								store.notification = {
+									message: json.message,
+									type: 'error',
+									active: true
+								};
+								return store;
+							});
+						}
+						return null;
+					});
 				}
 			})
 			.catch((err) => {
@@ -436,7 +487,23 @@ export default class Service {
 			body: JSON.stringify(body)
 		})
 			.then((res) => {
-				return res.json();
+				if (res.ok) {
+					return res.json();
+				} else {
+					res.json().then((json) => {
+						if (!json.ok) {
+							mainStore.update((store) => {
+								store.notification = {
+									message: json.message,
+									type: 'error',
+									active: true
+								};
+								return store;
+							});
+						}
+						return null;
+					});
+				}
 			})
 			.catch((err) => {
 				console.log(err);

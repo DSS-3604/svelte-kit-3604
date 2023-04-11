@@ -1,5 +1,6 @@
 <script>
 	import { Label, Input, Helper, Textarea, Button } from 'flowbite-svelte';
+	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
@@ -9,6 +10,16 @@
 	let email = '';
 	let message = '';
 	let error = '';
+
+	onMount(async () => {
+		if (!$mainStore.loggedIn) {
+			$utils.silentLogin().then((res) => {
+				if (!$mainStore.loggedIn) {
+					goto('/');
+				}
+			});
+		}
+	});
 
 	const sendMessage = async () => {
 		error = '';
@@ -20,10 +31,12 @@
 				email: email,
 				message: message
 			};
-			$utils.getMessages(sending).then((res) => {
+			$utils.submitContactForm(sending).then((res) => {
 				if (res) {
-					goto('/contact');
-					console.log(res);
+					name = '';
+					number = '';
+					email = '';
+					message = '';
 				} else {
 					error = 'Could not send message.';
 					console.log(error);
@@ -47,7 +60,8 @@
 		</p>
 	</div>
 	<div
-		class="m-5 w-3/4 w-full mt-4 p-5 justify-center border-2 border-dashed border-gray-600 rounded-lg center">
+		class="m-5 w-3/4 w-full mt-4 p-5 justify-center border-2 border-dashed border-gray-600 rounded-lg center"
+	>
 		<form>
 			<div class="mb-6">
 				<Label class="block mb-2">Full Name</Label>
@@ -93,10 +107,19 @@
 					placeholder="I would like information."
 				/>
 			</div>
-			<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={sendMessage}>Submit</Button>
+			<Button
+				type="submit"
+				class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+				color="lime"
+				on:click={sendMessage}>Submit</Button
+			>
 		</form>
 	</div>
 </div>
+
+<svelte:head>
+	<title>Contact</title>
+</svelte:head>
 
 <style>
 	.center {
@@ -104,7 +127,3 @@
 		margin-right: auto;
 	}
 </style>
-
-<svelte:head>
-	<title>Contact</title>
-</svelte:head>

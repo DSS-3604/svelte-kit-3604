@@ -16,7 +16,7 @@
 		Dropdown,
 		DropdownItem,
 		DropdownDivider,
-		Tooltip,
+		Alert,
 		Avatar,
 		Modal,
 		Input,
@@ -38,7 +38,7 @@
 		localStorage.removeItem('access_token');
 		window.location.href = '/';
 	};
-	let signInModal=false;
+	let signInModal = false;
 	let active = '';
 	onMount(() => {
 		let url = window.location.href;
@@ -57,7 +57,7 @@
 		}
 	});
 	onMount(() => {
-		//preloader
+		// preloader;
 		const preloader = document.querySelector('.preloader-wrapper');
 		setTimeout(() => {
 			preloader.classList.add('hidden');
@@ -68,7 +68,9 @@
 	let error = '';
 	const login = async () => {
 		if (username == '' || password == '') {
-			alert("Please fill in the form correctly. Ensure both username and password fields are filled in.");
+			alert(
+				'Please fill in the form correctly. Ensure both username and password fields are filled in.'
+			);
 		}
 		error = '';
 		let user = {
@@ -93,7 +95,7 @@
 >
 	<div id="loader" class="preloader" />
 	<h1 class="text-xl font-semibold text-white-600/100 dark:text-white ml-2 animate-bounce">
-		Page Loaging...
+		Page Loading...
 	</h1>
 </div>
 
@@ -101,18 +103,29 @@
 	<Navbar let:hidden let:toggle>
 		<NavBrand>
 			<DarkMode btnClass={darkmodebtn} />
-			<NavUl><NavLi active={active == 'Home' ? true : false} href="/" on:click={() => (active = 'Home')}><img src={carigro_logo} class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" /></NavLi></NavUl> 
+			<NavUl
+				><NavLi active={active === 'Home'} href="/" on:click={() => (active = 'Home')}
+					><img src={carigro_logo} class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" /></NavLi
+				></NavUl
+			>
 		</NavBrand>
 		<div class="flex items-center md:order-2">
+			<p class="px-2">{$mainStore.user.info.username}</p>
 			<Avatar
 				id="profile"
-				class="w-full md:flex md:w-auto md:order-1"
+				class="w-full md:flex md:w-auto md:order-1 hover:cursor-pointer"
 				src={$mainStore.user.info.avatar ? $mainStore.user.info.avatar : avatar}
 				size="md"
 			/>
-			<p class="px-2 hidden md:block">{$mainStore.user.info.username}</p>
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
 				{#if $mainStore.loggedIn}
+					<DropdownItem on:click={() => goto('/my-profile')}>Profile</DropdownItem>
+					<DropdownItem>
+						<p class="capitalize">
+							Type:
+							<span class="text-primary font-bold">{$mainStore.access_level}</span>
+						</p>
+					</DropdownItem>
 					<DropdownDivider />
 					<DropdownItem on:click={signOut}>Sign out</DropdownItem>
 					<DropdownDivider />
@@ -125,47 +138,88 @@
 			<NavHamburger on:click={toggle} />
 		</div>
 		<NavUl {hidden}>
-			<NavLi active={active == 'Home' ? true : false} href="/" on:click={() => (active = 'Home')}
-				>Home</NavLi
+			<NavLi active={active === 'Home'} href="/" on:click={() => (active = 'Home')}>Home</NavLi>
+			<NavLi active={active === 'Catalog'} href="/catalog" on:click={() => (active = 'Catalog')}
+				>Catalog</NavLi
 			>
-			<NavLi
-				active={active == 'Catalog' ? true : false}
-				href="/catalog"
-				on:click={() => (active = 'Catalog')}>Catalog</NavLi
-			>
-			<NavLi
-				active={active == 'Contact' ? true : false}
-				href="/contact"
-				on:click={() => (active = 'Contact')}>Contact</NavLi
+			<NavLi active={active === 'Contact'} href="/contact" on:click={() => (active = 'Contact')}
+				>Contact</NavLi
 			>
 			{#if $mainStore.loggedIn}
 				<NavLi
-					active={active == 'Profile' ? true : false}
+					active={active === 'Profile'}
 					href="/my-profile"
 					on:click={() => (active = 'Profile')}>Profile</NavLi
 				>
 			{/if}
 			{#if $mainStore.loggedIn}
 				<NavLi
-					active={active == 'Settings' ? true : false}
+					active={active === 'Settings'}
 					href="/settings"
 					on:click={() => (active = 'Settings')}>Settings</NavLi
 				>
 			{/if}
-			{#if $mainStore.user.info.access == 'admin'}
-				<NavLi
-					active={active == 'Admin' ? true : false}
-					href="/admin"
-					on:click={() => (active = 'Admin')}>Admin</NavLi
+			{#if $mainStore.access_level === 'admin'}
+				<NavLi active={active === 'Admin'} href="/admin" on:click={() => (active = 'Admin')}
+					>Admin</NavLi
 				>
 			{/if}
 		</NavUl>
 	</Navbar>
 </div>
+{#if $mainStore.notification && $mainStore.notification.active}
+	<div class="relative">
+		<div class="w-80 absolute top-0 right-5">
+			{#if $mainStore.notification.type === 'success'}
+				<Alert dismissable color="green">
+					<span slot="icon">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-6 h-6"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+					</span>
+					<span class="font-medium">{$mainStore.notification.message}</span>
+				</Alert>
+			{:else}
+				<Alert dismissable color="red">
+					<span slot="icon">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-6 h-6"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+					</span>
+					<span class="font-medium">{$mainStore.notification.message}</span>
+				</Alert>
+			{/if}
+		</div>
+	</div>
+{/if}
 
 <slot />
 
-<Footer class="bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
+<Footer
+	class="bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600"
+>
 	<FooterCopyright href="/" by="Carigro™" year={2023} />
 	<FooterLinkGroup
 		ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
@@ -178,6 +232,32 @@
 	<title>Home</title>
 </svelte:head>
 
+<Modal bind:open={signInModal} size="xs" autoclose={false} class="w-full">
+	<div class="flex flex-col space-y-6">
+		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
+		<Label class="space-y-2">
+			<span>Username</span>
+			<Input bind:value={username} type="text" name="username" placeholder="username" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Your password</span>
+			<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
+		</Label>
+		<div class="flex items-start">
+			<Checkbox>Remember me</Checkbox>
+			<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+				>Lost password?</a
+			>
+		</div>
+		<Button
+			type="submit"
+			class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+			color="lime"
+			on:click={login}>Submit</Button
+		>
+	</div>
+</Modal>
+
 <style>
 	.preloader {
 		width: 100px;
@@ -187,14 +267,6 @@
 		border-top-color: transparent;
 		animation: spin 1s linear infinite;
 	}
-	/* 
-	#preloader {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	} */
 	#loader {
 		display: block;
 		position: relative;
@@ -257,24 +329,3 @@
 		}
 	}
 </style>
-
-<Modal bind:open={signInModal} size="xs" autoclose={false} class="w-full">
-	<div class="flex flex-col space-y-6">
-		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Sign in to our platform</h3>
-		<Label class="space-y-2">
-			<span>Username</span>
-			<Input bind:value={username} type="text" name="username" placeholder="username" required />
-		</Label>
-		<Label class="space-y-2">
-			<span>Your password</span>
-			<Input bind:value={password} type="password" name="password" placeholder="•••••" required />
-		</Label>
-		<div class="flex items-start">
-			<Checkbox>Remember me</Checkbox>
-			<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-				>Lost password?</a
-			>
-		</div>
-		<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={login}>Submit</Button>
-	</div>
-</Modal>
