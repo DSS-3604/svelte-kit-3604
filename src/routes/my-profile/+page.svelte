@@ -67,8 +67,6 @@
 					$utils.fetchUserProducts();
 					$utils.getFarmerReviews($mainStore.user.info.id).then((res) => {
 						$mainStore.user.reviews = res;
-						console.log(res);
-
 						let total = 0;
 						let count = 0;
 						for (let i = 0; i < $mainStore.user.reviews.length; i++) {
@@ -76,21 +74,15 @@
 							count++;
 						}
 						averageRating = (total / count).toFixed(1);
-						console.log("the avg ratings is: ",averageRating);
 					});
 				}
 				if ($mainStore.access_level === 'user') {
 					$utils.getUserReviews($mainStore.user.info.id).then((res) => {
 						$mainStore.user.reviews = res;
-						console.log(res);
 					});
 				}
-				$utils.fetchQueryUser($mainStore.user.info.id).then((res) => {
-					console.log(res);
-				});
-				$utils.fetchQueryFarmer($mainStore.user.info.id).then((res) => {
-					console.log(res);
-				});
+				$utils.fetchQueryUser($mainStore.user.info.id);
+				$utils.fetchQueryFarmer($mainStore.user.info.id);
 			} else {
 				goto('/');
 			}
@@ -125,19 +117,15 @@
 	let error = '';
 	const sendQueryReply = async () => {
 		error = '';
-		console.log('query reply: ', replyMessage);
 		if (replyMessage != '') {
 			let sending = {
 				body: replyMessage
 			};
 			$utils.getQueryReply(sending, tem.id).then((res) => {
-				console.log(res);
 				if (res) {
 					goto('/my-profile');
-					console.log('MESSAGE RETURNED:', res);
 				} else {
 					error = 'Could not send message.';
-					console.log(error);
 				}
 			});
 		} else {
@@ -145,10 +133,7 @@
 		}
 	};
 	const getQueryReplies = async (item) => {
-		$utils.fetchQueryReplies(item.id).then((res) => {
-			console.log("PAINFULNESSITY\n tem: ", item.id);
-			console.log(res);
-		});
+		$utils.fetchQueryReplies(item.id);
 	};
 	let response = false;
 </script>
@@ -403,7 +388,7 @@
 											color="lime"
 											on:click={() => {
 												getQueryReplies(item);
-												tem=item;
+												tem = item;
 												response = true;
 											}}>View Response</Button
 										>
@@ -484,7 +469,14 @@
 				{/if}
 			{/each}
 		{:else}
-			<Textarea class="w-full" label="response" id="response" name="response" disabled value="No Response"/>
+			<Textarea
+				class="w-full"
+				label="response"
+				id="response"
+				name="response"
+				disabled
+				value="No Response"
+			/>
 		{/if}
 	</div>
 </Modal>

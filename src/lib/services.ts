@@ -31,6 +31,14 @@ export default class Service {
 		}
 		Promise.all(promise).then((res) => {
 			this.getFarmerApplications().then((res) => {
+				mainStore.update((store) => {
+					store.notification = {
+						message: `Application has been ${action}`,
+						type: 'success',
+						active: true
+					};
+					return store;
+				});
 				return res;
 			});
 		});
@@ -46,6 +54,11 @@ export default class Service {
 			if (res) {
 				mainStore.update((store) => {
 					store.queryReply = res;
+					store.notification = {
+						message: 'Your reply has been sent',
+						type: 'success',
+						active: true
+					};
 					return store;
 				});
 			}
@@ -63,6 +76,14 @@ export default class Service {
 	}
 	async submitForm(form: any) {
 		return this.post('api/product_queries', form).then((res) => {
+			mainStore.update((store) => {
+				store.notification = {
+					message: 'Your query has been sent',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
 			return res;
 		});
 	}
@@ -86,6 +107,14 @@ export default class Service {
 	}
 	async upgradeAccount(message: object) {
 		return this.post('api/farmer_applications', message).then((res) => {
+			mainStore.update((store) => {
+				store.notification = {
+					message: 'Your query has been sent',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
 			return res;
 		});
 	}
@@ -111,7 +140,6 @@ export default class Service {
 	}
 	async resolveMessage(message: any) {
 		return this.put(`api/contact_forms/${message.id}/resolve`, message).then((res) => {
-			console.log('this', res);
 			if (res) {
 				mainStore.update((store) => {
 					store.notification = {
@@ -119,7 +147,6 @@ export default class Service {
 						type: 'success',
 						active: true
 					};
-					// update the message to resolved
 					store.contactForm = store.contactForm.map((item: any) => {
 						if (item.id === message.id) {
 							item.resolved = true;
@@ -160,7 +187,6 @@ export default class Service {
 	}
 	async fetchUserProducts() {
 		return this.fetch(`api/products/farmer/${this.store.user.info.id}`).then((res) => {
-			console.log('products', res);
 			mainStore.update((store) => {
 				store.user.products = res;
 				return store;
@@ -182,7 +208,6 @@ export default class Service {
 		return this.fetch(`api/users/${this.store.user.info.id}`).then((res) => {
 			mainStore.update((store) => {
 				store.user.info = res;
-				console.log(res);
 				return store;
 			});
 			return res;
@@ -255,7 +280,6 @@ export default class Service {
 
 	async fetchFarmerProducts(id: string) {
 		return this.fetch(`api/products/farmer/${id}`).then((res) => {
-			console.log(res);
 			mainStore.update((store) => {
 				store.farmer.products = res;
 				return store;
@@ -288,9 +312,15 @@ export default class Service {
 	}
 	async reviewProduct(review: any) {
 		return this.post(`api/product/review`, review).then((res) => {
-			if (res) {
-				console.log(res);
-			}
+			mainStore.update((store) => {
+				store.notification = {
+					message: 'Your review has been sent',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
+			return res;
 		});
 	}
 	async reviewFarmer(review: any) {
@@ -328,6 +358,11 @@ export default class Service {
 		return this.post(`api/product/comment`, comment).then((res) => {
 			if (res) {
 				mainStore.update((store) => {
+					store.notification = {
+						message: 'Your comment has been sent',
+						type: 'success',
+						active: true
+					};
 					store.product.comments.push(res);
 					return store;
 				});
@@ -336,10 +371,14 @@ export default class Service {
 	}
 	async createProduct(product: any) {
 		return this.post('api/products', product).then((res) => {
-			console.log(res);
 			if (res) {
 				//update the store
 				mainStore.update((store) => {
+					store.notification = {
+						message: 'Your product has been created',
+						type: 'success',
+						active: true
+					};
 					store.user.products.push(res);
 					return store;
 				});
@@ -351,6 +390,11 @@ export default class Service {
 			if (res) {
 				//update the store
 				mainStore.update((store) => {
+					store.notification = {
+						message: 'Your product has been updated',
+						type: 'success',
+						active: true
+					};
 					store.user.products = store.user.products.map((p) => {
 						if (p.id === product.id) {
 							return product;
@@ -364,7 +408,6 @@ export default class Service {
 	}
 	async login(credentials: { username: string; password: string }) {
 		return this.post('auth', credentials).then((res) => {
-			console.log(res);
 			if (res.access_token) {
 				mainStore.update((store) => {
 					store.access_token = res.access_token;
@@ -377,7 +420,6 @@ export default class Service {
 	}
 	async identify() {
 		return this.fetch('identify').then((res) => {
-			console.log('identify', res);
 			if (res.id) {
 				mainStore.update((store) => {
 					store.user.info.username = res.username;
@@ -456,7 +498,6 @@ export default class Service {
 		})
 			.then((res) => {
 				const json = res.text();
-				console.log(json);
 				return json;
 			})
 			.catch((err) => {

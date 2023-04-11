@@ -41,9 +41,7 @@
 		uploadImage(image);
 	};
 	onMount(() => {
-		$utils.fetchProductCategories().then((res) => {
-			console.log(res);
-		});
+		$utils.fetchProductCategories();
 	});
 	//submit image to imgbb
 	const uploadImage = async (image) => {
@@ -60,9 +58,7 @@
 	const createPost = async () => {
 		product.image = avatar;
 		product.farmer_id = $mainStore.user.info.id;
-		$utils.createProduct(product).then((res) => {
-			console.log(res);
-		});
+		$utils.createProduct(product);
 	};
 </script>
 

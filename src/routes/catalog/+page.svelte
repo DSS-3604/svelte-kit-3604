@@ -24,7 +24,6 @@
 			$utils.fetchProducts();
 		});
 		$utils.fetchProductCategories().then((res) => {
-			console.log(res);
 			$mainStore.product_categories = [
 				{
 					name: 'All categories',
@@ -48,26 +47,20 @@
 		return date2;
 	};
 	let filter = () => {
-		console.log(current_filter);
 		if (current_filter == 'all') {
 			$utils.fetchProducts();
 			return;
 		}
-		$utils.filterProducts(current_filter).then((res) => {
-			console.log(res);
-		});
+		$utils.filterProducts(current_filter);
 	};
 
 	let search = '';
 	const doSearch = () => {
-		console.log(search);
 		if (search == '' || search == null) {
 			$utils.fetchProducts();
 			return;
 		} else {
-			$utils.searchProducts(search).then((res) => {
-				console.log(res);
-			});
+			$utils.searchProducts(search);
 		}
 	};
 	let message = '';
@@ -132,11 +125,11 @@
 		{#each $mainStore.catalog as item}
 			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
 				{#if $mainStore.loggedIn}
-				<div class="absolute right-3">
-					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
-						<img class="w-8 h-8 rounded-full cursor-pointer" src={avatar} alt="farmer" />
-					</button>
-				</div>
+					<div class="absolute right-3">
+						<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
+							<img class="w-8 h-8 rounded-full cursor-pointer" src={avatar} alt="farmer" />
+						</button>
+					</div>
 				{/if}
 				<div class="absolute left-3">
 					<button
@@ -184,12 +177,14 @@
 					</p>
 				</div>
 				{#if $mainStore.loggedIn}
-				<Button
-				class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime"
-					on:click={() => {
-						query = true;
-						tem = item;
-					}}>Query</Button>
+					<Button
+						class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+						color="lime"
+						on:click={() => {
+							query = true;
+							tem = item;
+						}}>Query</Button
+					>
 				{/if}
 			</Card>
 		{/each}
@@ -215,7 +210,12 @@
 				required
 			/>
 		</Label>
-		<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={myFunction}>Submit</Button>
+		<Button
+			type="submit"
+			class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+			color="lime"
+			on:click={myFunction}>Submit</Button
+		>
 	</div>
 </Modal>
 <svelte:head>

@@ -6,7 +6,6 @@
 	import carigro_logo from '$lib/images/carigro-logo.webp';
 	import avatar from '$lib/images/avatar.webp';
 	import utils from '$lib/stores/utils';
-	console.log('mainStore' + $mainStore.user.info.username);
 	import {
 		Navbar,
 		NavBrand,
@@ -80,10 +79,8 @@
 		$utils.login(user).then((res) => {
 			if (res) {
 				goto('/my-profile');
-				console.log(res);
 			} else {
 				error = 'username or password is incorrect';
-				console.log(error);
 			}
 		});
 		signInModal = false;
@@ -154,8 +151,10 @@
 		</NavUl>
 	</Navbar>
 </div>
-{#if $mainStore.notification && $mainStore.notification.active}
-	<div class="relative">
+{#if $mainStore.notification && $mainStore.notification.active ? setTimeout(() => {
+			$mainStore.notification.active = false;
+	  }, 3000) : null}
+	<div class="relative z-100">
 		<div class="w-80 absolute top-0 right-5">
 			{#if $mainStore.notification.type === 'success'}
 				<Alert dismissable color="green">

@@ -48,17 +48,12 @@
 	let reports = {};
 	let selected = '';
 	const applicationAction = async (action, id) => {
-		$utils.farmerApplicationActions(action, id).then((res) => {
-			if (res) {
-				console.log('farmer application action', res);
-			}
-		});
+		$utils.farmerApplicationActions(action, id);
 	};
 	const adminPageFetch = () => {
 		$utils.fetchTable('users').then((res) => {
 			table = res;
 			keys = Object.keys(table[0]);
-			console.log(table);
 		});
 		$utils.fetchReports().then((res) => {
 			reports = {
@@ -80,7 +75,6 @@
 					$utils.getFarmerApplications();
 					$utils.fetchLogs().then((res) => {
 						logs = res;
-						console.log('logs', logs);
 					});
 					adminPageFetch();
 					getAdminMessages();
@@ -90,7 +84,6 @@
 			$utils.getFarmerApplications();
 			$utils.fetchLogs().then((res) => {
 				logs = res;
-				console.log('logs', logs);
 			});
 			adminPageFetch();
 			getAdminMessages();
@@ -104,7 +97,6 @@
 	};
 	const download = async () => {
 		$utils.downloadTable(selected).then((res) => {
-			console.log('csv', res);
 			const blob = new Blob([res], { type: 'text/csv' });
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
@@ -119,9 +111,7 @@
 		});
 	};
 	const getAdminMessages = async () => {
-		$utils.getMessages('messages').then((res) => {
-			console.log(res);
-		});
+		$utils.getMessages('messages');
 	};
 </script>
 

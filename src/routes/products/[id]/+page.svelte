@@ -76,7 +76,6 @@
 	onMount(() => {
 		$utils.fetchProduct(data.id).then((res) => {
 			product = res;
-			console.log('product', product);
 		});
 		setActive('about');
 	});
@@ -89,7 +88,6 @@
 		commentToPost.user_id = $mainStore.user.info.id;
 		$utils.createComment(commentToPost).then((res) => {
 			commentToPost.body = '';
-			console.log(res);
 		});
 	};
 	const time = (item) => {
@@ -103,9 +101,7 @@
 	};
 	function myFunction() {
 		let form = { product_id: product.id, message: message };
-		console.log(form);
 		$utils.submitForm(form).then((res) => {
-			console.log(res);
 			query = false;
 		});
 	}
@@ -122,9 +118,18 @@
 			<p class="text-xl font-bold dark:text-white">by {product.farmer_name}</p>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				{#if $mainStore.loggedIn}
-				<Button on:click={() => (query = true)} class="dark:text-white bg-primary-light" color="lime">Query</Button>
+					<Button
+						on:click={() => (query = true)}
+						class="dark:text-white bg-primary-light"
+						color="lime">Query</Button
+					>
 				{/if}
-				<Button on:click={() => 'hi'} href="/contact" color="light" class="dark:text-white border-solid border-2 border-white-500">Contact Form</Button>
+				<Button
+					on:click={() => 'hi'}
+					href="/contact"
+					color="light"
+					class="dark:text-white border-solid border-2 border-white-500">Contact Form</Button
+				>
 			</div>
 		</div>
 		<div class="mt-5 w-full">
@@ -147,24 +152,29 @@
 			{#if activeButton === 'comments'}
 				<div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
 					{#if $mainStore.loggedIn}
-					<Card class="shadow-2xl p-3 h-64 w-80 border-solid border-black">
-						<div class="rounded-lg w-100 p-2">
-							<div class="flex flex-col items-center gap-2 text-center">
-								<div class="flex gap-10">
-									<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">
-										Add Comment
-									</h3>
+						<Card class="shadow-2xl p-3 h-64 w-80 border-solid border-black">
+							<div class="rounded-lg w-100 p-2">
+								<div class="flex flex-col items-center gap-2 text-center">
+									<div class="flex gap-10">
+										<h3 class="text-lg font-medium text-gray-900 dark:text-white w-100">
+											Add Comment
+										</h3>
+									</div>
+									<Textarea
+										rows="5"
+										bind:value={commentToPost.body}
+										placeholder="Write your review"
+										class="w-full"
+									/>
+									<Button
+										type="submit"
+										on:click={commentProduct}
+										class="mt-1 w-full dark:text-white bg-primary-light"
+										color="lime">Submit</Button
+									>
 								</div>
-								<Textarea
-									rows="5"
-									bind:value={commentToPost.body}
-									placeholder="Write your review"
-									class="w-full"
-								/>
-								<Button type="submit" on:click={commentProduct} class="mt-1 w-full dark:text-white bg-primary-light" color="lime">Submit</Button>
 							</div>
-						</div>
-					</Card>
+						</Card>
 					{/if}
 					{#each $mainStore.product.comments as item}
 						<Card class="shadow-xl w-80 h-64 border-solid border-black p-3">
@@ -193,7 +203,9 @@
 								{/if}
 							</div>
 							{#if $mainStore.loggedIn}
-							<Button class="mt-3 text-white text-base bg-primary-light" color="lime">Reply</Button>
+								<Button class="mt-3 text-white text-base bg-primary-light" color="lime"
+									>Reply</Button
+								>
 							{/if}
 						</Card>
 					{/each}
@@ -237,7 +249,6 @@
 						</Card>
 					</Card>
 				</div>
-				
 			{:else if activeButton === 'predictions'}
 				<!-- Line chart with product cost on y-axis and time on x-axis -->
 				<LineChart
@@ -311,7 +322,12 @@
 				required
 			/>
 		</Label>
-		<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={myFunction}>Submit</Button>
+		<Button
+			type="submit"
+			class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+			color="lime"
+			on:click={myFunction}>Submit</Button
+		>
 	</div>
 </Modal>
 

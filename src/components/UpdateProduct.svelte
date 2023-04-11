@@ -44,9 +44,7 @@
 		product.image = data.data.url;
 	};
 	const updateProduct = async () => {
-		$utils.updateProduct(product).then((res) => {
-			console.log(res);
-		});
+		$utils.updateProduct(product);
 	};
 	const units = [
 		{
@@ -63,9 +61,7 @@
 		}
 	];
 	onMount(() => {
-		$utils.fetchProductCategories().then((res) => {
-			console.log(res);
-		});
+		$utils.fetchProductCategories();
 	});
 </script>
 
@@ -224,7 +220,11 @@
 	</div>
 	{#if product.image}
 		<div class="pt-2">
-			<Button class="w-full text-white text-base xs:text-3xl bg-primary-light" color="lime" on:click={updateProduct}>Update</Button>
+			<Button
+				class="w-full text-white text-base xs:text-3xl bg-primary-light"
+				color="lime"
+				on:click={updateProduct}>Update</Button
+			>
 		</div>
 	{/if}
 </div>

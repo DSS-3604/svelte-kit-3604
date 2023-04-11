@@ -53,7 +53,6 @@
 			newInfo[item] = $mainStore.user.info[item];
 		}
 		$utils.updateUserInfo(newInfo).then((res: any) => {
-			console.log(res);
 			if (res.message) {
 				if (res.message) {
 					error = res.message;
@@ -78,9 +77,7 @@
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
-				$utils.fetchUserInfo().then((res) => {
-					console.log(res);
-				});
+				$utils.fetchUserInfo().then((res) => {});
 				accessChecker();
 			} else {
 				goto('/');
@@ -130,7 +127,6 @@
 				id: $mainStore.user.info.id
 			};
 			$utils.updateUserInfo(newInfo).then((res) => {
-				console.log(res);
 				if (res.message) {
 					if (!res.message.includes('updated')) {
 						password_error = res.message;
@@ -144,7 +140,6 @@
 
 	const upgradeAccount = () => {
 		$utils.upgradeAccount(upgrade).then((res) => {
-			console.log(res);
 			upgradeModal = false;
 		});
 	};
@@ -349,7 +344,11 @@
 								<p class="text-red-500 text-sm">Passwords do not match</p>
 							{/if}
 							<p class="text-red-500 text-sm">{password_error}</p>
-							<Button on:click={changePassword} class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime">Save Password</Button>
+							<Button
+								on:click={changePassword}
+								class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+								color="lime">Save Password</Button
+							>
 						</form>
 					</div>
 				</div>
@@ -370,7 +369,11 @@
 			/>
 		</Label>
 		<p class="text-red-500 text-sm">{error}</p>
-		<Button on:click={() => setChange(toChange.item)} class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime">Submit</Button>
+		<Button
+			on:click={() => setChange(toChange.item)}
+			class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+			color="lime">Submit</Button
+		>
 	</form>
 </Modal>
 <Modal bind:open={upgradeModal} size="xs" autoclose={false} class="w-full">

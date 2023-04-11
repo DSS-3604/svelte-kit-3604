@@ -63,7 +63,6 @@
 	const rateFarmer = () => {
 		review.user_id = $mainStore.user.info.id;
 		$utils.reviewFarmer(review).then((res) => {
-			console.log(res);
 			review.body = '';
 			review.rating = 0;
 		});
@@ -82,16 +81,11 @@
 	};
 
 	onMount(async () => {
-		$utils.getFarmer(data.id).then((res) => {
-			console.log(res);
-		});
+		$utils.getFarmer(data.id).then((res) => {});
 		$utils.silentLogin().then((res) => {
-			$utils.fetchFarmerProducts(data.id).then((res) => {
-				console.log(res);
-			});
+			$utils.fetchFarmerProducts(data.id).then((res) => {});
 			$utils.getFarmerReviews(data.id).then((res) => {
 				$mainStore.farmer.reviews = res;
-				console.log(res);
 			});
 		});
 		setActive('review');
@@ -186,7 +180,10 @@
 								</p>
 								<p class="text-lg dark:text-gray-300">Unit: {item.wholesale_unit_quantity}</p>
 							</div>
-							<Button class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" >Query</Button>
+							<Button
+								class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+								color="lime">Query</Button
+							>
 						</Card>
 					{/each}
 				</div>
@@ -218,7 +215,12 @@
 								placeholder="Write your review"
 								class="w-full"
 							/>
-							<Button type="submit" on:click={rateFarmer} class="w-full dark:text-white bg-primary-light" color="lime">Submit</Button>
+							<Button
+								type="submit"
+								on:click={rateFarmer}
+								class="w-full dark:text-white bg-primary-light"
+								color="lime">Submit</Button
+							>
 						</div>
 					</Card>
 					{#each $mainStore.farmer.reviews as item}

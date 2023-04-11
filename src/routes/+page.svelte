@@ -60,10 +60,8 @@
 		$utils.signUp(newUser).then((res) => {
 			if (res) {
 				goto('/my-profile');
-				console.log(res);
 			} else {
 				error = 'username or email already exists';
-				console.log(error);
 			}
 		});
 	};
@@ -76,10 +74,8 @@
 		$utils.login(user).then((res) => {
 			if (res) {
 				goto('/my-profile');
-				console.log(res);
 			} else {
 				error = 'username or password is incorrect';
-				console.log(error);
 			}
 		});
 	};
@@ -132,8 +128,13 @@
 <h1 class="text-primary text-center text-3xl m-10 font-semibold">New Products</h1>
 <div class="m-5 sm:ml-20 sm:mr-20">
 	<div class="overflow-x-auto grid grid-flow-col gap-7">
-		{#each $mainStore.catalog.reverse().slice(0,5) as item}
-			<ProductCard image={item.image} category={item.category_name} name={item.name} description={item.description} />
+		{#each $mainStore.catalog.reverse().slice(0, 5) as item}
+			<ProductCard
+				image={item.image}
+				category={item.category_name}
+				name={item.name}
+				description={item.description}
+			/>
 		{/each}
 	</div>
 </div>
@@ -168,7 +169,12 @@
 					>Lost password?</a
 				>
 			</div>
-			<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={signUp}>Submit</Button>
+			<Button
+				type="submit"
+				class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+				color="lime"
+				on:click={signUp}>Submit</Button
+			>
 			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
 				Registered? <a
 					on:click={() => (loginModal = true)}
@@ -198,7 +204,12 @@
 					>Lost password?</a
 				>
 			</div>
-			<Button type="submit" class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime" on:click={login}>Submit</Button>
+			<Button
+				type="submit"
+				class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+				color="lime"
+				on:click={login}>Submit</Button
+			>
 			<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
 				Not registered? <a
 					on:click={() => (loginModal = false)}
@@ -212,7 +223,6 @@
 		</div>
 	</Modal>
 {/if}
-
 
 <svelte:head>
 	<title>Home</title>
