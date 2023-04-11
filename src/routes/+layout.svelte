@@ -61,7 +61,7 @@
 		const preloader = document.querySelector('.preloader-wrapper');
 		setTimeout(() => {
 			preloader.classList.add('hidden');
-		}, 3000);
+		}, 1500);
 	});
 	let password = '';
 	let username = '';
@@ -120,6 +120,7 @@
 			<Dropdown triggeredBy="#profile" class="w-44 z-20">
 				{#if $mainStore.loggedIn}
 					<DropdownItem on:click={() => goto('/my-profile')}>Profile</DropdownItem>
+					<DropdownItem on:click={() => goto('/settings')}>Settings</DropdownItem>
 					<DropdownItem>
 						<p class="capitalize">
 							Type:
@@ -145,20 +146,6 @@
 			<NavLi active={active === 'Contact'} href="/contact" on:click={() => (active = 'Contact')}
 				>Contact</NavLi
 			>
-			{#if $mainStore.loggedIn}
-				<NavLi
-					active={active === 'Profile'}
-					href="/my-profile"
-					on:click={() => (active = 'Profile')}>Profile</NavLi
-				>
-			{/if}
-			{#if $mainStore.loggedIn}
-				<NavLi
-					active={active === 'Settings'}
-					href="/settings"
-					on:click={() => (active = 'Settings')}>Settings</NavLi
-				>
-			{/if}
 			{#if $mainStore.access_level === 'admin'}
 				<NavLi active={active === 'Admin'} href="/admin" on:click={() => (active = 'Admin')}
 					>Admin</NavLi
