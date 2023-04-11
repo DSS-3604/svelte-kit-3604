@@ -18,7 +18,7 @@
 	};
 </script>
 
-<Card padding="none" class="flex relative w-80 h-64 p-3">
+<Card padding="none" class="flex relative w-80 h-64 p-3 border-solid border-white">
 	<div class="flex gap-4 p-1">
 		<Avatar size="sm" src={avatar} />
 		<p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">

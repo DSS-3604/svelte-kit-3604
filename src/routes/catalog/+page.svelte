@@ -123,7 +123,10 @@
 		class="w-full grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 items-center justify-center"
 	>
 		{#each $mainStore.catalog as item}
-			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
+			<Card
+				padding="none"
+				class="border-solid border-white relative flex items-center text-center w-80 shadow-xl p-4"
+			>
 				{#if $mainStore.loggedIn}
 					<div class="absolute right-3">
 						<button on:click={() => goto(`/profile/${item.farmer_id}`)}>

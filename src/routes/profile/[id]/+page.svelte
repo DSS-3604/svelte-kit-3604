@@ -184,7 +184,10 @@
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each $mainStore.farmer.products as item}
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4 ">
+						<Card
+							padding="none"
+							class="flex items-center text-center w-80 shadow-xl p-4 border-solid border-white "
+						>
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
 							<p>{time(item.timestamp)}</p>
 							<div class="px-5">
@@ -216,7 +219,7 @@
 				</div>
 			{:else if activeButton === 'review'}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-					<Card class="w-80 h-64">
+					<Card class="w-80 h-64 border-solid border-white">
 						<div class="flex flex-col items-center gap-2 text-center">
 							<div class="flex gap-10">
 								<h3 class="text-md font-medium text-gray-900 dark:text-white">Add review</h3>

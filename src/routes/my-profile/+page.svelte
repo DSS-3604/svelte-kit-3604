@@ -222,7 +222,10 @@
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each $mainStore.user.products as item}
-						<Card padding="none" class="flex items-center text-center w-80 shadow-xl p-4">
+						<Card
+							padding="none"
+							class="border-solid border-white flex items-center text-center w-80 shadow-xl p-4"
+						>
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
 							<p class="text-sm">{time(item.timestamp)}</p>
 							<div class="px-5">
@@ -310,7 +313,7 @@
 					{#each queryType === 'user' ? $mainStore.userQuery : $mainStore.farmerQuery as item}
 						<Card
 							padding="none"
-							class="flex relative w-80  shadow-xl p-3 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:duration-300"
+							class="flex relative w-80  shadow-xl p-3 border-solid border-white"
 						>
 							<div class="flex items-center gap-5 p-2">
 								<div class="relative w-28">
