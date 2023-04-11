@@ -3,7 +3,18 @@
 	import mainStore from '$lib/stores/mainStore';
 	import DisplayReview from '../../components/DisplayReview.svelte';
 	import utils from '$lib/stores/utils';
-	import { Card, Rating, RatingComment, Avatar, Button, Modal, Select } from 'flowbite-svelte';
+	import {
+		Card,
+		Rating,
+		RatingComment,
+		Avatar,
+		Button,
+		Modal,
+		Select,
+		Label,
+		Input,
+		Textarea
+	} from 'flowbite-svelte';
 	import darkVeg from '$lib/images/dark-veg.png';
 	import { onMount } from 'svelte';
 	import Upload from '../../components/Upload.svelte';
@@ -43,8 +54,10 @@
 			queries_btn_color = btnActive;
 		}
 	};
+	let tem = {};
 	let queryType = '';
 	let popupModal = false;
+	let replyMessage = '';
 	onMount(() => {
 		$utils.silentLogin().then(() => {
 			if ($mainStore.loggedIn) {
@@ -77,6 +90,7 @@
 	});
 	let toEdit = {};
 	let edit = false;
+	let replyQuery = false;
 	const time = (item) => {
 		let date = new Date(item);
 		let time = date.toLocaleTimeString();
@@ -98,6 +112,35 @@
 			messageAction = 'Show more';
 		}
 	};
+	let error = '';
+	const sendQueryReply = async () => {
+		error = '';
+		console.log('query reply: ', replyMessage);
+		if (replyMessage != '') {
+			let sending = {
+				body: replyMessage
+			};
+			$utils.getQueryReply(sending, tem.id).then((res) => {
+				console.log(res);
+				if (res) {
+					goto('/my-profile');
+					console.log('MESSAGE RETURNED:', res);
+				} else {
+					error = 'Could not send message.';
+					console.log(error);
+				}
+			});
+		} else {
+			error = 'Please fill all fields.';
+		}
+	};
+	const getQueryReplies = async (item) => {
+		$utils.fetchQueryReplies(item.id).then((res) => {
+			console.log("PAINFULNESSITY\n tem: ", item.id);
+			console.log(res);
+		});
+	};
+	let response = false;
 </script>
 
 <div class="flex justify-center items-center text-center">
@@ -205,7 +248,8 @@
 								</p>
 							</div>
 							<Button
-							class="w-full text-white text-base xs:text-3xl bg-primary-light" color="lime"
+								class="w-full text-white text-base xs:text-3xl bg-primary-light"
+								color="lime"
 								on:click={() => {
 									toEdit = item;
 									edit = true;
@@ -332,7 +376,27 @@
 							{#if $mainStore.user.info.access != 'user' && queryType != 'user'}
 								<div class="p-2 flex items-center justify-end">
 									<div class="justify-start">
-										<Button size="sm" class="w-full text-white text-base xs:text-3xl bg-primary-light" color="lime">Reply</Button>
+										<Button
+											size="sm"
+											class="w-full text-white text-base xs:text-3xl bg-primary-light"
+											color="lime"
+											on:click={() => {
+												replyQuery = true;
+												tem = item;
+											}}>Reply</Button
+										>
+									</div>
+									<div class="justify-start ml-2">
+										<Button
+											size="sm"
+											class="w-full text-white text-base xs:text-3xl bg-primary-light"
+											color="lime"
+											on:click={() => {
+												getQueryReplies(item);
+												tem=item;
+												response = true;
+											}}>View Response</Button
+										>
 									</div>
 								</div>
 							{/if}
@@ -349,6 +413,71 @@
 		<UpdateProduct item={toEdit} />
 	</Modal>
 </div>
+
+<Modal bind:open={replyQuery} size="xl" class="w-full h-full" autoclose>
+	<form class="w-full h-full">
+		<div class="w-full">
+			<Label class="block mb-2">Query:</Label>
+			<Input class="w-full" label="query" id="query" name="query" disabled value={tem.message} />
+		</div>
+		<div class="w-full mt-4">
+			<Label class="block mb-2">Query Reply</Label>
+			<Textarea
+				class="w-full h-44"
+				bind:value={replyMessage}
+				label="replyMessage"
+				id="replyMessage"
+				name="replyMessage"
+				required
+				placeholder="Reply Message"
+			/>
+		</div>
+		<Button
+			type="submit"
+			class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+			color="lime"
+			on:click={sendQueryReply}>Submit</Button
+		>
+	</form>
+</Modal>
+
+<Modal bind:open={response} size="xl" class="w-full h-full" autoclose>
+	<div class="w-full">
+		<Label class="block mb-2">Query:</Label>
+		<Input class="w-full" label="query" id="query" name="query" disabled value={tem.message} />
+	</div>
+	<div class="w-full mt-4">
+		<Label class="block mb-2">Response</Label>
+		<!-- {#each $mainStore.queryReply as item}
+			{#if item.query_id === tem.id}
+				<Textarea
+					class="w-full"
+					label="response"
+					id="response"
+					name="response"
+					disabled
+					value={item.body}
+				/>
+			{/if}
+		{/each} -->
+		{#if $mainStore.queryReply.length > 0}
+			{#each $mainStore.queryReply as item}
+				{#if item.query_id === tem.id}
+					<Textarea
+						class="w-full"
+						label="response"
+						id="response"
+						name="response"
+						disabled
+						value={item.body}
+					/>
+				{/if}
+			{/each}
+		{:else}
+			<Textarea class="w-full" label="response" id="response" name="response" disabled value="No Response"/>
+		{/if}
+	</div>
+</Modal>
 
 <svelte:head>
 	<title>{$mainStore.user.info.username}</title>

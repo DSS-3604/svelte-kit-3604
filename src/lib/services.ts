@@ -37,7 +37,26 @@ export default class Service {
 		const time = dateTime.toLocaleTimeString();
 		return date + ' ' + time;
 	}
-
+	async getQueryReply(reply: any, id: string) {
+		return this.post(`api/query/${id}/reply`, reply).then((res) => {
+			if (res) {
+				mainStore.update((store) => {
+					store.queryReply = res;
+					return store;
+				});
+			}
+			return res;
+		});
+	}
+	async fetchQueryReplies(query_id: string) {
+		return this.fetch(`api/query/${query_id}/replies`).then((res) => {
+			mainStore.update((store) => {
+				store.queryReply = res;
+				return store;
+			});
+			return res;
+		});
+	}
 	async submitForm(form: any) {
 		return this.post('api/product_queries', form).then((res) => {
 			return res;
