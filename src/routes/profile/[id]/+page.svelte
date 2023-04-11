@@ -5,7 +5,7 @@
 	import mainStore from '$lib/stores/mainStore';
 	import utils from '$lib/stores/utils';
 	export let data;
-	import { Card, Rating, RatingComment, Avatar, Button, Badge, Textarea } from 'flowbite-svelte';
+	import { Card, Rating, Label, Avatar, Button, Badge, Textarea, Modal } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import NoItems from '../../../components/NoItems.svelte';
 	let btnDefault = 'bg-gray-200';
@@ -80,6 +80,18 @@
 		review.rating = n;
 	};
 	let averageRating = '0';
+	let product = {};
+	let message = '';
+	let query = false;
+	function myFunction() {
+		let form = { product_id: product.id, message: message };
+		$utils.submitForm(form).then((res) => {
+			query = false;
+			product = {};
+			message = '';
+		});
+	}
+
 	onMount(async () => {
 		$utils.getFarmer(data.id).then((res) => {});
 		$utils.silentLogin().then((res) => {
@@ -88,14 +100,18 @@
 				$mainStore.farmer.reviews = res;
 				let total = 0;
 				let count = 0;
-				for (let i = 0; i < $mainStore.user.reviews.length; i++) {
-					total = total + parseInt($mainStore.user.reviews[i].rating);
+				for (let i = 0; i < $mainStore.farmer.reviews.length; i++) {
+					total = total + parseInt($mainStore.farmer.reviews[i].rating);
 					count++;
 				}
-				averageRating = (total / count).toFixed(1);
+				if (count > 0) {
+					averageRating = (total / count).toFixed(1);
+				} else {
+					averageRating = '0';
+				}
 			});
 		});
-		setActive('review');
+		setActive('about');
 	});
 	const time = (item) => {
 		let date = new Date(item);
@@ -189,7 +205,11 @@
 							</div>
 							<Button
 								class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
-								color="lime">Query</Button
+								color="lime"
+								on:click={() => {
+									product = item;
+									query = true;
+								}}>Query</Button
 							>
 						</Card>
 					{/each}
@@ -262,7 +282,34 @@
 		</div>
 	</div>
 </div>
-
+<Modal bind:open={query} size="xs" autoclose={false} class="w-full">
+	<div class="flex flex-col space-y-6">
+		<h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">
+			Contact Farmer {product.farmer_name}
+		</h3>
+		<Label class="space-y-2">
+			<h4>Farmer Name: {product.farmer_name}</h4>
+		</Label>
+		<Label class="space-y-2">
+			<h4>Product: {product.name}</h4>
+		</Label>
+		<Label class="space-y-2">
+			<h4>Message:</h4>
+			<Textarea
+				bind:value={message}
+				name="message"
+				placeholder="I would like to buy this product."
+				required
+			/>
+		</Label>
+		<Button
+			type="submit"
+			class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+			color="lime"
+			on:click={myFunction}>Submit</Button
+		>
+	</div>
+</Modal>
 <svelte:head>
 	<title>{$mainStore.farmer.info.username}</title>
 </svelte:head>

@@ -73,7 +73,11 @@
 							total = total + parseInt($mainStore.user.reviews[i].rating);
 							count++;
 						}
-						averageRating = (total / count).toFixed(1);
+						if (count > 0) {
+							averageRating = (total / count).toFixed(1);
+						} else {
+							averageRating = '0';
+						}
 					});
 				}
 				if ($mainStore.access_level === 'user') {
@@ -88,7 +92,7 @@
 			}
 		});
 		queryType = 'farmer';
-		setActive('queries');
+		setActive('about');
 	});
 	let toEdit = {};
 	let edit = false;
@@ -100,8 +104,8 @@
 		return `${date2} ${time}`;
 	};
 	const queryTypes = [
-		{ name: 'My Queries', value: 'user' },
-		{ name: 'Queries to me', value: 'farmer' }
+		{ name: 'Queries Sent', value: 'user' },
+		{ name: 'Queries Received', value: 'farmer' }
 	];
 	let truncate = 'truncate';
 	let messageAction = 'Show more';
