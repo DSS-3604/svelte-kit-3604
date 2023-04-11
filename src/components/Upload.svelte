@@ -179,7 +179,7 @@
 					bind:value={product.total_product_quantity}
 					type="number"
 					id="quantity"
-					placeholder="Retail Quantity"
+					placeholder="Total Quantity"
 					required
 				/>
 			</div>
@@ -187,7 +187,9 @@
 	</div>
 	{#if avatar}
 		<div class="pt-2">
-			<Button class="w-full" color="blue" on:click={createPost}>Post</Button>
+			<Button class="w-full bg-primary-light text-white" color="lime" on:click={createPost}
+				>Post</Button
+			>
 		</div>
 	{/if}
 </div>
