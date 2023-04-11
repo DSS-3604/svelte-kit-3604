@@ -92,7 +92,7 @@
 			}
 		});
 		queryType = 'farmer';
-		setActive('queries');
+		setActive('about');
 	});
 	let toEdit = {};
 	let edit = false;
@@ -104,8 +104,8 @@
 		return `${date2} ${time}`;
 	};
 	const queryTypes = [
-		{ name: 'My Queries', value: 'user' },
-		{ name: 'Queries to me', value: 'farmer' }
+		{ name: 'Queries Sent', value: 'user' },
+		{ name: 'Queries Received', value: 'farmer' }
 	];
 	let truncate = 'truncate';
 	let messageAction = 'Show more';

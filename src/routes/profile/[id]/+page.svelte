@@ -111,7 +111,7 @@
 				}
 			});
 		});
-		setActive('review');
+		setActive('about');
 	});
 	const time = (item) => {
 		let date = new Date(item);
