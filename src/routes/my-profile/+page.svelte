@@ -263,7 +263,7 @@
 					<NoItems
 						name="reviews"
 						action="/catalog"
-						actionText="reviewing a product"
+						actionText="reviewing a farmer"
 						image={darkVeg}
 					/>
 				{/if}
