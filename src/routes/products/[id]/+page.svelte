@@ -121,8 +121,10 @@
 			<p class="text-xl font-bold dark:text-white">{product.name}</p>
 			<p class="text-xl font-bold dark:text-white">by {product.farmer_name}</p>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
+				{#if $mainStore.loggedIn}
 				<Button on:click={() => (query = true)} class="dark:text-white bg-primary-light" color="lime">Query</Button>
-				<Button on:click={() => 'hi'} color="light" class="dark:text-white">Contact</Button>
+				{/if}
+				<Button on:click={() => 'hi'} href="/contact" color="light" class="dark:text-white border-solid border-2 border-white-500">Contact Form</Button>
 			</div>
 		</div>
 		<div class="mt-5 w-full">
@@ -143,7 +145,8 @@
 		</div>
 		<div class="mt-5">
 			{#if activeButton === 'comments'}
-				<div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+				<div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+					{#if $mainStore.loggedIn}
 					<Card class="shadow-2xl p-3 h-64 w-80 border-solid border-black">
 						<div class="rounded-lg w-100 p-2">
 							<div class="flex flex-col items-center gap-2 text-center">
@@ -162,6 +165,7 @@
 							</div>
 						</div>
 					</Card>
+					{/if}
 					{#each $mainStore.product.comments as item}
 						<Card class="shadow-xl w-80 h-64 border-solid border-black p-3">
 							<div class="flex justify-between p-1">
@@ -188,7 +192,9 @@
 									</p>
 								{/if}
 							</div>
+							{#if $mainStore.loggedIn}
 							<Button class="mt-3 text-white text-base bg-primary-light" color="lime">Reply</Button>
+							{/if}
 						</Card>
 					{/each}
 				</div>

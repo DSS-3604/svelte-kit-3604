@@ -131,11 +131,13 @@
 	>
 		{#each $mainStore.catalog as item}
 			<Card padding="none" class=" relative flex items-center text-center w-80 shadow-xl p-4">
+				{#if $mainStore.loggedIn}
 				<div class="absolute right-3">
 					<button on:click={() => goto(`/profile/${item.farmer_id}`)}>
 						<img class="w-8 h-8 rounded-full cursor-pointer" src={avatar} alt="farmer" />
 					</button>
 				</div>
+				{/if}
 				<div class="absolute left-3">
 					<button
 						on:click={() => {
@@ -148,7 +150,7 @@
 							viewBox="0 0 24 24"
 							stroke-width="1.5"
 							stroke="currentColor"
-							class="w-6 h-6"
+							class="w-6 h-6 animate-pulse"
 						>
 							<path
 								stroke-linecap="round"
@@ -181,13 +183,14 @@
 						Quantity: {item.total_product_quantity}
 					</p>
 				</div>
+				{#if $mainStore.loggedIn}
 				<Button
 				class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl" color="lime"
 					on:click={() => {
 						query = true;
 						tem = item;
-					}}>Query</Button
-				>
+					}}>Query</Button>
+				{/if}
 			</Card>
 		{/each}
 	</div>
