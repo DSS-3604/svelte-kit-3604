@@ -66,9 +66,7 @@
 	let message = '';
 	function myFunction() {
 		let form = { product_id: tem.id, message: message };
-		console.log(form);
 		$utils.submitForm(form).then((res) => {
-			console.log(res);
 			query = false;
 		});
 	}

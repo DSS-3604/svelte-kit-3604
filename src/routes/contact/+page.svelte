@@ -23,7 +23,6 @@
 
 	const sendMessage = async () => {
 		error = '';
-		console.log('message', message);
 		if (name != '' && number != '' && email != '' && message != '') {
 			let sending = {
 				name: name,
@@ -39,7 +38,6 @@
 					message = '';
 				} else {
 					error = 'Could not send message.';
-					console.log(error);
 				}
 			});
 		} else {

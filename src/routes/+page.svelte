@@ -85,7 +85,6 @@
 			$utils.fetchProducts();
 		});
 		$utils.fetchProductCategories().then((res) => {
-			console.log(res);
 			$mainStore.product_categories = [
 				{
 					name: 'All categories',
