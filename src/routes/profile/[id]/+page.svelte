@@ -8,6 +8,7 @@
 	import { Card, Rating, Label, Avatar, Button, Badge, Textarea, Modal } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import NoItems from '../../../components/NoItems.svelte';
+	import { goto } from '$app/navigation';
 	let btnDefault = 'bg-gray-200';
 	let btnActive = 'bg-primary rounded-lg text-white';
 	let activeButton = 'about';
@@ -94,7 +95,31 @@
 
 	onMount(async () => {
 		$utils.getFarmer(data.id).then((res) => {});
-		$utils.silentLogin().then((res) => {
+		if (!$mainStore.loggedIn) {
+			if ($mainStore.user.info.id == data.id) {
+				goto('/my-profile');
+			}
+			$utils.silentLogin().then((res) => {
+				$utils.fetchFarmerProducts(data.id).then((res) => {});
+				$utils.getFarmerReviews(data.id).then((res) => {
+					$mainStore.farmer.reviews = res;
+					let total = 0;
+					let count = 0;
+					for (let i = 0; i < $mainStore.farmer.reviews.length; i++) {
+						total = total + parseInt($mainStore.farmer.reviews[i].rating);
+						count++;
+					}
+					if (count > 0) {
+						averageRating = (total / count).toFixed(1);
+					} else {
+						averageRating = '0';
+					}
+				});
+			});
+		} else {
+			if ($mainStore.user.info.id == data.id) {
+				goto('/my-profile');
+			}
 			$utils.fetchFarmerProducts(data.id).then((res) => {});
 			$utils.getFarmerReviews(data.id).then((res) => {
 				$mainStore.farmer.reviews = res;
@@ -110,7 +135,7 @@
 					averageRating = '0';
 				}
 			});
-		});
+		}
 		setActive('about');
 	});
 	const time = (item) => {
