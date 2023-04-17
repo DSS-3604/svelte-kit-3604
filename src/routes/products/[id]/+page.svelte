@@ -123,11 +123,13 @@
 			<p class="text-xl font-bold dark:text-white">by {product.farmer_name}</p>
 			<div class="flex mt-4 space-x-3 lg:mt-6">
 				{#if $mainStore.loggedIn}
-					<Button
-						on:click={() => (query = true)}
-						class="dark:text-white bg-primary-light"
-						color="lime">Query</Button
-					>
+					{#if $mainStore.user.info.id !== product.farmer_id}
+						<Button
+							on:click={() => (query = true)}
+							class="dark:text-white bg-primary-light"
+							color="lime">Query</Button
+						>
+					{/if}
 				{/if}
 			</div>
 		</div>
