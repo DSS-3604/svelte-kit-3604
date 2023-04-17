@@ -72,6 +72,13 @@
 			message = '';
 		});
 	}
+	const deleteProduct = async (item: string) => {
+		$utils.deleteProduct(item).then((res) => {
+			if (res) {
+				$mainStore.catalog = $mainStore.catalog.filter((i) => i.id != item);
+			}
+		});
+	};
 </script>
 
 <div class="m-5">
@@ -180,14 +187,22 @@
 					</p>
 				</div>
 				{#if $mainStore.loggedIn}
-					<Button
-						class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
-						color="lime"
-						on:click={() => {
-							query = true;
-							tem = item;
-						}}>Query</Button
-					>
+					{#if $mainStore.user.info.id != item.farmer_id}
+						<Button
+							class="w-full text-white text-base xs:text-3xl bg-primary-light p-2 lg:p-4  m-2 rounded-xl"
+							color="lime"
+							on:click={() => {
+								query = true;
+								tem = item;
+							}}>Query</Button
+						>
+					{:else}
+						<Button
+							class="w-full text-white text-base xs:text-3xl p-2 lg:p-4  m-2 rounded-xl"
+							color="red"
+							on:click={() => deleteProduct(item.id)}>Delete</Button
+						>
+					{/if}
 				{/if}
 			</Card>
 		{/each}
