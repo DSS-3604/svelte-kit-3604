@@ -107,6 +107,9 @@
 			message = '';
 		});
 	}
+	const deleteProductComment = (id: string) => {
+		$utils.deleteComment(id).then((res) => {});
+	};
 </script>
 
 <div class="m-5">
@@ -146,7 +149,7 @@
 		</div>
 		<div class="mt-5">
 			{#if activeButton === 'comments'}
-				<div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
 					{#if $mainStore.loggedIn}
 						<Card class="shadow-2xl p-3 h-64 w-80 border-solid border-black">
 							<div class="rounded-lg w-100 p-2">
@@ -199,9 +202,13 @@
 								{/if}
 							</div>
 							{#if $mainStore.loggedIn}
-								<Button class="mt-3 text-white text-base bg-primary-light" color="lime"
-									>Reply</Button
-								>
+								{#if $mainStore.user.info.id === item.user_id}
+									<Button
+										class="mt-3 text-white text-base"
+										color="red"
+										on:click={() => deleteProductComment(item.id)}>Delete</Button
+									>
+								{/if}
 							{/if}
 						</Card>
 					{/each}

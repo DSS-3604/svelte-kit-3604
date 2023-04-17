@@ -277,6 +277,20 @@ export default class Service {
 			return res;
 		});
 	}
+	async deleteProduct(id: string) {
+		return this.delete(`api/products/${id}`).then((res) => {
+			mainStore.update((store) => {
+				store.user.products = store.user.products.filter((product: any) => product.id !== id);
+				store.notification = {
+					message: 'Product has been deleted',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
+			return res;
+		});
+	}
 
 	async fetchFarmerProducts(id: string) {
 		return this.fetch(`api/products/farmer/${id}`).then((res) => {
@@ -300,7 +314,60 @@ export default class Service {
 			return res;
 		});
 	}
-
+	async getUserFarmerReviews(id: string) {
+		return this.fetch(`api/farmer/review/user/${id}`).then((res) => {
+			mainStore.update((store) => {
+				store.user.userReviews = res;
+				return store;
+			});
+			return res;
+		});
+	}
+	async deleteFarmerReview(id: string) {
+		return this.delete(`api/farmer/review/${id}`).then((res) => {
+			if (!res) return res;
+			mainStore.update((store) => {
+				store.user.userReviews = store.user.userReviews.filter((review: any) => review.id !== id);
+				store.notification = {
+					message: 'Review has been deleted',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
+			return res;
+		});
+	}
+	async deleteComment(id: string) {
+		return this.delete(`api/product/comment/${id}`).then((res) => {
+			if (!res) return res;
+			mainStore.update((store) => {
+				store.product.comments = store.product.comments.filter((comment: any) => comment.id !== id);
+				store.notification = {
+					message: 'Comment has been deleted',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
+			return res;
+		});
+	}
+	async deleteQuery(id: string) {
+		return this.delete(`api/product_queries/${id}`).then((res) => {
+			if (!res) return res;
+			mainStore.update((store) => {
+				store.userQuery = store.userQuery.filter((query: any) => query.id !== id);
+				store.notification = {
+					message: 'Query has been deleted',
+					type: 'success',
+					active: true
+				};
+				return store;
+			});
+			return res;
+		});
+	}
 	async getFarmer(id: string) {
 		return this.fetch(`api/users/${id}`).then((res) => {
 			mainStore.update((store) => {
@@ -532,6 +599,38 @@ export default class Service {
 					});
 				}
 			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+	async delete(path: string) {
+		return fetch(`${this.endpoint}/${path}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `JWT ${this.store.access_token}`
+			}
+		})
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					res.json().then((json) => {
+						if (!json.ok) {
+							mainStore.update((store) => {
+								store.notification = {
+									message: json.message,
+									type: 'error',
+									active: true
+								};
+								return store;
+							});
+						}
+						return null;
+					});
+				}
+			})
+
 			.catch((err) => {
 				console.log(err);
 			});

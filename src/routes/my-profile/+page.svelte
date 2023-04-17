@@ -56,6 +56,7 @@
 	};
 	let tem = {};
 	let queryType = '';
+	let reviewType = '';
 	let popupModal = false;
 	let replyMessage = '';
 	let averageRating = '0';
@@ -84,6 +85,8 @@
 					$utils.getUserReviews($mainStore.user.info.id).then((res) => {
 						$mainStore.user.reviews = res;
 					});
+				} else {
+					$utils.getUserFarmerReviews($mainStore.user.info.id).then((res) => {});
 				}
 				$utils.fetchQueryUser($mainStore.user.info.id);
 				$utils.fetchQueryFarmer($mainStore.user.info.id);
@@ -92,6 +95,7 @@
 			}
 		});
 		queryType = 'farmer';
+		reviewType = 'farmer';
 		setActive('about');
 	});
 	let toEdit = {};
@@ -106,6 +110,10 @@
 	const queryTypes = [
 		{ name: 'Queries Sent', value: 'user' },
 		{ name: 'Queries Received', value: 'farmer' }
+	];
+	const reviewTypes = [
+		{ name: 'Reviews Sent', value: 'user' },
+		{ name: 'Reviews Received', value: 'farmer' }
 	];
 	let truncate = 'truncate';
 	let messageAction = 'Show more';
@@ -136,10 +144,16 @@
 			error = 'Please fill all fields.';
 		}
 	};
-	const getQueryReplies = async (item) => {
+	const getQueryReplies = async (item: any) => {
 		$utils.fetchQueryReplies(item.id);
 	};
 	let response = false;
+	const deleteProduct = async (item: string) => {
+		$utils.deleteProduct(item).then((res) => {});
+	};
+	const deleteQuery = async (item: string) => {
+		$utils.deleteQuery(item).then((res) => {});
+	};
 </script>
 
 <div class="flex justify-center items-center text-center">
@@ -224,8 +238,25 @@
 					{#each $mainStore.user.products as item}
 						<Card
 							padding="none"
-							class="border-solid border-white flex items-center text-center w-80 shadow-xl p-4"
+							class="border-solid border-white flex items-center text-center w-80 shadow-xl p-4 relative"
 						>
+							<button on:click={() => deleteProduct(item.id)}>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6 absolute top-3 right-3 hover:text-red-600 cursor-pointer"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+									/>
+								</svg>
+							</button>
+
 							<img class="p-2 rounded-t-lg h-36" src={item.image} alt="product 1" />
 							<p class="text-sm">{time(item.timestamp)}</p>
 							<div class="px-5">
@@ -261,7 +292,18 @@
 					{/each}
 				</div>
 			{:else if activeButton === 'review'}
-				{#if $mainStore.user.reviews.length === 0}
+				<div class="flex items-center justify-center gap-5 p-5">
+					<p class="text-gray-500 dark:text-gray-400">Filter</p>
+					<Select items={reviewTypes} bind:value={reviewType} />
+				</div>
+				{#if $mainStore.user.userReviews.length === 0 && reviewType === 'user'}
+					<NoItems
+						name="reviews"
+						action="/catalog"
+						actionText="reviewing a farmer"
+						image={darkVeg}
+					/>
+				{:else if $mainStore.user.reviews.length === 0 && reviewType === 'farmer'}
 					<NoItems
 						name="reviews"
 						action="/catalog"
@@ -270,8 +312,8 @@
 					/>
 				{/if}
 				<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-					{#each $mainStore.user.reviews as item}
-						<DisplayReview {item} />
+					{#each reviewType === 'user' ? $mainStore.user.userReviews : $mainStore.user.reviews as item}
+						<DisplayReview {item} type={reviewType} />
 					{/each}
 				</div>
 			{:else if activeButton === 'about'}
@@ -315,6 +357,24 @@
 							padding="none"
 							class="flex relative w-80  shadow-xl p-3 border-solid border-white"
 						>
+							{#if queryType === 'user'}
+								<button on:click={() => deleteQuery(item.id)}>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-6 h-6 absolute top-3 right-3 hover:text-red-600 cursor-pointer"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+										/>
+									</svg>
+								</button>
+							{/if}
 							<div class="flex items-center gap-5 p-2">
 								<div class="relative w-28">
 									<img src={avatar} alt="product" />

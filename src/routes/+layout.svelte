@@ -155,7 +155,7 @@
 			$mainStore.notification.active = false;
 	  }, 3000) : null}
 	<div class="relative z-50">
-		<div class="w-80 absolute top-0 right-5">
+		<div class="w-80 fixed top-15 right-5">
 			{#if $mainStore.notification.type === 'success'}
 				<Alert dismissable color="green">
 					<span slot="icon">

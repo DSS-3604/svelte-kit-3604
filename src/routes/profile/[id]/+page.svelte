@@ -64,7 +64,7 @@
 		review.user_id = $mainStore.user.info.id;
 		$utils.reviewFarmer(review).then((res) => {
 			review.body = '';
-			review.rating = 0;
+			setRating(0);
 		});
 	};
 	const setRating = (n) => {

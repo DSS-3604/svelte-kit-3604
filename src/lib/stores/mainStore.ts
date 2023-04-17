@@ -2,8 +2,7 @@ import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 export { Writable };
 
-
-type QueryReply= {
+type QueryReply = {
 	id: string;
 	query_id: string;
 	user_id: string;
@@ -11,7 +10,7 @@ type QueryReply= {
 	body: string;
 	timestamp: string;
 	updated_timestamp: string;
-}
+};
 type ContactForm = {
 	id: string;
 	name: string;
@@ -80,6 +79,7 @@ type User = {
 		access: string;
 		bio: string;
 	};
+	userReviews: Review[];
 	reviews: Review[];
 	products: Product[];
 };
@@ -123,6 +123,7 @@ const mainStore: Writable<MainStore> = writable({
 			access: '',
 			bio: ''
 		},
+		userReviews: [],
 		reviews: [],
 		products: []
 	},
@@ -144,6 +145,7 @@ const mainStore: Writable<MainStore> = writable({
 			access: '',
 			bio: ''
 		},
+		userReviews: [],
 		reviews: [],
 		products: []
 	},
