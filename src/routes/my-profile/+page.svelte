@@ -139,6 +139,7 @@
 				} else {
 					error = 'Could not send message.';
 				}
+				replyMessage = '';
 			});
 		} else {
 			error = 'Please fill all fields.';

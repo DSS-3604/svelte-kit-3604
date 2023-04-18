@@ -2,7 +2,6 @@
 	import { comment } from 'postcss';
 	import avatar from '$lib/images/avatar.webp';
 	import { Timeline, TimelineItem, Select, Label, Button, Card } from 'flowbite-svelte';
-	let state = 'dashboard';
 	let spanClass = 'flex-1 ml-3 whitespace-nowrap';
 	import { onMount } from 'svelte';
 	import SideBar from '../../components/sideBar.svelte';
@@ -13,40 +12,106 @@
 	import '@carbon/styles/css/styles.css';
 	import '@carbon/charts/styles.css';
 	import { goto } from '$app/navigation';
+	let state = 'dashboard';
 	let table = [];
 	let keys = [];
 	const tableNames = [
 		{
 			name: 'Users',
-			value: 'users'
+			value: {
+				name: 'users',
+				delete: false,
+				export: true
+			}
 		},
 		{
 			name: 'Farmers Application',
-			value: 'farmer_applications'
+			value: {
+				name: 'farmer_applications',
+				delete: true,
+				export: true
+			}
 		},
 		{
 			name: 'Products',
-			value: 'products'
+			value: {
+				name: 'products',
+				delete: true,
+				export: true
+			}
+		},
+		{
+			name: 'Reviews',
+			value: {
+				name: 'farmer/review',
+				delete: true,
+				export: true
+			}
 		},
 		{
 			name: 'Contact Forms',
-			value: 'contact_forms'
+			value: {
+				name: 'contact_forms',
+				delete: true,
+				export: true
+			}
 		},
 		{
 			name: 'Products Queries',
-			value: 'product_queries'
+			value: {
+				name: 'product_queries',
+				delete: true,
+				export: false
+			}
 		},
 		{
-			name: 'Product Categories',
-			value: 'product_categories'
+			name: 'Query Reply',
+			value: {
+				name: 'query/replies',
+				delete: true,
+				export: false
+			}
+		},
+		{
+			name: 'Product Categories', //can be deleted
+			value: {
+				name: 'product_categories',
+				delete: true,
+				export: true
+			}
+		},
+		{
+			name: 'Comments', //can be deleted
+			value: {
+				name: 'product/comment',
+				delete: true,
+				export: false
+			}
 		},
 		{
 			name: 'Logs',
-			value: 'logs'
+			value: {
+				name: 'logs',
+				delete: false,
+				export: true
+			}
 		}
 	];
 	let reports = {};
-	let selected = '';
+	let selected = {
+		name: 'users',
+		delete: false,
+		export: true
+	};
+	const deleteEntity = async (id: string) => {
+		$utils.delete('api/' + selected.name + '/' + id).then((res) => {
+			if (!res) return;
+			$utils.fetchTable(selected.name).then((res) => {
+				table = res;
+				keys = Object.keys(table[0]);
+			});
+		});
+	};
 	const applicationAction = async (action, id) => {
 		$utils.farmerApplicationActions(action, id);
 	};
@@ -66,7 +131,11 @@
 	};
 	let logs = [];
 	onMount(async () => {
-		selected = 'users';
+		selected = {
+			name: 'users',
+			delete: false,
+			export: true
+		};
 		if (!$mainStore.loggedIn) {
 			$utils.silentLogin().then((res) => {
 				if (!$mainStore.loggedIn || $mainStore.access_level !== 'admin') {
@@ -90,13 +159,14 @@
 		}
 	});
 	const getTable = async (e) => {
-		$utils.fetchTable(selected).then((res) => {
+		$utils.fetchTable(selected.name).then((res) => {
 			table = res;
 			keys = Object.keys(table[0]);
 		});
 	};
 	const download = async () => {
-		$utils.downloadTable(selected).then((res) => {
+		const name = selected.name.replace(/\//g, '_');
+		$utils.downloadTable(name).then((res) => {
 			const blob = new Blob([res], { type: 'text/csv' });
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
@@ -104,7 +174,7 @@
 			a.setAttribute('href', url);
 			const date = new Date();
 			const dateTime = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-${date.getHours()}-${date.getMinutes()}`;
-			a.setAttribute('download', `${selected + dateTime}.csv`);
+			a.setAttribute('download', `${name + dateTime}.csv`);
 			document.body.appendChild(a);
 			a.click();
 			document.body.removeChild(a);
@@ -289,10 +359,7 @@
 												>
 											</span>
 										</svelte:fragment>
-										<p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-											<!-- Get access to over 20+ pages including a dashboard layout, charts, kanban board,
-											calendar, and pre-order E-commerce & Marketing pages. -->
-										</p>
+										<p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400" />
 									</TimelineItem>
 								{/each}
 							</Timeline>
@@ -320,22 +387,24 @@
 										}}
 									/>
 								</Label>
-								<button class="" on:click={download}>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										class="w-6 h-6 "
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-										/>
-									</svg>
-								</button>
+								{#if selected.export}
+									<button class="" on:click={download}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="w-6 h-6 "
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+											/>
+										</svg>
+									</button>
+								{/if}
 							</div>
 							<div class="flex flex-wrap mt-0 -mx-3">
 								<div class="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none" />
@@ -346,6 +415,13 @@
 								<table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
 									<thead class="align-bottom dark:white">
 										<tr>
+											{#if selected.delete}
+												<th
+													class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70"
+												>
+													Action</th
+												>
+											{/if}
 											{#each keys as item}
 												<th
 													class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70"
@@ -357,7 +433,17 @@
 									</thead>
 									<tbody>
 										{#each table as item}
-											<tr>
+											<tr class="border-b-2 border-solid border-gray-400">
+												{#if selected.delete}
+													<td class="p-2 align-middle bg-transparent border-b">
+														<button
+															class="text-sm bg-red-500 p-2 rounded-lg text-white"
+															on:click={() => {
+																deleteEntity(item.id);
+															}}>Delete</button
+														>
+													</td>
+												{/if}
 												{#each Object.values(item) as value}
 													<td class="p-2 align-middle bg-transparent border-b">
 														<div class="flex px-2 gap-2 py-1">
