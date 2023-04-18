@@ -100,11 +100,12 @@
 	<Navbar let:hidden let:toggle>
 		<NavBrand>
 			<DarkMode btnClass={darkmodebtn} />
-			<NavUl
-				><NavLi active={active === 'Home'} href="/" on:click={() => (active = 'Home')}
-					><img src={carigro_logo} class="mr-3 h-6 sm:h-9 p-0" alt="Carigo Logo" /></NavLi
-				></NavUl
-			>
+			<img
+				src={carigro_logo}
+				on:click={() => goto('/')}
+				class="mr-3 h-6 sm:h-9 p-0"
+				alt="Carigo Logo"
+			/>
 		</NavBrand>
 		<div class="flex items-center md:order-2">
 			<p class="px-2">{$mainStore.user.info.username}</p>
