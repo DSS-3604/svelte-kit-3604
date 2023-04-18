@@ -106,6 +106,11 @@
 	const deleteEntity = async (id: string) => {
 		$utils.delete('api/' + selected.name + '/' + id).then((res) => {
 			if (!res) return;
+			$mainStore.notification = {
+				message: 'Row Deleted Successfully',
+				type: 'success',
+				active: true
+			};
 			$utils.fetchTable(selected.name).then((res) => {
 				table = res;
 				keys = Object.keys(table[0]);
